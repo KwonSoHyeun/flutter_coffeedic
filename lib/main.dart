@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/screens/main_screen.dart';
+import 'package:coffeedic/screens/home/main_screen.dart';
 import 'package:coffeedic/util/const.dart';
 
 void main() async {

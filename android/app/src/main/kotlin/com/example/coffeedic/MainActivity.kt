@@ -1,4 +1,4 @@
-package com.example.coffeedic
+package com.tnstory.coffeedic
 
 import io.flutter.embedding.android.FlutterActivity
 

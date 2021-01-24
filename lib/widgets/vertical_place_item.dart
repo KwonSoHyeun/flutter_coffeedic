@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/details.dart';
+import '../screens/home/details.dart';
 
 class VerticalPlaceItem extends StatelessWidget {
   final Map place;

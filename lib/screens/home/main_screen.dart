@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/screens/home.dart';
+import 'package:coffeedic/screens/home/home.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 
 class MainScreen extends StatefulWidget {

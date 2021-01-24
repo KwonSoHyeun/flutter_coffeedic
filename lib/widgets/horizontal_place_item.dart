@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/details.dart';
+import '../screens/home/details.dart';
 
 class HorizontalPlaceItem extends StatelessWidget {
   final Map place;

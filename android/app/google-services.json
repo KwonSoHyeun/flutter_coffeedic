@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "687057586196",
+    "project_id": "coffee-dic",
+    "storage_bucket": "coffee-dic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:687057586196:android:79d8284c12d936c6137f01",
+        "android_client_info": {
+          "package_name": "com.tnstory.coffeedic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "687057586196-p68o4q4ouadq34mvhbi94vefg4la9rr9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBblaIiBAok6JnOI7j0pwXSX6unozQDbQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "687057586196-p68o4q4ouadq34mvhbi94vefg4la9rr9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
