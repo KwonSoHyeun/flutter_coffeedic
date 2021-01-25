@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 
-class AuthPage extends StatelessWidget {
+class FavouritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +19,7 @@ class AuthPage extends StatelessWidget {
         Padding(
           padding: EdgeInsets.all(20.0),
           child: Text(
-            "로그인 \n하실래요?",
+            "원두 취향 \n찾아 보시겠어요?",
             style: TextStyle(
               fontSize: 30.0,
               fontWeight: FontWeight.w600,
@@ -28,7 +28,7 @@ class AuthPage extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.all(20.0),
-          child: Text("로그인"),
+          child: Text("원두 취향 찾기"),
         )
       ]),
     );

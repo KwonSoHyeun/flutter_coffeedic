@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffeedic/screens/home/home.dart';
+import 'package:coffeedic/screens/home/favourite.dart';
+import 'package:coffeedic/screens/home/experience.dart';
 import 'package:coffeedic/screens/home/auth_page.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 
@@ -18,15 +20,15 @@ class _MainScreenState extends State<MainScreen> {
       body: PageView(
         physics:
             NeverScrollableScrollPhysics(), //화면 전체가 스와이핑 되는 옵션 지정, 현재는 불가설정됨
+        //AlwaysScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: onPageChanged,
         children: <Widget>[
           Home(),
-          Home(),
-          Home(),
+          FavouritePage(),
+          ExperiencePage(),
           AuthPage(),
         ],
-        //children: List.generate(4, (index) => Home()),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
