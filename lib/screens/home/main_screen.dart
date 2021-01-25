@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/screens/home/home.dart';
-import 'package:coffeedic/screens/home/favourite.dart';
-import 'package:coffeedic/screens/home/experience.dart';
-import 'package:coffeedic/screens/home/auth_page.dart';
+import 'package:coffeedic/screens/home/home_page.dart';
+import 'package:coffeedic/screens/home/favourite_page.dart';
+import 'package:coffeedic/screens/home/experience_page.dart';
+import 'package:coffeedic/screens/login/auth_page.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 
 class MainScreen extends StatefulWidget {
