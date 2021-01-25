@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:coffeedic/screens/home/home.dart';
+import 'package:coffeedic/screens/home/auth_page.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 
 class MainScreen extends StatefulWidget {
@@ -15,10 +16,17 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
-        physics: NeverScrollableScrollPhysics(),
+        physics:
+            NeverScrollableScrollPhysics(), //화면 전체가 스와이핑 되는 옵션 지정, 현재는 불가설정됨
         controller: _pageController,
         onPageChanged: onPageChanged,
-        children: List.generate(4, (index) => Home()),
+        children: <Widget>[
+          Home(),
+          Home(),
+          Home(),
+          AuthPage(),
+        ],
+        //children: List.generate(4, (index) => Home()),
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
@@ -29,7 +37,10 @@ class _MainScreenState extends State<MainScreen> {
             barIcon(icon: Icons.home, page: 0),
             barIcon(icon: Icons.favorite, page: 1),
             barIcon(icon: Icons.mode_comment, page: 2, badge: true),
-            barIcon(icon: Icons.person, page: 3),
+            barIcon(
+              icon: Icons.person,
+              page: 3,
+            ),
             SizedBox(width: 7.0),
           ],
         ),
@@ -66,7 +77,10 @@ class _MainScreenState extends State<MainScreen> {
       icon: badge ? IconBadge(icon: icon, size: 24.0) : Icon(icon, size: 24.0),
       color:
           _page == page ? Theme.of(context).accentColor : Colors.blueGrey[300],
-      onPressed: () => _pageController.jumpToPage(page),
+      onPressed: () {
+        //print("page" + page);
+        return _pageController.jumpToPage(page);
+      },
     );
   }
 }

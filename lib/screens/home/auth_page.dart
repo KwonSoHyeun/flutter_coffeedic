@@ -6,12 +6,6 @@ class AuthPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
         actions: <Widget>[
           IconButton(
             icon: IconBadge(
