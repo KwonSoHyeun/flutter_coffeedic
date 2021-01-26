@@ -1,17 +1,18 @@
+import 'package:coffeedic/screens/login/firebase_db/coffeebase_create.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-FirestoreFirstDemoState pageState;
+CoffeebaseListState pageState;
 
-class FirestoreFirstDemo extends StatefulWidget {
+class CoffeebaseList extends StatefulWidget {
   @override
-  FirestoreFirstDemoState createState() {
-    pageState = FirestoreFirstDemoState();
+  CoffeebaseListState createState() {
+    pageState = CoffeebaseListState();
     return pageState;
   }
 }
 
-class FirestoreFirstDemoState extends State<FirestoreFirstDemo> {
+class CoffeebaseListState extends State<CoffeebaseList> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // 컬렉션명
@@ -117,31 +118,39 @@ class FirestoreFirstDemoState extends State<FirestoreFirstDemo> {
                 }
               },
             ),
+          ),
+          FlatButton(
+            child: Text(
+              "Create",
+              style: TextStyle(color: Colors.blue, fontSize: 16),
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CoffeebasePage()));
+            },
           )
         ],
       ),
       // Create Document
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add), onPressed: showCreateDocDialog),
     );
   }
 
   /// Firestore CRUD Logic
 
-  // 문서 생성 (Create)
-  void createDoc(String acidity, String balance, String bitterness, String body,
-      String city, String country, String desc) {
-    print("acidity:" + acidity);
-    Firestore.instance.collection(colName).add({
-      fnAcidity: acidity,
-      fnBalance: balance,
-      fnBiterness: bitterness,
-      fnBody: body,
-      fnCity: city,
-      fnCountry: country,
-      fnDesc: desc,
-    });
-  }
+  // // 문서 생성 (Create)
+  // void createDoc(String acidity, String balance, String bitterness, String body,
+  //     String city, String country, String desc) {
+  //   print("acidity:" + acidity);
+  //   Firestore.instance.collection(colName).add({
+  //     fnAcidity: acidity,
+  //     fnBalance: balance,
+  //     fnBiterness: bitterness,
+  //     fnBody: body,
+  //     fnCity: city,
+  //     fnCountry: country,
+  //     fnDesc: desc,
+  //   });
+  // }
 
   // 문서 조회 (Read)
   void showDocument(String documentID) {
@@ -178,98 +187,6 @@ class FirestoreFirstDemoState extends State<FirestoreFirstDemo> {
   // 문서 삭제 (Delete)
   void deleteDoc(String docID) {
     Firestore.instance.collection(colName).document(docID).delete();
-  }
-
-  void showCreateDocDialog() {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Create New Document"),
-          content: Container(
-            height: 200,
-            child: Column(
-              children: <Widget>[
-                TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(labelText: "City"),
-                  controller: _newCityCon,
-                ),
-                TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(labelText: "Country"),
-                  controller: _newCountryCon,
-                ),
-                TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(labelText: "Acidity"),
-                  controller: _newAcidityCon,
-                ),
-                TextField(
-                  decoration: InputDecoration(labelText: "Balance"),
-                  controller: _newBalanceCon,
-                ),
-                TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(labelText: "Bitterness"),
-                  controller: _newBiternessCon,
-                ),
-                TextField(
-                  autofocus: true,
-                  decoration: InputDecoration(labelText: "Description"),
-                  controller: _newDescCon,
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text("Cancel"),
-              onPressed: () {
-                _newAcidityCon.clear();
-                _newBalanceCon.clear();
-                _newBiternessCon.clear();
-                _newBody.clear();
-                _newCityCon.clear();
-                _newCountryCon.clear();
-                _newDescCon.clear();
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              child: Text("Create"),
-              onPressed: () {
-                if (_newAcidityCon.text.isNotEmpty &&
-                    _newBalanceCon.text.isNotEmpty &&
-                    _newBiternessCon.text.isNotEmpty &&
-                    _newBody.text.isNotEmpty &&
-                    _newCityCon.text.isNotEmpty &&
-                    _newCountryCon.text.isNotEmpty &&
-                    _newDescCon.text.isNotEmpty) {
-                  createDoc(
-                      _newAcidityCon.text,
-                      _newBalanceCon.text,
-                      _newBiternessCon.text,
-                      _newBody.text,
-                      _newCityCon.text,
-                      _newCountryCon.text,
-                      _newDescCon.text);
-                }
-                _newAcidityCon.clear();
-                _newBalanceCon.clear();
-                _newBiternessCon.clear();
-                _newBody.clear();
-                _newCityCon.clear();
-                _newCountryCon.clear();
-                _newDescCon.clear();
-                Navigator.pop(context);
-              },
-            )
-          ],
-        );
-      },
-    );
   }
 
   void showReadDocSnackBar(DocumentSnapshot doc) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/provider/firebase_provider.dart';
+import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeedic/screens/login/firebase_db/coffeebase_list.dart';
 
@@ -14,14 +14,14 @@ class SignedInPage extends StatefulWidget {
 }
 
 class SignedInPageState extends State<SignedInPage> {
-  FirebaseProvider fp;
+  FirebaseAuthProvider fp;
   TextStyle tsItem = const TextStyle(
       color: Colors.blueGrey, fontSize: 13, fontWeight: FontWeight.bold);
   TextStyle tsContent = const TextStyle(color: Colors.blueGrey, fontSize: 12);
 
   @override
   Widget build(BuildContext context) {
-    fp = Provider.of<FirebaseProvider>(context);
+    fp = Provider.of<FirebaseAuthProvider>(context);
 
     double propertyWith = 130;
     return Scaffold(
@@ -212,10 +212,8 @@ class SignedInPageState extends State<SignedInPage> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FirestoreFirstDemo()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CoffeebaseList()));
               },
             ),
           ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/provider/firebase_provider.dart';
+import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:provider/provider.dart';
 
 SignUpPageState pageState;
@@ -15,9 +15,10 @@ class SignUpPage extends StatefulWidget {
 class SignUpPageState extends State<SignUpPage> {
   TextEditingController _mailCon = TextEditingController();
   TextEditingController _pwCon = TextEditingController();
+  TextEditingController _pwCon2 = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  FirebaseProvider fp;
+  FirebaseAuthProvider fp;
 
   @override
   void dispose() {
@@ -29,7 +30,7 @@ class SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     if (fp == null) {
-      fp = Provider.of<FirebaseProvider>(context);
+      fp = Provider.of<FirebaseAuthProvider>(context);
     }
 
     return Scaffold(
@@ -78,6 +79,14 @@ class SignUpPageState extends State<SignUpPage> {
                           ),
                           obscureText: true,
                         ),
+                        TextField(
+                          controller: _pwCon2,
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.lock),
+                            hintText: "Password confirm",
+                          ),
+                          obscureText: true,
+                        ),
                       ].map((c) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
@@ -103,7 +112,13 @@ class SignUpPageState extends State<SignUpPage> {
                 onPressed: () {
                   FocusScope.of(context)
                       .requestFocus(new FocusNode()); // 키보드 감춤
-                  _signUp();
+                  if (_pwCon.text != _pwCon2.text) {
+                    _pwCon.text = "";
+                    _pwCon2.text = "";
+                    showPasswordFBMessage();
+                  } else {
+                    _signUp();
+                  }
                 },
               ),
             ),
@@ -141,6 +156,21 @@ class SignUpPageState extends State<SignUpPage> {
         content: Text(fp.getLastFBMessage()),
         action: SnackBarAction(
           label: "Done",
+          textColor: Colors.white,
+          onPressed: () {},
+        ),
+      ));
+  }
+
+  showPasswordFBMessage() {
+    _scaffoldKey.currentState
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        backgroundColor: Colors.red[400],
+        duration: Duration(seconds: 10),
+        content: Text("비밀번호가 서로 다릅니다."),
+        action: SnackBarAction(
+          label: "OK",
           textColor: Colors.white,
           onPressed: () {},
         ),

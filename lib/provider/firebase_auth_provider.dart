@@ -4,13 +4,13 @@ import 'package:logger/logger.dart';
 
 Logger logger = Logger();
 
-class FirebaseProvider with ChangeNotifier {
+class FirebaseAuthProvider with ChangeNotifier {
   final FirebaseAuth fAuth = FirebaseAuth.instance; // Firebase 인증 플러그인의 인스턴스
   FirebaseUser _user; // Firebase에 로그인 된 사용자
 
   String _lastFirebaseResponse = ""; // Firebase로부터 받은 최신 메시지(에러 처리용)
 
-  FirebaseProvider() {
+  FirebaseAuthProvider() {
     logger.d("init FirebaseProvider");
     _prepareUser();
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/screens/home/main_screen.dart';
 import 'package:coffeedic/util/const.dart';
 import 'package:provider/provider.dart';
-import 'package:coffeedic/provider/firebase_provider.dart';
+import 'package:coffeedic/provider/firebase_auth_provider.dart';
 
 void main() async {
   runApp(MyApp());
@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         // ignore: missing_required_param
-        ChangeNotifierProvider(create: (context) => FirebaseProvider())
+        ChangeNotifierProvider(create: (context) => FirebaseAuthProvider())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

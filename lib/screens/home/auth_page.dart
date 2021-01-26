@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/provider/firebase_provider.dart';
+import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeedic/screens/login/signin_page.dart';
 import 'package:coffeedic/screens/login/signedin_page.dart';
@@ -15,11 +15,11 @@ class AuthPage extends StatefulWidget {
 }
 
 class AuthPageState extends State<AuthPage> {
-  FirebaseProvider fp;
+  FirebaseAuthProvider fp;
 
   @override
   Widget build(BuildContext context) {
-    fp = Provider.of<FirebaseProvider>(context);
+    fp = Provider.of<FirebaseAuthProvider>(context);
 
     logger.d("user: ${fp.getUser()}");
     if (fp.getUser() != null && fp.getUser().isEmailVerified == true) {

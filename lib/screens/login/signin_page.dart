@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/provider/firebase_provider.dart';
+import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:coffeedic/screens/login/signup_page.dart';
 import 'package:coffeedic/screens/login/firebase_db/coffeebase_list.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,7 @@ class SignInPageState extends State<SignInPage> {
   bool doRemember = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  FirebaseProvider fp;
+  FirebaseAuthProvider fp;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    fp = Provider.of<FirebaseProvider>(context);
+    fp = Provider.of<FirebaseAuthProvider>(context);
 
     logger.d(fp.getUser());
     return Scaffold(
@@ -161,24 +161,6 @@ class SignInPageState extends State<SignInPage> {
               onPressed: () {
                 FocusScope.of(context).requestFocus(new FocusNode()); // 키보드 감춤
                 _signIn();
-              },
-            ),
-          ),
-
-          // Firebase CloudStore CRUD
-          Container(
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: RaisedButton(
-              color: Colors.blueGrey[300],
-              child: Text(
-                "Cloud Firestore",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FirestoreFirstDemo()));
               },
             ),
           ),
