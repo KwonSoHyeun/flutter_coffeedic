@@ -193,16 +193,16 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   // 문서 생성 (Create)
   void createDoc(String acidity, String balance, String bitterness, String body,
       String city, String country, String desc) {
-    print("acidity:" + acidity);
-    Firestore.instance.collection(colName).add({
-      fnAcidity: acidity,
-      fnBalance: balance,
-      fnBiterness: bitterness,
-      fnBody: body,
-      fnCity: city,
-      fnCountry: country,
-      fnDesc: desc,
-    });
+    // print("acidity:" + acidity);
+    // Firestore.instance.collection(colName).add({
+    //   fnAcidity: acidity,
+    //   fnBalance: balance,
+    //   fnBiterness: bitterness,
+    //   fnBody: body,
+    //   fnCity: city,
+    //   fnCountry: country,
+    //   fnDesc: desc,
+    // });
   }
 
   showLastFBMessage() {

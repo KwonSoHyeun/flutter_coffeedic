@@ -111,7 +111,7 @@ class SignedInPageState extends State<SignedInPage> {
                             child: Text("isEmailVerified", style: tsItem),
                           ),
                           Expanded(
-                            child: Text(fp.getUser().isEmailVerified.toString(),
+                            child: Text(fp.getUser().emailVerified.toString(),
                                 style: tsContent),
                           )
                         ],
@@ -124,8 +124,8 @@ class SignedInPageState extends State<SignedInPage> {
                             child: Text("Provider ID", style: tsItem),
                           ),
                           Expanded(
-                            child:
-                                Text(fp.getUser().providerId, style: tsContent),
+                            child: Text(fp.getUser().providerData.toString(),
+                                style: tsContent),
                           )
                         ],
                       ),

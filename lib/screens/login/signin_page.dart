@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:coffeedic/screens/login/signup_page.dart';
-import 'package:coffeedic/screens/login/firebase_db/coffeebase_list.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -119,7 +118,7 @@ class SignInPageState extends State<SignInPage> {
           ),
 
           // Alert Box
-          (fp.getUser() != null && fp.getUser().isEmailVerified == false)
+          (fp.getUser() != null && fp.getUser().emailVerified == false)
               ? Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
