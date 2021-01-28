@@ -1,7 +1,7 @@
 class Coffee {
   static final String colName = "coffeebasic";
 
-  // 필드명 ..
+  // 필드명 ....
   final String coffeeId;
   final String name;
   final String country;

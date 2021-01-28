@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeedic/models/coffee.dart';
-import 'package:coffeedic/screens/login/firebase_db/edit_product.dart';
+import 'package:coffeedic/screens/firestore/coffeebase_edit.dart';
 
 //CoffeebaseList
 class CoffeebaseList extends StatelessWidget {
