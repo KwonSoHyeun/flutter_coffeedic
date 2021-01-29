@@ -88,7 +88,7 @@ class ProductProvider with ChangeNotifier {
   }
 
   saveProduct() {
-    print("saveProduct" + _coffeeId);
+    // print("saveProduct" + _coffeeId);
 
     if (_coffeeId == null) {
       var newCoffee = Coffee(
@@ -105,7 +105,7 @@ class ProductProvider with ChangeNotifier {
       firestoreService.saveProduct(newCoffee);
     } else {
       var updatedProduct = Coffee(
-          coffeeId: _coffeeId,
+          //coffeeId: _coffeeId,
           name: _name,
           country: _country,
           city: _city,

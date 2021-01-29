@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/provider/firebase_auth_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffeedic/models/coffee.dart';
 
 CoffeebasePageState pageState;
 
@@ -14,18 +13,9 @@ class CoffeebasePage extends StatefulWidget {
 }
 
 class CoffeebasePageState extends State<CoffeebasePage> {
-  // 컬렉션명
-  final String colName = "coffeebasic";
+  final coffee = new Coffee();
 
-  // 필드명
-  final String fnAcidity = "acidity";
-  final String fnBalance = "balance";
-  final String fnBiterness = "bitterness";
-  final String fnBody = "body";
-  final String fnCity = "city";
-  final String fnCountry = "country";
-  final String fnDesc = "desc";
-
+  TextEditingController _newName = TextEditingController();
   TextEditingController _newAcidityCon = TextEditingController();
   TextEditingController _newBalanceCon = TextEditingController();
   TextEditingController _newBiternessCon = TextEditingController();
@@ -33,12 +23,13 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   TextEditingController _newCityCon = TextEditingController();
   TextEditingController _newCountryCon = TextEditingController();
   TextEditingController _newDescCon = TextEditingController();
+  TextEditingController _newImageCon = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  FirebaseAuthProvider fp;
 
   @override
   void dispose() {
+    _newName.dispose();
     _newAcidityCon.dispose();
     _newBalanceCon.dispose();
     _newBiternessCon.dispose();
@@ -46,16 +37,13 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     _newCityCon.dispose();
     _newCountryCon.dispose();
     _newDescCon.dispose();
+    _newImageCon.dispose();
 
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (fp == null) {
-      fp = Provider.of<FirebaseAuthProvider>(context);
-    }
-
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(title: Text("Coffee Base Data")),
@@ -142,6 +130,14 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                           ),
                           obscureText: true,
                         ),
+                        TextField(
+                          controller: _newImageCon,
+                          decoration: InputDecoration(
+                            //prefixIcon: Icon(Icons.lock),
+                            hintText: "Image path",
+                          ),
+                          obscureText: true,
+                        ),
                       ].map((c) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
@@ -181,7 +177,8 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                         _newBody.text,
                         _newCityCon.text,
                         _newCountryCon.text,
-                        _newDescCon.text);
+                        _newDescCon.text,
+                        _newImageCon.text);
                   }
                 },
               ),
@@ -192,32 +189,18 @@ class CoffeebasePageState extends State<CoffeebasePage> {
 
   // 문서 생성 (Create)
   void createDoc(String acidity, String balance, String bitterness, String body,
-      String city, String country, String desc) {
-    // print("acidity:" + acidity);
-    // Firestore.instance.collection(colName).add({
-    //   fnAcidity: acidity,
-    //   fnBalance: balance,
-    //   fnBiterness: bitterness,
-    //   fnBody: body,
-    //   fnCity: city,
-    //   fnCountry: country,
-    //   fnDesc: desc,
-    // });
-  }
-
-  showLastFBMessage() {
-    _scaffoldKey.currentState
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        backgroundColor: Colors.red[400],
-        duration: Duration(seconds: 10),
-        content: Text(fp.getLastFBMessage()),
-        action: SnackBarAction(
-          label: "Done",
-          textColor: Colors.white,
-          onPressed: () {},
-        ),
-      ));
+      String city, String country, String desc, String image) {
+    print("acidity:" + acidity);
+    FirebaseFirestore.instance.collection(coffee.colName).add({
+      coffee.fnAcidity: acidity,
+      coffee.fnBalance: balance,
+      coffee.fnBitterness: bitterness,
+      coffee.fnBody: body,
+      coffee.fnCity: city,
+      coffee.fnCountry: country,
+      coffee.fnDesc: desc,
+      coffee.fnImage: image
+    });
   }
 
   showPasswordFBMessage() {

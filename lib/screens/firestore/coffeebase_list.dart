@@ -1,46 +1,127 @@
-//import 'package:coffeedic/screens/login/coffee_create.dart';
+import 'package:coffeedic/screens/firestore/coffeebase_create.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
-import 'package:coffeedic/screens/firestore/coffeebase_edit.dart';
 
-//CoffeebaseList
-class CoffeebaseList extends StatelessWidget {
+CoffeebaseListState pageState;
+
+class CoffeebaseList extends StatefulWidget {
+  @override
+  CoffeebaseListState createState() {
+    pageState = CoffeebaseListState();
+    return pageState;
+  }
+}
+
+class CoffeebaseListState extends State<CoffeebaseList> {
+  final coffee = new Coffee();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  // 컬렉션명
+  final String colName = "coffeebasic";
+
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<List<Coffee>>(context);
-
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Coffee 목록'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                size: 30.0,
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => EditProduct()));
+      key: _scaffoldKey,
+      appBar: AppBar(title: Text("FirestoreFirstDemo")),
+      body: ListView(
+        children: <Widget>[
+          Container(
+            height: 500,
+            child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection(colName)
+                  .orderBy("country", descending: true)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) return Text("Error: ${snapshot.error}");
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Text("Loading...");
+                  default:
+                    return ListView(
+                      children:
+                          snapshot.data.docs.map((DocumentSnapshot document) {
+                        return Card(
+                          elevation: 2,
+                          child: InkWell(
+                            // Read Document
+                            onTap: () {
+                              showUpdateOrDeleteDocument(document.id);
+                            },
+                            // Update or Delete Document
+                            onLongPress: () {
+                              // showUpdateOrDeleteDocDialog(document);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        document[coffee.fnName],
+                                        style: TextStyle(
+                                          color: Colors.blueGrey,
+                                          fontSize: 17,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        document[coffee.fnCity],
+                                        style:
+                                            TextStyle(color: Colors.grey[600]),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      document[coffee.fnCountry],
+                                      style: TextStyle(color: Colors.black54),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                }
               },
-            )
-          ],
-        ),
-        body: (products != null)
-            ? ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(products[index].name +
-                        ":" +
-                        products[index].coffeeId.toString()),
-                    trailing: Text(products[index].country.toString()),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => EditProduct(products[index])));
-                    },
-                  );
-                })
-            : Center(child: CircularProgressIndicator()));
+            ),
+          ),
+          FlatButton(
+            child: Text(
+              "Create",
+              style: TextStyle(color: Colors.blue, fontSize: 16),
+            ),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => CoffeebasePage()));
+            },
+          )
+        ],
+      ),
+      // Create Document
+    );
+  }
+
+  /// Firestore CRUD Logic
+
+  // Update
+  void showUpdateOrDeleteDocument(String documentID) {
+    FirebaseFirestore.instance
+        .collection(colName)
+        .doc(documentID)
+        .get()
+        .then((doc) {
+      //showReadDocSnackBar(doc);
+    });
   }
 }
