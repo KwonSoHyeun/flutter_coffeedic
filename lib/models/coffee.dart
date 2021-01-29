@@ -1,8 +1,18 @@
 class Coffee {
-  static final String colName = "coffeebasic";
+  final String colName = "coffeebasic";
 
-  // 필드명 ..
-  final String coffeeId;
+  // 필드명 ....
+  String coffeeId = null;
+  final String fnName = "name";
+  final String fnCountry = "country";
+  final String fnCity = "city";
+  final String fnBody = "body";
+  final String fnAcidity = "acidity";
+  final String fnBitterness = "bitterness";
+  final String fnBalance = "balance";
+  final String fnDesc = "desc";
+  final String fnImage = "image";
+
   final String name;
   final String country;
   final String city;
@@ -14,8 +24,7 @@ class Coffee {
   final String image;
 
   Coffee(
-      {this.coffeeId,
-      this.name,
+      {this.name,
       this.country,
       this.city,
       this.body,
@@ -27,7 +36,6 @@ class Coffee {
 
   Map<String, dynamic> toMap() {
     return {
-      'coffeeId': coffeeId,
       'name': name,
       'country': country,
       'city': city,
@@ -41,8 +49,7 @@ class Coffee {
   }
 
   Coffee.fromFirestore(Map<String, dynamic> firestore)
-      : coffeeId = firestore['coffeeId'],
-        name = firestore['name'],
+      : name = firestore['name'],
         country = firestore['country'],
         city = firestore['city'],
         body = firestore['body'],

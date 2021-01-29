@@ -27,8 +27,8 @@ class _MyAppState extends State<MyApp> {
       providers: [
         // ignore: missing_required_param
         ChangeNotifierProvider(create: (context) => FirebaseAuthProvider()),
-        ChangeNotifierProvider(create: (context) => ProductProvider()),
-        StreamProvider(create: (context) => firestoreService.getProducts()),
+        //ChangeNotifierProvider(create: (context) => ProductProvider()),
+        //StreamProvider(create: (context) => firestoreService.getProducts()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

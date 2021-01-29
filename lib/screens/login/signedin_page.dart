@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:coffeedic/screens/login/firebase_db/coffeebase_list.dart';
+import 'package:coffeedic/screens/firestore/coffeebase_list.dart';
 
 SignedInPageState pageState;
 
