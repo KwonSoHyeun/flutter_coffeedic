@@ -49,7 +49,12 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                           child: InkWell(
                             // Read Document
                             onTap: () {
-                              showUpdateOrDeleteDocument(document.id);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          CoffeebasePage(document.id)));
+                              //showUpdateOrDeleteDocument(document.id);
                             },
                             // Update or Delete Document
                             onLongPress: () {
@@ -114,7 +119,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CoffeebasePage()));
+                          builder: (context) => CoffeebasePage("")));
                 },
                 // 버튼에 텍스트 부여
                 child: Text('Create'),
@@ -129,12 +134,13 @@ class CoffeebaseListState extends State<CoffeebaseList> {
 
   // Update
   void showUpdateOrDeleteDocument(String documentID) {
-    FirebaseFirestore.instance
-        .collection(colName)
-        .doc(documentID)
-        .get()
-        .then((doc) {
-      //showReadDocSnackBar(doc);
-    });
+    MaterialPageRoute(builder: (context) => CoffeebasePage(documentID));
+    // FirebaseFirestore.instance
+    //     .collection(colName)
+    //     .doc(documentID)
+    //     .get()
+    //     .then((doc) {
+    //   //showReadDocSnackBar(doc);
+    // });
   }
 }

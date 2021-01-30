@@ -88,6 +88,18 @@ class Coffee {
     };
   }
 
+  void setFromFirestore(Map<String, dynamic> firestore) {
+    name = firestore['name'];
+    country = firestore['country'];
+    city = firestore['city'];
+    body = firestore['body'];
+    acidity = firestore['acidity'];
+    bitterness = firestore['bitterness'];
+    balance = firestore['balance'];
+    desc = firestore['desc'];
+    image = firestore['image'];
+  }
+
   Coffee.fromFirestore(Map<String, dynamic> firestore)
       : name = firestore['name'],
         country = firestore['country'],

@@ -6,8 +6,12 @@ import 'package:flutter/services.dart';
 CoffeebasePageState pageState;
 
 class CoffeebasePage extends StatefulWidget {
+  final String coffeeId;
+  const CoffeebasePage(this.coffeeId);
+
   @override
   CoffeebasePageState createState() {
+    // loadUpdateData(coffeeId);
     pageState = CoffeebasePageState();
     return pageState;
   }
@@ -27,52 +31,51 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   @override
   Widget build(BuildContext context) {
     loadLevelList();
+    loadUpdateData(widget.coffeeId);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Add new coffee..."),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              nameField(),
-              Container(margin: EdgeInsets.only(bottom: 20.0)),
-              countryField(),
-              Container(margin: EdgeInsets.only(bottom: 20.0)),
-              cityField(),
-              Container(margin: EdgeInsets.only(bottom: 20.0)),
-              bodyField(),
-              Container(margin: EdgeInsets.only(bottom: 20.0)),
-              acidityField(),
-              Container(margin: EdgeInsets.only(bottom: 20.0)),
-              bitternessField(),
-              Container(margin: EdgeInsets.only(bottom: 20.0)),
-              balanceField(),
-              Container(margin: EdgeInsets.only(bottom: 20.0)),
-              descField(),
-              Container(margin: EdgeInsets.only(bottom: 20.0)),
-              imageField(),
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      // 텍스트폼필드의 상태가 적함하는
-                      if (_formKey.currentState.validate()) {
-                        _formKey.currentState.save();
-                        createDoc();
-                        Navigator.pop(context);
-                      }
-                    },
-                    // 버튼에 텍스트 부여
-                    child: Text('Submit'),
-                  )),
-            ],
-          ),
+        appBar: AppBar(
+          title: Text("Add new coffee..."),
         ),
-      ),
-    );
+        body: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                  child: new Column(children: <Widget>[
+                nameField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                countryField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                cityField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                bodyField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                acidityField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                bitternessField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                balanceField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                descField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                imageField(),
+                Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: RaisedButton(
+                      onPressed: () {
+                        // 텍스트폼필드의 상태가 적함하는
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          createDoc();
+                          Navigator.pop(context);
+                        }
+                      },
+                      // 버튼에 텍스트 부여
+                      child: Text('Submit'),
+                    )),
+              ])),
+            )));
   }
 
 //FilteringTextInputFormatter.allow
@@ -80,6 +83,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   Widget nameField() {
     return TextFormField(
       //obscureText: true,
+
       autocorrect: false,
       decoration: InputDecoration(labelText: "name", hintText: '커피명을 입력해주세요'),
       validator: (name) {
@@ -88,7 +92,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         }
         return null;
       },
-      //value: coffee.name,
+      initialValue: "coffee.name",
       onSaved: (name) => coffee.setName = name,
     );
   }
@@ -105,6 +109,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         }
         return null;
       },
+      initialValue: coffee.country,
       onSaved: (country) => coffee.setCountry = country,
     );
   }
@@ -254,5 +259,20 @@ class CoffeebasePageState extends State<CoffeebasePage> {
       child: new Text('5'),
       value: 5,
     ));
+  }
+
+  void loadUpdateData(String coffeeId) {
+    print("coffeeId:##################" + coffeeId.toString());
+    if (coffeeId.isNotEmpty) {
+      FirebaseFirestore.instance
+          .collection(coffee.colName)
+          .doc(coffeeId)
+          .get()
+          .then((doc) {
+        coffee.setFromFirestore(doc.data());
+        print("Cffee##########" + coffee.name.toString());
+        //showReadDocSnackBar(doc);
+      });
+    }
   }
 }
