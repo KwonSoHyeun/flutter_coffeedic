@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
+import 'package:flutter/services.dart';
 
 CoffeebasePageState pageState;
 
 class CoffeebasePage extends StatefulWidget {
+  final String documentID;
+
+  final Coffee coffeeData;
+
+  const CoffeebasePage(this.documentID, this.coffeeData);
+
   @override
   CoffeebasePageState createState() {
     pageState = CoffeebasePageState();
@@ -13,194 +20,271 @@ class CoffeebasePage extends StatefulWidget {
 }
 
 class CoffeebasePageState extends State<CoffeebasePage> {
-  final coffee = new Coffee();
-
-  TextEditingController _newName = TextEditingController();
-  TextEditingController _newAcidityCon = TextEditingController();
-  TextEditingController _newBalanceCon = TextEditingController();
-  TextEditingController _newBiternessCon = TextEditingController();
-  TextEditingController _newBody = TextEditingController();
-  TextEditingController _newCityCon = TextEditingController();
-  TextEditingController _newCountryCon = TextEditingController();
-  TextEditingController _newDescCon = TextEditingController();
-  TextEditingController _newImageCon = TextEditingController();
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
-  @override
-  void dispose() {
-    _newName.dispose();
-    _newAcidityCon.dispose();
-    _newBalanceCon.dispose();
-    _newBiternessCon.dispose();
-    _newBody.dispose();
-    _newCityCon.dispose();
-    _newCountryCon.dispose();
-    _newDescCon.dispose();
-    _newImageCon.dispose();
-
-    super.dispose();
-  }
+  final _formKey = GlobalKey<FormState>();
+  List<DropdownMenuItem<int>> levelList = [];
+  bool isAddState = true;
 
   @override
   Widget build(BuildContext context) {
+    loadLevelList();
+    if (widget.coffeeData.name.isNotEmpty) {
+      isAddState = false;
+    }
+    print("isAddState:#########" + isAddState.toString());
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(title: Text("Coffee Base Data")),
-        body: ListView(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              child: Column(
-                children: <Widget>[
-                  //Header
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(color: Colors.amber),
-                    child: Center(
-                      child: Text(
-                        "Create Account",
-                        style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
-
-                  // Input Area
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.amber, width: 1),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        TextField(
-                          controller: _newAcidityCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.mail),
-                            hintText: "Acidity",
-                          ),
-                        ),
-                        TextField(
-                          controller: _newBalanceCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Balance",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newBiternessCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Bitterness",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newBody,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Body",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newCityCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "City",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newCountryCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Country",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newDescCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Description",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newImageCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Image path",
-                          ),
-                          obscureText: true,
-                        ),
-                      ].map((c) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                          child: c,
-                        );
-                      }).toList(),
-                    ),
-                  )
-                ],
-              ),
-            ),
-
-            //  Creat Button
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: RaisedButton(
-                color: Colors.indigo[300],
-                child: Text(
-                  "Create",
-                  style: TextStyle(color: Colors.white),
+        appBar: AppBar(
+          title: Text("Add new widget.coffeeData..."),
+        ),
+        body: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                  child: new Column(children: <Widget>[
+                nameField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                countryField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                cityField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                bodyField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                acidityField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                bitternessField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                balanceField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                descField(),
+                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                imageField(),
+                Row(
+                  children: <Widget>[
+                    if (isAddState) submitButton(),
+                    if (!isAddState) updateDeleteContainer(),
+                  ],
                 ),
-                onPressed: () {
-                  FocusScope.of(context)
-                      .requestFocus(new FocusNode()); // 키보드 감춤
-                  if (_newAcidityCon.text.isNotEmpty &&
-                      _newBalanceCon.text.isNotEmpty &&
-                      _newBiternessCon.text.isNotEmpty &&
-                      _newBody.text.isNotEmpty &&
-                      _newCityCon.text.isNotEmpty &&
-                      _newCountryCon.text.isNotEmpty &&
-                      _newDescCon.text.isNotEmpty) {
-                    createDoc(
-                        _newAcidityCon.text,
-                        _newBalanceCon.text,
-                        _newBiternessCon.text,
-                        _newBody.text,
-                        _newCityCon.text,
-                        _newCountryCon.text,
-                        _newDescCon.text,
-                        _newImageCon.text);
-                  }
-                },
-              ),
-            ),
-          ],
+              ])),
+            )));
+  }
+
+  Widget submitButton() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: RaisedButton(
+          onPressed: () {
+            // 텍스트폼필드의 상태가 적함하는
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              createDoc();
+              Navigator.pop(context);
+            }
+          },
+          // 버튼에 텍스트 부여
+          child: Text('Submit'),
         ));
   }
 
+  Widget updateDeleteContainer() {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          updateButton(),
+          deleteButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget updateButton() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: RaisedButton(
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              updateDoc();
+              Navigator.pop(context);
+            }
+          },
+          // 버튼에 텍스트 부여
+          child: Text('Update'),
+        ));
+  }
+
+  Widget deleteButton() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: RaisedButton(
+          onPressed: () {
+            deleteDoc();
+            Navigator.pop(context);
+          },
+          child: Text('Delete'),
+          color: Colors.red[400],
+        ));
+  }
+
+//커피명
+  Widget nameField() {
+    return TextFormField(
+      autocorrect: false,
+      decoration: InputDecoration(labelText: "name", hintText: '커피명을 입력해주세요'),
+      validator: (name) {
+        if (name.isEmpty) {
+          return '커피명을 입력하세요.';
+        }
+        return null;
+      },
+      initialValue: widget.coffeeData.name,
+      onSaved: (name) => widget.coffeeData.setName = name,
+    );
+  }
+
+  //Country
+  Widget countryField() {
+    return TextFormField(
+      autocorrect: false,
+      decoration:
+          InputDecoration(labelText: "country", hintText: '나라명을 입력해주세요'),
+      validator: (country) {
+        if (country.isEmpty) {
+          return '나라명을 입력해주세요.';
+        }
+        return null;
+      },
+      initialValue: widget.coffeeData.country,
+      onSaved: (country) => widget.coffeeData.setCountry = country,
+    );
+  }
+
+  //City
+  Widget cityField() {
+    return TextFormField(
+      //obscureText: true,
+      decoration: InputDecoration(labelText: "city", hintText: '도시명을 입력해주세요'),
+      validator: (city) {
+        if (city.isEmpty) {
+          return '도시명을 입력하세요.';
+        }
+        return null;
+      },
+      initialValue: widget.coffeeData.city,
+      onSaved: (city) => widget.coffeeData.setCity = city,
+    );
+  }
+
+//body
+  Widget bodyField() {
+    return DropdownButtonFormField(
+      decoration: InputDecoration(labelText: "body", hintText: 'body'),
+      value: widget.coffeeData.body,
+      items: levelList,
+      onChanged: (value) {
+        setState(() {
+          widget.coffeeData.body = value;
+        });
+      },
+      onSaved: (body) => widget.coffeeData.setBody = body,
+    );
+  }
+
+//acidity
+  Widget acidityField() {
+    return DropdownButtonFormField(
+      decoration: InputDecoration(labelText: "acidity", hintText: 'acidity'),
+      value: widget.coffeeData.acidity,
+      items: levelList,
+      onChanged: (value) {
+        setState(() {
+          widget.coffeeData.acidity = value;
+        });
+      },
+      onSaved: (acidity) => widget.coffeeData.setAcitidy = acidity,
+    );
+  }
+
+  //bitterness
+  Widget bitternessField() {
+    return DropdownButtonFormField(
+      decoration:
+          InputDecoration(labelText: "bitterness", hintText: 'bitterness'),
+      value: widget.coffeeData.bitterness,
+      items: levelList,
+      onChanged: (value) {
+        setState(() {
+          widget.coffeeData.bitterness = value;
+        });
+      },
+      onSaved: (bitterness) => widget.coffeeData.setBitterness = bitterness,
+    );
+  }
+
+  //balance
+  Widget balanceField() {
+    return DropdownButtonFormField(
+      decoration: InputDecoration(labelText: "balance", hintText: 'balance'),
+      value: widget.coffeeData.balance,
+      items: levelList,
+      onChanged: (value) {
+        setState(() {
+          widget.coffeeData.balance = value;
+        });
+      },
+      onSaved: (balance) => widget.coffeeData.setBalance = balance,
+    );
+  }
+
+  //Desc
+  Widget descField() {
+    return TextFormField(
+      keyboardType: TextInputType.multiline,
+      minLines: 3,
+      maxLines: 10,
+      decoration:
+          InputDecoration(labelText: "description", hintText: '설명을 입력해주세요'),
+      validator: (country) {
+        if (country.isEmpty) {
+          return '설명을 입력해주세요.';
+        }
+        return null;
+      },
+      initialValue: widget.coffeeData.desc,
+      onSaved: (country) => widget.coffeeData.setDesc = country,
+    );
+  }
+
+  Widget imageField() {
+    return TextFormField(
+      //obscureText: true,
+      decoration:
+          InputDecoration(labelText: "image", hintText: '이미지 경로를 입력해주세요'),
+      initialValue: widget.coffeeData.image,
+      onSaved: (image) => widget.coffeeData.setImage = image,
+    );
+  }
+
   // 문서 생성 (Create)
-  void createDoc(String acidity, String balance, String bitterness, String body,
-      String city, String country, String desc, String image) {
-    print("acidity:" + acidity);
-    FirebaseFirestore.instance.collection(coffee.colName).add({
-      coffee.fnAcidity: acidity,
-      coffee.fnBalance: balance,
-      coffee.fnBitterness: bitterness,
-      coffee.fnBody: body,
-      coffee.fnCity: city,
-      coffee.fnCountry: country,
-      coffee.fnDesc: desc,
-      coffee.fnImage: image
-    });
+  void createDoc() {
+    FirebaseFirestore.instance
+        .collection(widget.coffeeData.colName)
+        .add(widget.coffeeData.toMap());
+    // .then((value) => Navigator.pop(context));
+  }
+
+  void updateDoc() {
+    FirebaseFirestore.instance
+        .collection(widget.coffeeData.colName)
+        .doc(widget.documentID)
+        .update(widget.coffeeData.toMap());
+  }
+
+  void deleteDoc() {
+    FirebaseFirestore.instance
+        .collection(widget.coffeeData.colName)
+        .doc(widget.documentID)
+        .delete();
   }
 
   showPasswordFBMessage() {
@@ -216,5 +300,55 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           onPressed: () {},
         ),
       ));
+  }
+
+  void loadLevelList() {
+    levelList = [];
+    levelList.add(new DropdownMenuItem(
+      child: new Text('1'),
+      value: 1,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('2'),
+      value: 2,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('3'),
+      value: 3,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('4'),
+      value: 4,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('5'),
+      value: 5,
+    ));
+  }
+
+  boxWidget2() {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+          color: Colors.blue[400],
+          border: Border.all(color: Colors.indigo, width: 0.5)),
+      child: Center(
+          child:
+              Text("Box", style: TextStyle(fontSize: 12, color: Colors.white))),
+    );
+  }
+
+  boxWidget() {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+          color: Colors.blue[400],
+          border: Border.all(color: Colors.indigo, width: 0.5)),
+      child: Center(
+          child:
+              Text("Box", style: TextStyle(fontSize: 12, color: Colors.white))),
+    );
   }
 }
