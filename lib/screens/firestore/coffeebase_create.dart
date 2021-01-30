@@ -21,12 +21,27 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   Coffee coffee = new Coffee();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-  int _selectedLevel_body = 3;
-  int _selectedLevel_acidity = 3;
-  int _selectedLevel_bitterness = 3;
-  int _selectedLevel_balance = 3;
 
+  //드롭박스 초기값용
+  // int _selectedLevel_body = 3;
+  // int _selectedLevel_acidity = 3;
+  // int _selectedLevel_bitterness = 3;
+  // int _selectedLevel_balance = 3;
+
+  List<int> _selectLevel = [3, 3, 3, 3, 3];
   List<DropdownMenuItem<int>> levelList = [];
+
+  //update 초기값용
+  TextEditingController _newNameCon = TextEditingController();
+  TextEditingController _newContryCon = TextEditingController();
+  // TextEditingController _newBodyCon = TextEditingController();
+  // TextEditingController _newAcidityCon = TextEditingController();
+  // TextEditingController _newBalanceCon = TextEditingController();
+  // TextEditingController _newBiternessCon = TextEditingController();
+  TextEditingController _newCityCon = TextEditingController();
+  TextEditingController _newCountryCon = TextEditingController();
+  TextEditingController _newDescCon = TextEditingController();
+  TextEditingController _newImageCon = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +98,6 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   Widget nameField() {
     return TextFormField(
       //obscureText: true,
-
       autocorrect: false,
       decoration: InputDecoration(labelText: "name", hintText: '커피명을 입력해주세요'),
       validator: (name) {
@@ -92,52 +106,53 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         }
         return null;
       },
-      initialValue: "coffee.name",
+      initialValue: coffee.name,
       onSaved: (name) => coffee.setName = name,
+      controller: _newNameCon,
     );
   }
 
   //Country
   Widget countryField() {
     return TextFormField(
-      //obscureText: true,
-      decoration:
-          InputDecoration(labelText: "country", hintText: '나라명을 입력해주세요'),
-      validator: (country) {
-        if (country.isEmpty) {
-          return '나라명을 입력해주세요.';
-        }
-        return null;
-      },
-      initialValue: coffee.country,
-      onSaved: (country) => coffee.setCountry = country,
-    );
+        //obscureText: true,
+        decoration:
+            InputDecoration(labelText: "country", hintText: '나라명을 입력해주세요'),
+        validator: (country) {
+          if (country.isEmpty) {
+            return '나라명을 입력해주세요.';
+          }
+          return null;
+        },
+        initialValue: coffee.country,
+        onSaved: (country) => coffee.setCountry = country,
+        controller: _newContryCon);
   }
 
   //City
   Widget cityField() {
     return TextFormField(
-      //obscureText: true,
-      decoration: InputDecoration(labelText: "city", hintText: '도시명을 입력해주세요'),
-      validator: (city) {
-        if (city.isEmpty) {
-          return '도시명을 입력하세요.';
-        }
-        return null;
-      },
-      onSaved: (city) => coffee.setCity = city,
-    );
+        //obscureText: true,
+        decoration: InputDecoration(labelText: "city", hintText: '도시명을 입력해주세요'),
+        validator: (city) {
+          if (city.isEmpty) {
+            return '도시명을 입력하세요.';
+          }
+          return null;
+        },
+        onSaved: (city) => coffee.setCity = city,
+        controller: _newCityCon);
   }
 
 //body
   Widget bodyField() {
     return DropdownButtonFormField(
       decoration: InputDecoration(labelText: "body", hintText: 'body'),
-      value: _selectedLevel_body,
+      value: _selectLevel[0],
       items: levelList,
       onChanged: (value) {
         setState(() {
-          _selectedLevel_body = value;
+          _selectLevel[0] = value;
         });
       },
       onSaved: (body) => coffee.setBody = body,
@@ -148,11 +163,11 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   Widget acidityField() {
     return DropdownButtonFormField(
       decoration: InputDecoration(labelText: "acidity", hintText: 'acidity'),
-      value: _selectedLevel_acidity,
+      value: _selectLevel[1],
       items: levelList,
       onChanged: (value) {
         setState(() {
-          _selectedLevel_acidity = value;
+          _selectLevel[1] = value;
         });
       },
       onSaved: (acidity) => coffee.setAcitidy = acidity,
@@ -164,11 +179,11 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     return DropdownButtonFormField(
       decoration:
           InputDecoration(labelText: "bitterness", hintText: 'bitterness'),
-      value: _selectedLevel_bitterness,
+      value: _selectLevel[2],
       items: levelList,
       onChanged: (value) {
         setState(() {
-          _selectedLevel_bitterness = value;
+          _selectLevel[2] = value;
         });
       },
       onSaved: (bitterness) => coffee.setBitterness = bitterness,
@@ -179,11 +194,11 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   Widget balanceField() {
     return DropdownButtonFormField(
       decoration: InputDecoration(labelText: "balance", hintText: 'balance'),
-      value: _selectedLevel_balance,
+      value: _selectLevel[3],
       items: levelList,
       onChanged: (value) {
         setState(() {
-          _selectedLevel_balance = value;
+          _selectLevel[3] = value;
         });
       },
       onSaved: (balance) => coffee.setBalance = balance,
@@ -270,8 +285,18 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           .get()
           .then((doc) {
         coffee.setFromFirestore(doc.data());
-        print("Cffee##########" + coffee.name.toString());
-        //showReadDocSnackBar(doc);
+        //print("Cffee##########" + coffee.name.toString());
+
+        _newNameCon.text = coffee.name;
+        _newCountryCon.text = coffee.country;
+        _newCityCon.text = coffee.city;
+        _newDescCon.text = coffee.desc;
+        _newImageCon.text = coffee.image;
+
+        _selectLevel[0] = coffee.body;
+        _selectLevel[1] = coffee.acidity;
+        _selectLevel[2] = coffee.bitterness;
+        _selectLevel[3] = coffee.balance;
       });
     }
   }
