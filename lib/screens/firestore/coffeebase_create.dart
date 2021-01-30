@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
+import 'package:flutter/services.dart';
 
 CoffeebasePageState pageState;
 
@@ -13,194 +14,207 @@ class CoffeebasePage extends StatefulWidget {
 }
 
 class CoffeebasePageState extends State<CoffeebasePage> {
-  final coffee = new Coffee();
-
-  TextEditingController _newName = TextEditingController();
-  TextEditingController _newAcidityCon = TextEditingController();
-  TextEditingController _newBalanceCon = TextEditingController();
-  TextEditingController _newBiternessCon = TextEditingController();
-  TextEditingController _newBody = TextEditingController();
-  TextEditingController _newCityCon = TextEditingController();
-  TextEditingController _newCountryCon = TextEditingController();
-  TextEditingController _newDescCon = TextEditingController();
-  TextEditingController _newImageCon = TextEditingController();
-
+  Coffee coffee = new Coffee();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final _formKey = GlobalKey<FormState>();
+  int _selectedLevel_body = 3;
+  int _selectedLevel_acidity = 3;
+  int _selectedLevel_bitterness = 3;
+  int _selectedLevel_balance = 3;
 
-  @override
-  void dispose() {
-    _newName.dispose();
-    _newAcidityCon.dispose();
-    _newBalanceCon.dispose();
-    _newBiternessCon.dispose();
-    _newBody.dispose();
-    _newCityCon.dispose();
-    _newCountryCon.dispose();
-    _newDescCon.dispose();
-    _newImageCon.dispose();
-
-    super.dispose();
-  }
+  List<DropdownMenuItem<int>> levelList = [];
 
   @override
   Widget build(BuildContext context) {
+    loadLevelList();
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(title: Text("Coffee Base Data")),
-        body: ListView(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              child: Column(
-                children: <Widget>[
-                  //Header
-                  Container(
-                    height: 50,
-                    decoration: BoxDecoration(color: Colors.amber),
-                    child: Center(
-                      child: Text(
-                        "Create Account",
-                        style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ),
+      appBar: AppBar(
+        title: Text("Add new coffee..."),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              nameField(),
+              Container(margin: EdgeInsets.only(bottom: 20.0)),
+              countryField(),
+              Container(margin: EdgeInsets.only(bottom: 20.0)),
+              cityField(),
+              Container(margin: EdgeInsets.only(bottom: 20.0)),
+              bodyField(),
+              Container(margin: EdgeInsets.only(bottom: 20.0)),
+              acidityField(),
+              Container(margin: EdgeInsets.only(bottom: 20.0)),
+              bitternessField(),
+              Container(margin: EdgeInsets.only(bottom: 20.0)),
+              balanceField(),
+              Container(margin: EdgeInsets.only(bottom: 20.0)),
+              descField(),
+              Container(margin: EdgeInsets.only(bottom: 20.0)),
+              imageField(),
+              Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: RaisedButton(
+                    onPressed: () {
+                      // 텍스트폼필드의 상태가 적함하는
+                      if (_formKey.currentState.validate()) {
+                        _formKey.currentState.save();
+                        createDoc();
+                        Navigator.pop(context);
+                      }
+                    },
+                    // 버튼에 텍스트 부여
+                    child: Text('Submit'),
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-                  // Input Area
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.amber, width: 1),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        TextField(
-                          controller: _newAcidityCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.mail),
-                            hintText: "Acidity",
-                          ),
-                        ),
-                        TextField(
-                          controller: _newBalanceCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Balance",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newBiternessCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Bitterness",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newBody,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Body",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newCityCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "City",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newCountryCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Country",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newDescCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Description",
-                          ),
-                          obscureText: true,
-                        ),
-                        TextField(
-                          controller: _newImageCon,
-                          decoration: InputDecoration(
-                            //prefixIcon: Icon(Icons.lock),
-                            hintText: "Image path",
-                          ),
-                          obscureText: true,
-                        ),
-                      ].map((c) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                          child: c,
-                        );
-                      }).toList(),
-                    ),
-                  )
-                ],
-              ),
-            ),
+//FilteringTextInputFormatter.allow
+//커피명
+  Widget nameField() {
+    return TextFormField(
+      //obscureText: true,
+      autocorrect: false,
+      decoration: InputDecoration(labelText: "name", hintText: '커피명을 입력해주세요'),
+      validator: (name) {
+        if (name.isEmpty) {
+          return '커피명을 입력하세요.';
+        }
+        return null;
+      },
+      //value: coffee.name,
+      onSaved: (name) => coffee.setName = name,
+    );
+  }
 
-            //  Creat Button
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: RaisedButton(
-                color: Colors.indigo[300],
-                child: Text(
-                  "Create",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPressed: () {
-                  FocusScope.of(context)
-                      .requestFocus(new FocusNode()); // 키보드 감춤
-                  if (_newAcidityCon.text.isNotEmpty &&
-                      _newBalanceCon.text.isNotEmpty &&
-                      _newBiternessCon.text.isNotEmpty &&
-                      _newBody.text.isNotEmpty &&
-                      _newCityCon.text.isNotEmpty &&
-                      _newCountryCon.text.isNotEmpty &&
-                      _newDescCon.text.isNotEmpty) {
-                    createDoc(
-                        _newAcidityCon.text,
-                        _newBalanceCon.text,
-                        _newBiternessCon.text,
-                        _newBody.text,
-                        _newCityCon.text,
-                        _newCountryCon.text,
-                        _newDescCon.text,
-                        _newImageCon.text);
-                  }
-                },
-              ),
-            ),
-          ],
-        ));
+  //Country
+  Widget countryField() {
+    return TextFormField(
+      //obscureText: true,
+      decoration:
+          InputDecoration(labelText: "country", hintText: '나라명을 입력해주세요'),
+      validator: (country) {
+        if (country.isEmpty) {
+          return '나라명을 입력해주세요.';
+        }
+        return null;
+      },
+      onSaved: (country) => coffee.setCountry = country,
+    );
+  }
+
+  //City
+  Widget cityField() {
+    return TextFormField(
+      //obscureText: true,
+      decoration: InputDecoration(labelText: "city", hintText: '도시명을 입력해주세요'),
+      validator: (city) {
+        if (city.isEmpty) {
+          return '도시명을 입력하세요.';
+        }
+        return null;
+      },
+      onSaved: (city) => coffee.setCity = city,
+    );
+  }
+
+//body
+  Widget bodyField() {
+    return DropdownButtonFormField(
+      decoration: InputDecoration(labelText: "body", hintText: 'body'),
+      value: _selectedLevel_body,
+      items: levelList,
+      onChanged: (value) {
+        setState(() {
+          _selectedLevel_body = value;
+        });
+      },
+      onSaved: (body) => coffee.setBody = body,
+    );
+  }
+
+//acidity
+  Widget acidityField() {
+    return DropdownButtonFormField(
+      decoration: InputDecoration(labelText: "acidity", hintText: 'acidity'),
+      value: _selectedLevel_acidity,
+      items: levelList,
+      onChanged: (value) {
+        setState(() {
+          _selectedLevel_acidity = value;
+        });
+      },
+      onSaved: (acidity) => coffee.setAcitidy = acidity,
+    );
+  }
+
+  //acidity
+  Widget bitternessField() {
+    return DropdownButtonFormField(
+      decoration:
+          InputDecoration(labelText: "bitterness", hintText: 'bitterness'),
+      value: _selectedLevel_bitterness,
+      items: levelList,
+      onChanged: (value) {
+        setState(() {
+          _selectedLevel_bitterness = value;
+        });
+      },
+      onSaved: (bitterness) => coffee.setBitterness = bitterness,
+    );
+  }
+
+  //balance
+  Widget balanceField() {
+    return DropdownButtonFormField(
+      decoration: InputDecoration(labelText: "balance", hintText: 'balance'),
+      value: _selectedLevel_balance,
+      items: levelList,
+      onChanged: (value) {
+        setState(() {
+          _selectedLevel_balance = value;
+        });
+      },
+      onSaved: (balance) => coffee.setBalance = balance,
+    );
+  }
+
+  //Desc
+  Widget descField() {
+    return TextFormField(
+      keyboardType: TextInputType.multiline,
+      minLines: 3,
+      maxLines: 10,
+      decoration:
+          InputDecoration(labelText: "description", hintText: '설명을 입력해주세요'),
+      validator: (country) {
+        if (country.isEmpty) {
+          return '설명을 입력해주세요.';
+        }
+        return null;
+      },
+      onSaved: (country) => coffee.setDesc = country,
+    );
+  }
+
+  Widget imageField() {
+    return TextFormField(
+      //obscureText: true,
+      decoration:
+          InputDecoration(labelText: "image", hintText: '이미지 경로를 입력해주세요'),
+      onSaved: (image) => coffee.setImage = image,
+    );
   }
 
   // 문서 생성 (Create)
-  void createDoc(String acidity, String balance, String bitterness, String body,
-      String city, String country, String desc, String image) {
-    print("acidity:" + acidity);
-    FirebaseFirestore.instance.collection(coffee.colName).add({
-      coffee.fnAcidity: acidity,
-      coffee.fnBalance: balance,
-      coffee.fnBitterness: bitterness,
-      coffee.fnBody: body,
-      coffee.fnCity: city,
-      coffee.fnCountry: country,
-      coffee.fnDesc: desc,
-      coffee.fnImage: image
-    });
+  void createDoc() {
+    FirebaseFirestore.instance.collection(coffee.colName).add(coffee.toMap());
   }
 
   showPasswordFBMessage() {
@@ -216,5 +230,29 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           onPressed: () {},
         ),
       ));
+  }
+
+  void loadLevelList() {
+    levelList = [];
+    levelList.add(new DropdownMenuItem(
+      child: new Text('1'),
+      value: 1,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('2'),
+      value: 2,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('3'),
+      value: 3,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('4'),
+      value: 4,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('5'),
+      value: 5,
+    ));
   }
 }

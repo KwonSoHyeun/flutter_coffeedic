@@ -96,16 +96,29 @@ class CoffeebaseListState extends State<CoffeebaseList> {
               },
             ),
           ),
-          FlatButton(
-            child: Text(
-              "Create",
-              style: TextStyle(color: Colors.blue, fontSize: 16),
-            ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CoffeebasePage()));
-            },
-          )
+          // FlatButton(
+          //   child: Text(
+          //     "Create",
+          //     style: TextStyle(color: Colors.blue, fontSize: 16),
+          //   ),
+          //   onPressed: () {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => CoffeebasePage()));
+          //   },
+          // )
+
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CoffeebasePage()));
+                },
+                // 버튼에 텍스트 부여
+                child: Text('Create'),
+              )),
         ],
       ),
       // Create Document
