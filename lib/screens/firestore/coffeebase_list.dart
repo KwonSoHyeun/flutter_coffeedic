@@ -14,7 +14,7 @@ class CoffeebaseList extends StatefulWidget {
 }
 
 class CoffeebaseListState extends State<CoffeebaseList> {
-  final coffee = new Coffee();
+  Coffee coffee = new Coffee.initiate();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // 컬렉션명
@@ -49,12 +49,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                           child: InkWell(
                             // Read Document
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          CoffeebasePage(document.id)));
-                              //showUpdateOrDeleteDocument(document.id);
+                              showUpdateOrDeleteDocument(document.id);
                             },
                             // Update or Delete Document
                             onLongPress: () {
@@ -119,7 +114,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CoffeebasePage("")));
+                          builder: (context) => CoffeebasePage(coffee)));
                 },
                 // 버튼에 텍스트 부여
                 child: Text('Create'),
@@ -134,13 +129,21 @@ class CoffeebaseListState extends State<CoffeebaseList> {
 
   // Update
   void showUpdateOrDeleteDocument(String documentID) {
-    MaterialPageRoute(builder: (context) => CoffeebasePage(documentID));
-    // FirebaseFirestore.instance
-    //     .collection(colName)
-    //     .doc(documentID)
-    //     .get()
-    //     .then((doc) {
-    //   //showReadDocSnackBar(doc);
-    // });
+    FirebaseFirestore.instance
+        .collection(colName)
+        .doc(documentID)
+        .get()
+        .then((doc) {
+      Coffee coffeedata = new Coffee();
+
+      final Map<String, dynamic> map = doc.data();
+
+      coffeedata.setFromFirestore(map);
+      print("coffee_data:#####" +
+          coffeedata.name.toString() +
+          coffeedata.country.toString());
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => CoffeebasePage(coffeedata)));
+    });
   }
 }

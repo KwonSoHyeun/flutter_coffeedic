@@ -3,6 +3,7 @@ class Coffee {
 
   // 필드명 ....
   String coffeeId = null;
+
   final String fnName = "name";
   final String fnCountry = "country";
   final String fnCity = "city";
@@ -73,6 +74,19 @@ class Coffee {
       this.balance,
       this.desc,
       this.image});
+
+  initiate() {
+    name = "";
+    country = "";
+    city = "";
+    body = 3;
+    acidity = 3;
+    bitterness = 3;
+    balance = 3;
+    desc = "";
+    image = "";
+    //return;
+  }
 
   Map<String, dynamic> toMap() {
     return {

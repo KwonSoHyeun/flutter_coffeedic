@@ -6,51 +6,31 @@ import 'package:flutter/services.dart';
 CoffeebasePageState pageState;
 
 class CoffeebasePage extends StatefulWidget {
-  final String coffeeId;
-  const CoffeebasePage(this.coffeeId);
+  Coffee coffeeData;
+  CoffeebasePage(this.coffeeData);
+
+  //Coffee coffeeData;
 
   @override
   CoffeebasePageState createState() {
-    // loadUpdateData(coffeeId);
+    //coffeeData = coffee_param;
     pageState = CoffeebasePageState();
     return pageState;
   }
 }
 
 class CoffeebasePageState extends State<CoffeebasePage> {
-  Coffee coffee = new Coffee();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-
-  //드롭박스 초기값용
-  // int _selectedLevel_body = 3;
-  // int _selectedLevel_acidity = 3;
-  // int _selectedLevel_bitterness = 3;
-  // int _selectedLevel_balance = 3;
-
-  List<int> _selectLevel = [3, 3, 3, 3, 3];
   List<DropdownMenuItem<int>> levelList = [];
-
-  //update 초기값용
-  TextEditingController _newNameCon = TextEditingController();
-  TextEditingController _newContryCon = TextEditingController();
-  // TextEditingController _newBodyCon = TextEditingController();
-  // TextEditingController _newAcidityCon = TextEditingController();
-  // TextEditingController _newBalanceCon = TextEditingController();
-  // TextEditingController _newBiternessCon = TextEditingController();
-  TextEditingController _newCityCon = TextEditingController();
-  TextEditingController _newCountryCon = TextEditingController();
-  TextEditingController _newDescCon = TextEditingController();
-  TextEditingController _newImageCon = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     loadLevelList();
-    loadUpdateData(widget.coffeeId);
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("Add new coffee..."),
+          title: Text("Add new widget.coffeeData..."),
         ),
         body: Padding(
             padding: EdgeInsets.all(16.0),
@@ -93,11 +73,9 @@ class CoffeebasePageState extends State<CoffeebasePage> {
             )));
   }
 
-//FilteringTextInputFormatter.allow
 //커피명
   Widget nameField() {
     return TextFormField(
-      //obscureText: true,
       autocorrect: false,
       decoration: InputDecoration(labelText: "name", hintText: '커피명을 입력해주세요'),
       validator: (name) {
@@ -106,56 +84,56 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         }
         return null;
       },
-      initialValue: coffee.name,
-      onSaved: (name) => coffee.setName = name,
-      controller: _newNameCon,
+      initialValue: widget.coffeeData.name,
+      onSaved: (name) => widget.coffeeData.setName = name,
     );
   }
 
   //Country
   Widget countryField() {
     return TextFormField(
-        //obscureText: true,
-        decoration:
-            InputDecoration(labelText: "country", hintText: '나라명을 입력해주세요'),
-        validator: (country) {
-          if (country.isEmpty) {
-            return '나라명을 입력해주세요.';
-          }
-          return null;
-        },
-        initialValue: coffee.country,
-        onSaved: (country) => coffee.setCountry = country,
-        controller: _newContryCon);
+      autocorrect: false,
+      decoration:
+          InputDecoration(labelText: "country", hintText: '나라명을 입력해주세요'),
+      validator: (country) {
+        if (country.isEmpty) {
+          return '나라명을 입력해주세요.';
+        }
+        return null;
+      },
+      initialValue: widget.coffeeData.country,
+      onSaved: (country) => widget.coffeeData.setCountry = country,
+    );
   }
 
   //City
   Widget cityField() {
     return TextFormField(
-        //obscureText: true,
-        decoration: InputDecoration(labelText: "city", hintText: '도시명을 입력해주세요'),
-        validator: (city) {
-          if (city.isEmpty) {
-            return '도시명을 입력하세요.';
-          }
-          return null;
-        },
-        onSaved: (city) => coffee.setCity = city,
-        controller: _newCityCon);
+      //obscureText: true,
+      decoration: InputDecoration(labelText: "city", hintText: '도시명을 입력해주세요'),
+      validator: (city) {
+        if (city.isEmpty) {
+          return '도시명을 입력하세요.';
+        }
+        return null;
+      },
+      initialValue: widget.coffeeData.city,
+      onSaved: (city) => widget.coffeeData.setCity = city,
+    );
   }
 
 //body
   Widget bodyField() {
     return DropdownButtonFormField(
       decoration: InputDecoration(labelText: "body", hintText: 'body'),
-      value: _selectLevel[0],
+      value: widget.coffeeData.body,
       items: levelList,
       onChanged: (value) {
         setState(() {
-          _selectLevel[0] = value;
+          widget.coffeeData.body = value;
         });
       },
-      onSaved: (body) => coffee.setBody = body,
+      onSaved: (body) => widget.coffeeData.setBody = body,
     );
   }
 
@@ -163,14 +141,14 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   Widget acidityField() {
     return DropdownButtonFormField(
       decoration: InputDecoration(labelText: "acidity", hintText: 'acidity'),
-      value: _selectLevel[1],
+      value: widget.coffeeData.acidity,
       items: levelList,
       onChanged: (value) {
         setState(() {
-          _selectLevel[1] = value;
+          widget.coffeeData.acidity = value;
         });
       },
-      onSaved: (acidity) => coffee.setAcitidy = acidity,
+      onSaved: (acidity) => widget.coffeeData.setAcitidy = acidity,
     );
   }
 
@@ -179,14 +157,14 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     return DropdownButtonFormField(
       decoration:
           InputDecoration(labelText: "bitterness", hintText: 'bitterness'),
-      value: _selectLevel[2],
+      value: widget.coffeeData.acidity,
       items: levelList,
       onChanged: (value) {
         setState(() {
-          _selectLevel[2] = value;
+          widget.coffeeData.bitterness = value;
         });
       },
-      onSaved: (bitterness) => coffee.setBitterness = bitterness,
+      onSaved: (bitterness) => widget.coffeeData.setBitterness = bitterness,
     );
   }
 
@@ -194,14 +172,14 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   Widget balanceField() {
     return DropdownButtonFormField(
       decoration: InputDecoration(labelText: "balance", hintText: 'balance'),
-      value: _selectLevel[3],
+      value: widget.coffeeData.balance,
       items: levelList,
       onChanged: (value) {
         setState(() {
-          _selectLevel[3] = value;
+          widget.coffeeData.balance = value;
         });
       },
-      onSaved: (balance) => coffee.setBalance = balance,
+      onSaved: (balance) => widget.coffeeData.setBalance = balance,
     );
   }
 
@@ -219,7 +197,8 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         }
         return null;
       },
-      onSaved: (country) => coffee.setDesc = country,
+      initialValue: widget.coffeeData.desc,
+      onSaved: (country) => widget.coffeeData.setDesc = country,
     );
   }
 
@@ -228,13 +207,17 @@ class CoffeebasePageState extends State<CoffeebasePage> {
       //obscureText: true,
       decoration:
           InputDecoration(labelText: "image", hintText: '이미지 경로를 입력해주세요'),
-      onSaved: (image) => coffee.setImage = image,
+      initialValue: widget.coffeeData.image,
+      onSaved: (image) => widget.coffeeData.setImage = image,
     );
   }
 
   // 문서 생성 (Create)
   void createDoc() {
-    FirebaseFirestore.instance.collection(coffee.colName).add(coffee.toMap());
+    FirebaseFirestore.instance
+        .collection(widget.coffeeData.colName)
+        .add(widget.coffeeData.toMap());
+    // .then((value) => Navigator.pop(context));
   }
 
   showPasswordFBMessage() {
@@ -274,30 +257,5 @@ class CoffeebasePageState extends State<CoffeebasePage> {
       child: new Text('5'),
       value: 5,
     ));
-  }
-
-  void loadUpdateData(String coffeeId) {
-    print("coffeeId:##################" + coffeeId.toString());
-    if (coffeeId.isNotEmpty) {
-      FirebaseFirestore.instance
-          .collection(coffee.colName)
-          .doc(coffeeId)
-          .get()
-          .then((doc) {
-        coffee.setFromFirestore(doc.data());
-        //print("Cffee##########" + coffee.name.toString());
-
-        _newNameCon.text = coffee.name;
-        _newCountryCon.text = coffee.country;
-        _newCityCon.text = coffee.city;
-        _newDescCon.text = coffee.desc;
-        _newImageCon.text = coffee.image;
-
-        _selectLevel[0] = coffee.body;
-        _selectLevel[1] = coffee.acidity;
-        _selectLevel[2] = coffee.bitterness;
-        _selectLevel[3] = coffee.balance;
-      });
-    }
   }
 }
