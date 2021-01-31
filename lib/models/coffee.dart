@@ -75,7 +75,7 @@ class Coffee {
       this.desc,
       this.image});
 
-  initiate() {
+  Coffee.initiate() {
     name = "";
     country = "";
     city = "";

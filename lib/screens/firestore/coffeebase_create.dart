@@ -6,14 +6,14 @@ import 'package:flutter/services.dart';
 CoffeebasePageState pageState;
 
 class CoffeebasePage extends StatefulWidget {
-  Coffee coffeeData;
-  CoffeebasePage(this.coffeeData);
+  final String documentID;
 
-  //Coffee coffeeData;
+  final Coffee coffeeData;
+
+  const CoffeebasePage(this.documentID, this.coffeeData);
 
   @override
   CoffeebasePageState createState() {
-    //coffeeData = coffee_param;
     pageState = CoffeebasePageState();
     return pageState;
   }
@@ -23,11 +23,15 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   List<DropdownMenuItem<int>> levelList = [];
+  bool isAddState = true;
 
   @override
   Widget build(BuildContext context) {
     loadLevelList();
-
+    if (widget.coffeeData.name.isNotEmpty) {
+      isAddState = false;
+    }
+    print("isAddState:#########" + isAddState.toString());
     return Scaffold(
         appBar: AppBar(
           title: Text("Add new widget.coffeeData..."),
@@ -55,22 +59,81 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 descField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 imageField(),
-                Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: RaisedButton(
-                      onPressed: () {
-                        // 텍스트폼필드의 상태가 적함하는
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
-                          createDoc();
-                          Navigator.pop(context);
-                        }
-                      },
-                      // 버튼에 텍스트 부여
-                      child: Text('Submit'),
-                    )),
+                Row(
+                  children: <Widget>[
+                    if (isAddState) submitButton(),
+                    if (!isAddState) updateDeleteButton(),
+                  ],
+                ),
               ])),
             )));
+  }
+
+  Widget submitButton() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: RaisedButton(
+          onPressed: () {
+            // 텍스트폼필드의 상태가 적함하는
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              createDoc();
+              Navigator.pop(context);
+            }
+          },
+          // 버튼에 텍스트 부여
+          child: Text('Submit'),
+        ));
+  }
+
+/*
+               Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.indigo, width: 0.5)),
+                  height: 80,
+                  child: Row(
+                    //crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      // if()
+                      boxWidget(),
+                      boxWidget(),
+                    ],
+                  ),
+                ),
+*/
+  Widget updateDeleteButton() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: RaisedButton(
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              _formKey.currentState.save();
+              updateDoc();
+              Navigator.pop(context);
+            }
+          },
+          // 버튼에 텍스트 부여
+          child: Text('Update'),
+        ));
+  }
+
+  Widget deleteButton() {
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0),
+        child: RaisedButton(
+          onPressed: () {
+            // // 텍스트폼필드의 상태가 적함하는
+            // if (_formKey.currentState.validate()) {
+            //   _formKey.currentState.save();
+            //   createDoc();
+            //   Navigator.pop(context);
+            // }
+          },
+          // 버튼에 텍스트 부여
+          child: Text('Delete'),
+          color: Colors.red[400],
+        ));
   }
 
 //커피명
@@ -152,12 +215,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     );
   }
 
-  //acidity
+  //bitterness
   Widget bitternessField() {
     return DropdownButtonFormField(
       decoration:
           InputDecoration(labelText: "bitterness", hintText: 'bitterness'),
-      value: widget.coffeeData.acidity,
+      value: widget.coffeeData.bitterness,
       items: levelList,
       onChanged: (value) {
         setState(() {
@@ -220,6 +283,19 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     // .then((value) => Navigator.pop(context));
   }
 
+  void updateDoc() {
+    FirebaseFirestore.instance
+        .collection(widget.coffeeData.colName)
+        .doc(widget.documentID)
+        .update(widget.coffeeData.toMap());
+  }
+
+  /*
+  // 문서 삭제 (Delete)
+  void deleteDoc(String docID) {
+    Firestore.instance.collection(colName).document(docID).delete();
+  }
+  */
   showPasswordFBMessage() {
     _scaffoldKey.currentState
       ..hideCurrentSnackBar()
@@ -257,5 +333,31 @@ class CoffeebasePageState extends State<CoffeebasePage> {
       child: new Text('5'),
       value: 5,
     ));
+  }
+
+  boxWidget2() {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+          color: Colors.blue[400],
+          border: Border.all(color: Colors.indigo, width: 0.5)),
+      child: Center(
+          child:
+              Text("Box", style: TextStyle(fontSize: 12, color: Colors.white))),
+    );
+  }
+
+  boxWidget() {
+    return Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+          color: Colors.blue[400],
+          border: Border.all(color: Colors.indigo, width: 0.5)),
+      child: Center(
+          child:
+              Text("Box", style: TextStyle(fontSize: 12, color: Colors.white))),
+    );
   }
 }

@@ -14,7 +14,7 @@ class CoffeebaseList extends StatefulWidget {
 }
 
 class CoffeebaseListState extends State<CoffeebaseList> {
-  Coffee coffee = new Coffee.initiate();
+  Coffee coffee = new Coffee();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // 컬렉션명
@@ -32,7 +32,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection(colName)
-                  .orderBy("country", descending: true)
+                  .orderBy(coffee.fnName, descending: false)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -114,7 +114,8 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => CoffeebasePage(coffee)));
+                          builder: (context) =>
+                              CoffeebasePage(null, new Coffee.initiate())));
                 },
                 // 버튼에 텍스트 부여
                 child: Text('Create'),
@@ -135,15 +136,16 @@ class CoffeebaseListState extends State<CoffeebaseList> {
         .get()
         .then((doc) {
       Coffee coffeedata = new Coffee();
-
       final Map<String, dynamic> map = doc.data();
 
       coffeedata.setFromFirestore(map);
       print("coffee_data:#####" +
           coffeedata.name.toString() +
           coffeedata.country.toString());
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => CoffeebasePage(coffeedata)));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CoffeebasePage(documentID, coffeedata)));
     });
   }
 }
