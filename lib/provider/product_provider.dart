@@ -9,10 +9,10 @@ class ProductProvider with ChangeNotifier {
   String _name;
   String _country;
   String _city;
-  String _acidity;
-  String _balance;
-  String _bitterness;
-  String _body;
+  int _acidity;
+  int _balance;
+  int _bitterness;
+  int _body;
   String _desc;
   String _image;
 
@@ -20,10 +20,10 @@ class ProductProvider with ChangeNotifier {
   String get name => _name;
   String get country => _country;
   String get city => _city;
-  String get acidity => _acidity;
-  String get balance => _balance;
-  String get bitterness => _bitterness;
-  String get body => _body;
+  int get acidity => _acidity;
+  int get balance => _balance;
+  int get bitterness => _bitterness;
+  int get body => _body;
   String get desc => _desc;
   String get image => _image;
 
@@ -43,22 +43,22 @@ class ProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  changeAcidity(String value) {
+  changeAcidity(int value) {
     _acidity = value;
     notifyListeners();
   }
 
-  changeBalance(String value) {
+  changeBalance(int value) {
     _balance = value;
     notifyListeners();
   }
 
-  changeBitterness(String value) {
+  changeBitterness(int value) {
     _bitterness = value;
     notifyListeners();
   }
 
-  changeBody(String value) {
+  changeBody(int value) {
     _body = value;
     notifyListeners();
   }

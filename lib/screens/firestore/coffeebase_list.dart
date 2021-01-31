@@ -14,7 +14,7 @@ class CoffeebaseList extends StatefulWidget {
 }
 
 class CoffeebaseListState extends State<CoffeebaseList> {
-  final coffee = new Coffee();
+  Coffee coffee = new Coffee();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   // 컬렉션명
@@ -32,7 +32,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection(colName)
-                  .orderBy("country", descending: true)
+                  .orderBy(coffee.fnName, descending: false)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -96,16 +96,30 @@ class CoffeebaseListState extends State<CoffeebaseList> {
               },
             ),
           ),
-          FlatButton(
-            child: Text(
-              "Create",
-              style: TextStyle(color: Colors.blue, fontSize: 16),
-            ),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CoffeebasePage()));
-            },
-          )
+          // FlatButton(
+          //   child: Text(
+          //     "Create",
+          //     style: TextStyle(color: Colors.blue, fontSize: 16),
+          //   ),
+          //   onPressed: () {
+          //     Navigator.push(context,
+          //         MaterialPageRoute(builder: (context) => CoffeebasePage()));
+          //   },
+          // )
+
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: RaisedButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CoffeebasePage(null, new Coffee.initiate())));
+                },
+                // 버튼에 텍스트 부여
+                child: Text('Create'),
+              )),
         ],
       ),
       // Create Document
@@ -121,7 +135,17 @@ class CoffeebaseListState extends State<CoffeebaseList> {
         .doc(documentID)
         .get()
         .then((doc) {
-      //showReadDocSnackBar(doc);
+      Coffee coffeedata = new Coffee();
+      final Map<String, dynamic> map = doc.data();
+
+      coffeedata.setFromFirestore(map);
+      print("coffee_data:#####" +
+          coffeedata.name.toString() +
+          coffeedata.country.toString());
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CoffeebasePage(documentID, coffeedata)));
     });
   }
 }
