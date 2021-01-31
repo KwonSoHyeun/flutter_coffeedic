@@ -62,7 +62,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 Row(
                   children: <Widget>[
                     if (isAddState) submitButton(),
-                    if (!isAddState) updateDeleteButton(),
+                    if (!isAddState) updateDeleteContainer(),
                   ],
                 ),
               ])),
@@ -86,23 +86,18 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         ));
   }
 
-/*
-               Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      border: Border.all(color: Colors.indigo, width: 0.5)),
-                  height: 80,
-                  child: Row(
-                    //crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      // if()
-                      boxWidget(),
-                      boxWidget(),
-                    ],
-                  ),
-                ),
-*/
-  Widget updateDeleteButton() {
+  Widget updateDeleteContainer() {
+    return Container(
+      child: Row(
+        children: <Widget>[
+          updateButton(),
+          deleteButton(),
+        ],
+      ),
+    );
+  }
+
+  Widget updateButton() {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: RaisedButton(
@@ -123,14 +118,9 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: RaisedButton(
           onPressed: () {
-            // // 텍스트폼필드의 상태가 적함하는
-            // if (_formKey.currentState.validate()) {
-            //   _formKey.currentState.save();
-            //   createDoc();
-            //   Navigator.pop(context);
-            // }
+            deleteDoc();
+            Navigator.pop(context);
           },
-          // 버튼에 텍스트 부여
           child: Text('Delete'),
           color: Colors.red[400],
         ));
@@ -290,12 +280,13 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         .update(widget.coffeeData.toMap());
   }
 
-  /*
-  // 문서 삭제 (Delete)
-  void deleteDoc(String docID) {
-    Firestore.instance.collection(colName).document(docID).delete();
+  void deleteDoc() {
+    FirebaseFirestore.instance
+        .collection(widget.coffeeData.colName)
+        .doc(widget.documentID)
+        .delete();
   }
-  */
+
   showPasswordFBMessage() {
     _scaffoldKey.currentState
       ..hideCurrentSnackBar()
