@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 CoffeebasePageState pageState;
 
 class CoffeebasePage extends StatefulWidget {
   final String documentID;
-
   final Coffee coffeeData;
-
   const CoffeebasePage(this.documentID, this.coffeeData);
 
   @override
@@ -58,7 +59,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 descField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
-                imageField(),
+                // imageField(),
                 Row(
                   children: <Widget>[
                     if (isAddState) submitButton(),
@@ -78,7 +79,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               createDoc();
-              Navigator.pop(context);
+              Navigator.pop(this.context);
             }
           },
           // 버튼에 텍스트 부여
@@ -105,7 +106,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               updateDoc();
-              Navigator.pop(context);
+              Navigator.pop(this.context);
             }
           },
           // 버튼에 텍스트 부여
@@ -119,7 +120,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         child: RaisedButton(
           onPressed: () {
             deleteDoc();
-            Navigator.pop(context);
+            Navigator.pop(this.context);
           },
           child: Text('Delete'),
           color: Colors.red[400],
@@ -252,16 +253,6 @@ class CoffeebasePageState extends State<CoffeebasePage> {
       },
       initialValue: widget.coffeeData.desc,
       onSaved: (country) => widget.coffeeData.setDesc = country,
-    );
-  }
-
-  Widget imageField() {
-    return TextFormField(
-      //obscureText: true,
-      decoration:
-          InputDecoration(labelText: "image", hintText: '이미지 경로를 입력해주세요'),
-      initialValue: widget.coffeeData.image,
-      onSaved: (image) => widget.coffeeData.setImage = image,
     );
   }
 
