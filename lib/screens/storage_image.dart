@@ -91,9 +91,15 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
     PickedFile file;
 
     if (type == 'gallery') {
-      file = await ImagePicker().getImage(source: ImageSource.gallery);
+      file = await ImagePicker().getImage(
+        source: ImageSource.gallery,
+        imageQuality: 80,
+      );
     } else {
-      file = await ImagePicker().getImage(source: ImageSource.camera);
+      file = await ImagePicker().getImage(
+        source: ImageSource.camera,
+        imageQuality: 80,
+      );
     }
 
     if (file == null) return;
