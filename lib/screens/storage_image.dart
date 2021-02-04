@@ -54,11 +54,14 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: (_profileImageURL != null)
-                      ? NetworkImage(_profileImageURL)
-                      : ExactAssetImage('assets/camera.png'),
-                  radius: 30,
+                Container(
+                  margin: const EdgeInsets.only(right: 10.0),
+                  child: CircleAvatar(
+                    backgroundImage: (_profileImageURL != null)
+                        ? NetworkImage(_profileImageURL)
+                        : ExactAssetImage('assets/camera.png'),
+                    radius: 30,
+                  ),
                 ),
                 RaisedButton(
                   child: Text("Gallery"),
@@ -137,7 +140,10 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
     // 업로드된 사진의 URL을 페이지에 반영
     setState(() {
       _profileImageURL = downloadURL;
-      _scaffoldKey.currentState.hideCurrentSnackBar();
     });
+
+    //업로드가 끝나고도 화면에 사진이 보이는 시간이 좀 걸리기 때문에 추가 시간이 필요하다.
+    await new Future.delayed(const Duration(seconds: 3));
+    _scaffoldKey.currentState.hideCurrentSnackBar();
   }
 }
