@@ -17,12 +17,13 @@ class CloudStorageDemo extends StatefulWidget {
 
 class CloudStorageDemoState extends State<CloudStorageDemo> {
   File _image;
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User _user;
-  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
   String _profileImageURL;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final picker = ImagePicker();
 
   @override
@@ -33,6 +34,7 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
 
   void _prepareService() async {
     _user = await _firebaseAuth.currentUser;
+    if (_user != null) {}
   }
 
   @override
@@ -110,7 +112,7 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
     // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
     String newFileName = _user.email.split('@')[0] +
         DateTime.now().millisecondsSinceEpoch.toString();
-
+    print("newFileName:######" + newFileName);
     Reference storageReference =
         _firebaseStorage.ref().child("coffeebaseimage/$newFileName");
 
@@ -136,6 +138,8 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
 
     // 업로드한 사진의 URL 획득
     String downloadURL = await storageReference.getDownloadURL();
+
+    print("downloadURL:######" + downloadURL);
 
     // 업로드된 사진의 URL을 페이지에 반영
     setState(() {
