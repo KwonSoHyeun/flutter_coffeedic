@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Coffee {
   final String colName = "coffeebasic";
 
@@ -112,6 +114,34 @@ class Coffee {
     balance = firestore['balance'];
     desc = firestore['desc'];
     image = firestore['image'];
+  }
+
+  List<DropdownMenuItem<int>> loadLevelList() {
+    List<DropdownMenuItem<int>> levelList = [];
+
+    levelList = [];
+    levelList.add(new DropdownMenuItem(
+      child: new Text('1'),
+      value: 1,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('2'),
+      value: 2,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('3'),
+      value: 3,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('4'),
+      value: 4,
+    ));
+    levelList.add(new DropdownMenuItem(
+      child: new Text('5'),
+      value: 5,
+    ));
+
+    return levelList;
   }
 
   Coffee.fromFirestore(Map<String, dynamic> firestore)

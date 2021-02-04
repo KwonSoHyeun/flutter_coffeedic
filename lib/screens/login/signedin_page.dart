@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeedic/screens/firestore/coffeebase_list.dart';
+import 'package:coffeedic/screens/storage_image.dart';
 
 SignedInPageState pageState;
 
@@ -214,6 +215,24 @@ class SignedInPageState extends State<SignedInPage> {
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => CoffeebaseList()));
+              },
+            ),
+          ),
+
+          // image test
+          Container(
+            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
+            child: RaisedButton(
+              color: Colors.blueGrey[300],
+              child: Text(
+                "image file  upload test",
+                style: TextStyle(color: Colors.white),
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => CloudStorageDemo()));
               },
             ),
           ),

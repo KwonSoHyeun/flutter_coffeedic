@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+//import 'package:path/path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 
 CoffeebasePageState pageState;
 
 class CoffeebasePage extends StatefulWidget {
   final String documentID;
-
   final Coffee coffeeData;
-
   const CoffeebasePage(this.documentID, this.coffeeData);
 
   @override
@@ -22,17 +25,43 @@ class CoffeebasePage extends StatefulWidget {
 class CoffeebasePageState extends State<CoffeebasePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
+
   List<DropdownMenuItem<int>> levelList = [];
-  bool isAddState = true;
+  bool isAddState = true; //신규 생성 모드인지
+
+  File _image;
+  User _user;
+  String _profileImageURL;
+
+  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  final picker = ImagePicker();
+
+  User firebaseUser = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _prepareService();
+  }
+
+  void _prepareService() async {
+    _user = await _firebaseAuth.currentUser;
+    if (_user == null) {
+      //로그인 페이지로 보낸다.
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    loadLevelList();
+    levelList = widget.coffeeData.loadLevelList();
     if (widget.coffeeData.name.isNotEmpty) {
       isAddState = false;
     }
+
     print("isAddState:#########" + isAddState.toString());
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text("Add new widget.coffeeData..."),
         ),
@@ -78,7 +107,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               createDoc();
-              Navigator.pop(context);
+              Navigator.pop(this.context);
             }
           },
           // 버튼에 텍스트 부여
@@ -105,7 +134,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               updateDoc();
-              Navigator.pop(context);
+              Navigator.pop(this.context);
             }
           },
           // 버튼에 텍스트 부여
@@ -119,7 +148,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         child: RaisedButton(
           onPressed: () {
             deleteDoc();
-            Navigator.pop(context);
+            Navigator.pop(this.context);
           },
           child: Text('Delete'),
           color: Colors.red[400],
@@ -255,14 +284,99 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     );
   }
 
+  //Image
   Widget imageField() {
-    return TextFormField(
-      //obscureText: true,
-      decoration:
-          InputDecoration(labelText: "image", hintText: '이미지 경로를 입력해주세요'),
-      initialValue: widget.coffeeData.image,
-      onSaved: (image) => widget.coffeeData.setImage = image,
+    _profileImageURL = widget.coffeeData.image;
+    print("_profileImageURL###########" + _profileImageURL);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(right: 10.0),
+          child: CircleAvatar(
+            backgroundImage:
+                (_profileImageURL != null && _profileImageURL != "")
+                    ? NetworkImage(_profileImageURL)
+                    : ExactAssetImage('assets/camera.png'),
+            radius: 30,
+          ),
+        ),
+        RaisedButton(
+          child: Text("Gallery"),
+          onPressed: () {
+            handleUploadType('gallery');
+          },
+        ),
+        RaisedButton(
+          child: Text("Camera"),
+          onPressed: () {
+            handleUploadType('camera');
+          },
+        )
+      ],
     );
+  }
+
+  void handleUploadType(String type) async {
+    PickedFile file;
+
+    if (type == 'gallery') {
+      file = await ImagePicker().getImage(
+        source: ImageSource.gallery,
+        imageQuality: 80,
+      );
+    } else {
+      file = await ImagePicker().getImage(
+        source: ImageSource.camera,
+        imageQuality: 80,
+      );
+    }
+
+    if (file == null) return;
+    setState(() {
+      _image = File(file.path);
+    });
+
+    // 프로필 사진을 업로드할 경로와 파일명을 정의. 사용자의 uid를 이용하여 파일명의 중복 가능성 제거
+    String newFileName = _user.email.split('@')[0] +
+        DateTime.now().millisecondsSinceEpoch.toString();
+
+    Reference storageReference =
+        _firebaseStorage.ref().child("coffeebaseimage/$newFileName");
+
+    _scaffoldKey.currentState
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        duration: Duration(seconds: 30),
+        content: Row(
+          children: <Widget>[
+            CircularProgressIndicator(),
+            Text("uploading file...")
+          ],
+        ),
+      ));
+
+    // 파일 업로드
+    UploadTask storageUploadTask = storageReference.putFile(_image);
+
+    // 파일 업로드 완료까지 대기
+    await storageUploadTask.whenComplete(() {
+      null;
+    });
+
+    // 업로드한 사진의 URL 획득
+    String downloadURL = await storageReference.getDownloadURL();
+
+    // 업로드된 사진의 URL을 페이지에 반영
+    setState(() {
+      _profileImageURL = downloadURL;
+      widget.coffeeData.image = downloadURL;
+    });
+
+    //업로드가 끝나고도 화면에 사진이 보이는 시간이 좀 걸리기 때문에 추가 시간이 필요하다.
+    await new Future.delayed(const Duration(seconds: 3));
+    _scaffoldKey.currentState.hideCurrentSnackBar();
   }
 
   // 문서 생성 (Create)
@@ -302,53 +416,28 @@ class CoffeebasePageState extends State<CoffeebasePage> {
       ));
   }
 
-  void loadLevelList() {
-    levelList = [];
-    levelList.add(new DropdownMenuItem(
-      child: new Text('1'),
-      value: 1,
-    ));
-    levelList.add(new DropdownMenuItem(
-      child: new Text('2'),
-      value: 2,
-    ));
-    levelList.add(new DropdownMenuItem(
-      child: new Text('3'),
-      value: 3,
-    ));
-    levelList.add(new DropdownMenuItem(
-      child: new Text('4'),
-      value: 4,
-    ));
-    levelList.add(new DropdownMenuItem(
-      child: new Text('5'),
-      value: 5,
-    ));
-  }
+  // void loadLevelList() {
+  //   levelList = [];
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('1'),
+  //     value: 1,
+  //   ));
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('2'),
+  //     value: 2,
+  //   ));
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('3'),
+  //     value: 3,
+  //   ));
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('4'),
+  //     value: 4,
+  //   ));
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('5'),
+  //     value: 5,
+  //   ));
+  // }
 
-  boxWidget2() {
-    return Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(
-          color: Colors.blue[400],
-          border: Border.all(color: Colors.indigo, width: 0.5)),
-      child: Center(
-          child:
-              Text("Box", style: TextStyle(fontSize: 12, color: Colors.white))),
-    );
-  }
-
-  boxWidget() {
-    return Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(
-          color: Colors.blue[400],
-          border: Border.all(color: Colors.indigo, width: 0.5)),
-      child: Center(
-          child:
-              Text("Box", style: TextStyle(fontSize: 12, color: Colors.white))),
-    );
-  }
 }
