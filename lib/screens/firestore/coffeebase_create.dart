@@ -28,7 +28,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
 
   @override
   Widget build(BuildContext context) {
-    loadLevelList();
+    levelList = widget.coffeeData.loadLevelList();
     if (widget.coffeeData.name.isNotEmpty) {
       isAddState = false;
     }
@@ -59,7 +59,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 descField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
-                // imageField(),
+                //imageField(),
                 Row(
                   children: <Widget>[
                     if (isAddState) submitButton(),
@@ -256,6 +256,28 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     );
   }
 
+  //Image
+  Widget iamgeField() {
+    // return Container(
+    //   margin:const EdgeInsets.symmetric(horizontal: 8.0),
+    //   child:
+    //   TextField(
+    //     controller: _textController,
+    //     onSubmitted: _handleSubmitted,
+    //   decoration:
+    //       InputDecoration(labelText: "description", hintText: '설명을 입력해주세요'),
+    //   validator: (country) {
+    //     if (country.isEmpty) {
+    //       return '설명을 입력해주세요.';
+    //     }
+    //     return null;
+    //   },
+    //   initialValue: widget.coffeeData.desc,
+    //   onSaved: (country) => widget.coffeeData.setDesc = country,
+    // );
+    //)
+  }
+
   // 문서 생성 (Create)
   void createDoc() {
     FirebaseFirestore.instance
@@ -293,53 +315,28 @@ class CoffeebasePageState extends State<CoffeebasePage> {
       ));
   }
 
-  void loadLevelList() {
-    levelList = [];
-    levelList.add(new DropdownMenuItem(
-      child: new Text('1'),
-      value: 1,
-    ));
-    levelList.add(new DropdownMenuItem(
-      child: new Text('2'),
-      value: 2,
-    ));
-    levelList.add(new DropdownMenuItem(
-      child: new Text('3'),
-      value: 3,
-    ));
-    levelList.add(new DropdownMenuItem(
-      child: new Text('4'),
-      value: 4,
-    ));
-    levelList.add(new DropdownMenuItem(
-      child: new Text('5'),
-      value: 5,
-    ));
-  }
+  // void loadLevelList() {
+  //   levelList = [];
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('1'),
+  //     value: 1,
+  //   ));
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('2'),
+  //     value: 2,
+  //   ));
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('3'),
+  //     value: 3,
+  //   ));
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('4'),
+  //     value: 4,
+  //   ));
+  //   levelList.add(new DropdownMenuItem(
+  //     child: new Text('5'),
+  //     value: 5,
+  //   ));
+  // }
 
-  boxWidget2() {
-    return Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(
-          color: Colors.blue[400],
-          border: Border.all(color: Colors.indigo, width: 0.5)),
-      child: Center(
-          child:
-              Text("Box", style: TextStyle(fontSize: 12, color: Colors.white))),
-    );
-  }
-
-  boxWidget() {
-    return Container(
-      height: 50,
-      width: 50,
-      decoration: BoxDecoration(
-          color: Colors.blue[400],
-          border: Border.all(color: Colors.indigo, width: 0.5)),
-      child: Center(
-          child:
-              Text("Box", style: TextStyle(fontSize: 12, color: Colors.white))),
-    );
-  }
 }

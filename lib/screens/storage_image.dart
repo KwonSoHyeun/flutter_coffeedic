@@ -20,7 +20,7 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   User _user;
   FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
-  String _profileImageURL = "";
+  String _profileImageURL;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   final picker = ImagePicker();
@@ -44,16 +44,22 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // 업로드할 이미지를 출력할 CircleAvatar
-            CircleAvatar(
-              backgroundImage:
-                  (_image != null) ? FileImage(_image) : NetworkImage(""),
-              radius: 30,
-            ),
+            // // 업로드할 이미지를 출력할 CircleAvatar
+            // CircleAvatar(
+            //   backgroundImage:
+            //       (_image != null) ? FileImage(_image) : NetworkImage(""),
+            //   radius: 30,
+            // ),
             // 업로드할 이미지를 선택할 이미지 피커 호출 버튼
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                CircleAvatar(
+                  backgroundImage: (_profileImageURL != null)
+                      ? NetworkImage(_profileImageURL)
+                      : ExactAssetImage('assets/camera.png'),
+                  radius: 30,
+                ),
                 RaisedButton(
                   child: Text("Gallery"),
                   onPressed: () {
@@ -68,18 +74,9 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
                 )
               ],
             ),
-            Divider(
-              color: Colors.grey,
-            ),
-            // 업로드 된 이미지를 출력할 CircleAvatar
-            CircleAvatar(
-              backgroundImage: NetworkImage(_profileImageURL),
-              radius: 30,
-            ),
-            // 업로드 된 이미지의 URL
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(_profileImageURL),
+              //child: Text(_profileImageURL),
             )
           ],
         ),
@@ -130,7 +127,9 @@ class CloudStorageDemoState extends State<CloudStorageDemo> {
     UploadTask storageUploadTask = storageReference.putFile(_image);
 
     // 파일 업로드 완료까지 대기
-    await storageUploadTask.whenComplete(null);
+    await storageUploadTask.whenComplete(() {
+      null;
+    });
 
     // 업로드한 사진의 URL 획득
     String downloadURL = await storageReference.getDownloadURL();
