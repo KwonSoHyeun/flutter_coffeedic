@@ -39,21 +39,27 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   final picker = ImagePicker();
 
   User firebaseUser = FirebaseAuth.instance.currentUser;
-  CounterWithState range1 = CounterWithState(iCounter: 0);
-  CounterWithState range2 = CounterWithState(iCounter: 0);
+  ValuePickerWidget range1, range2, range3, range4;
 
   @override
   void initState() {
     super.initState();
     _prepareService();
-    range1.fnDataChanged(widget.coffeeData.body);
-    range2.fnDataChanged(widget.coffeeData.acidity);
+
+    range1 =
+        ValuePickerWidget(lableText: "dd1", iCounter: widget.coffeeData.body);
+    range2 = ValuePickerWidget(
+        lableText: "dd2", iCounter: widget.coffeeData.acidity);
+    range3 = ValuePickerWidget(
+        lableText: "dd3", iCounter: widget.coffeeData.bitterness);
+    range4 = ValuePickerWidget(
+        lableText: "dd4", iCounter: widget.coffeeData.balance);
   }
 
   void _prepareService() async {
     _user = await _firebaseAuth.currentUser;
     if (_user == null) {
-      //로그인 페이지로 보낸다.
+      //todo 로그인 페이지로 보낸다.
     }
   }
 
@@ -84,16 +90,11 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 cityField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 //range1,
-                range1.getCounterWidget(),
-                range2.getCounterWidget(),
-                bodyField(),
-                Container(margin: EdgeInsets.only(bottom: 10.0)),
-                acidityField(),
-                Container(margin: EdgeInsets.only(bottom: 10.0)),
-                bitternessField(),
-                Container(margin: EdgeInsets.only(bottom: 10.0)),
-                balanceField(),
-                Container(margin: EdgeInsets.only(bottom: 10.0)),
+                range1.getValuePickerWidget(),
+                range2.getValuePickerWidget(),
+                range3.getValuePickerWidget(),
+                range4.getValuePickerWidget(),
+
                 descField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 imageField(),
@@ -120,6 +121,8 @@ class CoffeebasePageState extends State<CoffeebasePage> {
               _formKey.currentState.save();
               widget.coffeeData.body = range1.iCounter;
               widget.coffeeData.acidity = range2.iCounter;
+              widget.coffeeData.bitterness = range3.iCounter;
+              widget.coffeeData.balance = range4.iCounter;
               createDoc();
               Navigator.pop(this.context);
             }
@@ -147,6 +150,10 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
+              widget.coffeeData.body = range1.iCounter;
+              widget.coffeeData.acidity = range2.iCounter;
+              widget.coffeeData.bitterness = range3.iCounter;
+              widget.coffeeData.balance = range4.iCounter;
               updateDoc();
               Navigator.pop(this.context);
             }
@@ -304,7 +311,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     print("_profileImageURL###########" + _profileImageURL);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Container(
           margin: const EdgeInsets.only(right: 10.0),
@@ -317,12 +324,14 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           ),
         ),
         RaisedButton(
+          color: Colors.lightBlue,
           child: Text("Gallery"),
           onPressed: () {
             handleUploadType('gallery');
           },
         ),
         RaisedButton(
+          color: Colors.lightBlue,
           child: Text("Camera"),
           onPressed: () {
             handleUploadType('camera');
@@ -429,29 +438,4 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         ),
       ));
   }
-
-  // void loadLevelList() {
-  //   levelList = [];
-  //   levelList.add(new DropdownMenuItem(
-  //     child: new Text('1'),
-  //     value: 1,
-  //   ));
-  //   levelList.add(new DropdownMenuItem(
-  //     child: new Text('2'),
-  //     value: 2,
-  //   ));
-  //   levelList.add(new DropdownMenuItem(
-  //     child: new Text('3'),
-  //     value: 3,
-  //   ));
-  //   levelList.add(new DropdownMenuItem(
-  //     child: new Text('4'),
-  //     value: 4,
-  //   ));
-  //   levelList.add(new DropdownMenuItem(
-  //     child: new Text('5'),
-  //     value: 5,
-  //   ));
-  // }
-
 }
