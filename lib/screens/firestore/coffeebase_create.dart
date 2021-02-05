@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:coffeedic/screens/range_button.dart';
 
 CoffeebasePageState pageState;
 
@@ -38,11 +39,15 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   final picker = ImagePicker();
 
   User firebaseUser = FirebaseAuth.instance.currentUser;
+  CounterWithState range1 = CounterWithState(iCounter: 0);
+  CounterWithState range2 = CounterWithState(iCounter: 0);
 
   @override
   void initState() {
     super.initState();
     _prepareService();
+    range1.fnDataChanged(widget.coffeeData.body);
+    range2.fnDataChanged(widget.coffeeData.acidity);
   }
 
   void _prepareService() async {
@@ -60,6 +65,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     }
 
     print("isAddState:#########" + isAddState.toString());
+
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -77,6 +83,9 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 cityField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
+                //range1,
+                range1.getCounterWidget(),
+                range2.getCounterWidget(),
                 bodyField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 acidityField(),
@@ -103,9 +112,14 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: RaisedButton(
           onPressed: () {
+            print("iCounter1:::::" + range1.iCounter.toString());
+            print("iCounter2:::::" + range2.iCounter.toString());
+
             // 텍스트폼필드의 상태가 적함하는
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
+              widget.coffeeData.body = range1.iCounter;
+              widget.coffeeData.acidity = range2.iCounter;
               createDoc();
               Navigator.pop(this.context);
             }
