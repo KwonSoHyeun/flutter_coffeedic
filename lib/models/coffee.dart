@@ -4,7 +4,7 @@ class Coffee {
   final String colName = "coffeebasic";
 
   // 필드명 ....
-  String coffeeId = null;
+  String coffeeId;
 
   final String fnName = "name";
   final String fnCountry = "country";
@@ -123,7 +123,7 @@ class Coffee {
     };
   }
 
-  void setFromFirestore(Map<String, dynamic> firestore) {
+  Coffee.setFromFirestore(Map<String, dynamic> firestore) {
     name = firestore['name'];
     country = firestore['country'];
     city = firestore['city'];

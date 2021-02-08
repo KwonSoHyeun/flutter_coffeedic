@@ -17,39 +17,6 @@ class CoffeebaseListState extends State<CoffeebaseList> {
   Coffee coffee = new Coffee();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  // 컬렉션명
-  final String colName = "coffeebasic";
-
-  //@override
-  // Widget build(BuildContext context) {
-  //   return new Scaffold(
-  //     appBar: AppBar(title: const Text('Tasks - Bottom App Bar')),
-  //     floatingActionButton: FloatingActionButton.extended(
-  //       elevation: 4.0,
-  //       icon: const Icon(Icons.add),
-  //       label: const Text('Add a task'),
-  //       onPressed: () {},
-  //     ),
-  //     floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-  //     bottomNavigationBar: BottomAppBar(
-  //       //hasNotch: false,
-  //       child: new Row(
-  //         mainAxisSize: MainAxisSize.max,
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: <Widget>[
-  //           IconButton(
-  //             icon: Icon(Icons.menu),
-  //             onPressed: () {},
-  //           ),
-  //           IconButton(
-  //             icon: Icon(Icons.search),
-  //             onPressed: () {},
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +41,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
             height: 500,
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection(colName)
+                  .collection(coffee.colName)
                   .orderBy(coffee.fnName, descending: false)
                   .snapshots(),
               builder: (BuildContext context,
@@ -93,10 +60,6 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                             // Read Document
                             onTap: () {
                               showUpdateOrDeleteDocument(document.id);
-                            },
-                            // Update or Delete Document
-                            onLongPress: () {
-                              // showUpdateOrDeleteDocDialog(document);
                             },
                             child: Container(
                               padding: const EdgeInsets.all(8),
@@ -148,14 +111,13 @@ class CoffeebaseListState extends State<CoffeebaseList> {
   // Update& Delete
   void showUpdateOrDeleteDocument(String documentID) {
     FirebaseFirestore.instance
-        .collection(colName)
+        .collection(coffee.colName)
         .doc(documentID)
         .get()
         .then((doc) {
-      Coffee coffeedata = new Coffee();
-      final Map<String, dynamic> map = doc.data();
+      //final Map<String, dynamic> map = doc.data();
 
-      coffeedata.setFromFirestore(map);
+      var coffeedata = Coffee.setFromFirestore(doc.data());
       print("coffee_data:#####" +
           coffeedata.name.toString() +
           coffeedata.country.toString());

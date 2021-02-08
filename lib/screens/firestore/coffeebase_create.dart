@@ -3,11 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:coffeedic/screens/range_button.dart';
+import 'package:coffeedic/widgets/range_button.dart';
 
 CoffeebasePageState pageState;
 
@@ -122,15 +121,6 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: RaisedButton(
           onPressed: () {
-            /*
-            
-                range_aroma.getValuePickerWidget(),
-                range_body.getValuePickerWidget(),
-                range_sweet.getValuePickerWidget(),
-                range_acidity.getValuePickerWidget(),
-                range_bitterness.getValuePickerWidget(),
-                range_balace.getValuePickerWidget(),
-            */
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
               widget.coffeeData.aroma = range_aroma.iCounter;
@@ -232,12 +222,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     return TextFormField(
       //obscureText: true,
       decoration: InputDecoration(labelText: "city", hintText: '도시명을 입력해주세요'),
-      validator: (city) {
-        if (city.isEmpty) {
-          return '도시명을 입력하세요.';
-        }
-        return null;
-      },
+      // validator: (city) {
+      //   if (city.isEmpty) {
+      //     return '도시명을 입력하세요.';
+      //   }
+      //   return null;
+      // },
       initialValue: widget.coffeeData.city,
       onSaved: (city) => widget.coffeeData.setCity = city,
     );
