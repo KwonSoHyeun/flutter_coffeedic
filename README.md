@@ -17,3 +17,4 @@ This project is a starting point for a Flutter application.
     <br>-. 개인 취향에 맞는 원두를 상세 검색할 수 있다.
     <br>-. 업체 소개 및 이용 후기를 공유할 수 있다.
 
+![Screenshot_20210208-112423](https://user-images.githubusercontent.com/9637338/107169434-28fb4700-6a01-11eb-82f1-b4dd400ca508.png)
