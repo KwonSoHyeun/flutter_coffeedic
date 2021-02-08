@@ -1,18 +1,18 @@
 
 # coffeedic
 
-A new Flutter project.
+Coffee 원두별 특징을 알려주는 앱.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+1. 원두의 종류별 특징을 입력합니다.
+화면 : 로그인 -> 원두입력/수정( 원두명, 원산지, 산미, 향, 발란드, 바디감 등등 입력 )
+기술적 사용: firebase cloud store, cloud storage, coffee data 용 streambuilder, 로그인용 auth provider
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. 첫 페이지에서 사용자는 원두명을 검색하여 원하는 원두를 찾을 수 있다.
+3. todo 
+    -. 개인 취향에 맞는 원두를 상세 검색할 수 있다.
+    -. 업체 소개 및 이용 후기를 공유할 수 있다.
 
