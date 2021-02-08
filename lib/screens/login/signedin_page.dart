@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeedic/screens/firestore/coffeebase_list.dart';
-import 'package:coffeedic/screens/storage_image.dart';
 
 SignedInPageState pageState;
 
@@ -229,10 +228,10 @@ class SignedInPageState extends State<SignedInPage> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CloudStorageDemo()));
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => CloudStorageDemo()));
               },
             ),
           ),

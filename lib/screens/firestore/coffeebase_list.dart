@@ -17,21 +17,31 @@ class CoffeebaseListState extends State<CoffeebaseList> {
   Coffee coffee = new Coffee();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  // 컬렉션명
-  final String colName = "coffeebasic";
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(title: Text("FirestoreFirstDemo")),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Colors.blue[700],
+        foregroundColor: Colors.white,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      CoffeebasePage(null, new Coffee.initiate())));
+        },
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: ListView(
         children: <Widget>[
           Container(
             height: 500,
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection(colName)
+                  .collection(coffee.colName)
                   .orderBy(coffee.fnName, descending: false)
                   .snapshots(),
               builder: (BuildContext context,
@@ -50,10 +60,6 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                             // Read Document
                             onTap: () {
                               showUpdateOrDeleteDocument(document.id);
-                            },
-                            // Update or Delete Document
-                            onLongPress: () {
-                              // showUpdateOrDeleteDocDialog(document);
                             },
                             child: Container(
                               padding: const EdgeInsets.all(8),
@@ -96,49 +102,22 @@ class CoffeebaseListState extends State<CoffeebaseList> {
               },
             ),
           ),
-          // FlatButton(
-          //   child: Text(
-          //     "Create",
-          //     style: TextStyle(color: Colors.blue, fontSize: 16),
-          //   ),
-          //   onPressed: () {
-          //     Navigator.push(context,
-          //         MaterialPageRoute(builder: (context) => CoffeebasePage()));
-          //   },
-          // )
-
-          Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: RaisedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              CoffeebasePage(null, new Coffee.initiate())));
-                },
-                // 버튼에 텍스트 부여
-                child: Text('Create'),
-              )),
         ],
       ),
       // Create Document
     );
   }
 
-  /// Firestore CRUD Logic
-
-  // Update
+  // Update& Delete
   void showUpdateOrDeleteDocument(String documentID) {
     FirebaseFirestore.instance
-        .collection(colName)
+        .collection(coffee.colName)
         .doc(documentID)
         .get()
         .then((doc) {
-      Coffee coffeedata = new Coffee();
-      final Map<String, dynamic> map = doc.data();
+      //final Map<String, dynamic> map = doc.data();
 
-      coffeedata.setFromFirestore(map);
+      var coffeedata = Coffee.setFromFirestore(doc.data());
       print("coffee_data:#####" +
           coffeedata.name.toString() +
           coffeedata.country.toString());

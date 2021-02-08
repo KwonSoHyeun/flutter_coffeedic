@@ -4,12 +4,15 @@ class Coffee {
   final String colName = "coffeebasic";
 
   // 필드명 ....
-  String coffeeId = null;
+  String coffeeId;
 
   final String fnName = "name";
   final String fnCountry = "country";
   final String fnCity = "city";
+
+  final String fnAroma = "aroma";
   final String fnBody = "body";
+  final String fnSweet = "sweet";
   final String fnAcidity = "acidity";
   final String fnBitterness = "bitterness";
   final String fnBalance = "balance";
@@ -19,7 +22,9 @@ class Coffee {
   String name = "";
   String country = "";
   String city = "";
+  int aroma = 3;
   int body = 3;
+  int sweet = 3;
   int acidity = 3;
   int bitterness = 3;
   int balance = 3;
@@ -38,8 +43,16 @@ class Coffee {
     this.city = city;
   }
 
+  set setAroma(int aroma) {
+    this.aroma = aroma;
+  }
+
   set setBody(int body) {
     this.body = body;
+  }
+
+  set setSweet(int sweet) {
+    this.sweet = sweet;
   }
 
   set setAcitidy(int acitidy) {
@@ -70,7 +83,9 @@ class Coffee {
       {this.name,
       this.country,
       this.city,
+      this.aroma,
       this.body,
+      this.sweet,
       this.acidity,
       this.bitterness,
       this.balance,
@@ -81,7 +96,9 @@ class Coffee {
     name = "";
     country = "";
     city = "";
+    aroma = 3;
     body = 3;
+    sweet = 3;
     acidity = 3;
     bitterness = 3;
     balance = 3;
@@ -95,7 +112,9 @@ class Coffee {
       'name': name,
       'country': country,
       'city': city,
+      'aroma': aroma,
       'body': body,
+      'sweet': sweet,
       'acidity': acidity,
       'bitterness': bitterness,
       'balance': balance,
@@ -104,11 +123,13 @@ class Coffee {
     };
   }
 
-  void setFromFirestore(Map<String, dynamic> firestore) {
+  Coffee.setFromFirestore(Map<String, dynamic> firestore) {
     name = firestore['name'];
     country = firestore['country'];
     city = firestore['city'];
+    aroma = firestore['aroma'];
     body = firestore['body'];
+    sweet = firestore['sweet'];
     acidity = firestore['acidity'];
     bitterness = firestore['bitterness'];
     balance = firestore['balance'];
@@ -148,7 +169,9 @@ class Coffee {
       : name = firestore['name'],
         country = firestore['country'],
         city = firestore['city'],
+        aroma = firestore['aroma'],
         body = firestore['body'],
+        sweet = firestore['sweet'],
         acidity = firestore['acidity'],
         bitterness = firestore['bitterness'],
         balance = firestore['balance'],

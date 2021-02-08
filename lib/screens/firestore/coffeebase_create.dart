@@ -3,11 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:coffeedic/screens/range_button.dart';
+import 'package:coffeedic/widgets/range_button.dart';
 
 CoffeebasePageState pageState;
 
@@ -39,21 +38,30 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   final picker = ImagePicker();
 
   User firebaseUser = FirebaseAuth.instance.currentUser;
-  ValuePickerWidget range1, range2, range3, range4;
+  ValuePickerWidget range_aroma,
+      range_body,
+      range_sweet,
+      range_acidity,
+      range_bitterness,
+      range_balance;
 
   @override
   void initState() {
     super.initState();
     _prepareService();
 
-    range1 =
-        ValuePickerWidget(lableText: "dd1", iCounter: widget.coffeeData.body);
-    range2 = ValuePickerWidget(
-        lableText: "dd2", iCounter: widget.coffeeData.acidity);
-    range3 = ValuePickerWidget(
-        lableText: "dd3", iCounter: widget.coffeeData.bitterness);
-    range4 = ValuePickerWidget(
-        lableText: "dd4", iCounter: widget.coffeeData.balance);
+    range_aroma = ValuePickerWidget(
+        lableText: "Aroma", iCounter: widget.coffeeData.aroma);
+    range_body = ValuePickerWidget(
+        lableText: "Body", iCounter: widget.coffeeData.acidity);
+    range_sweet = ValuePickerWidget(
+        lableText: "Sweet", iCounter: widget.coffeeData.sweet);
+    range_acidity = ValuePickerWidget(
+        lableText: "Acidity", iCounter: widget.coffeeData.balance);
+    range_bitterness = ValuePickerWidget(
+        lableText: "Bitterness", iCounter: widget.coffeeData.bitterness);
+    range_balance = ValuePickerWidget(
+        lableText: "Balanace", iCounter: widget.coffeeData.balance);
   }
 
   void _prepareService() async {
@@ -89,12 +97,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 cityField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
-                //range1,
-                range1.getValuePickerWidget(),
-                range2.getValuePickerWidget(),
-                range3.getValuePickerWidget(),
-                range4.getValuePickerWidget(),
-
+                range_aroma.getValuePickerWidget(),
+                range_body.getValuePickerWidget(),
+                range_sweet.getValuePickerWidget(),
+                range_acidity.getValuePickerWidget(),
+                range_bitterness.getValuePickerWidget(),
+                range_balance.getValuePickerWidget(),
                 descField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 imageField(),
@@ -113,16 +121,14 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         child: RaisedButton(
           onPressed: () {
-            print("iCounter1:::::" + range1.iCounter.toString());
-            print("iCounter2:::::" + range2.iCounter.toString());
-
-            // 텍스트폼필드의 상태가 적함하는
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              widget.coffeeData.body = range1.iCounter;
-              widget.coffeeData.acidity = range2.iCounter;
-              widget.coffeeData.bitterness = range3.iCounter;
-              widget.coffeeData.balance = range4.iCounter;
+              widget.coffeeData.aroma = range_aroma.iCounter;
+              widget.coffeeData.body = range_body.iCounter;
+              widget.coffeeData.sweet = range_sweet.iCounter;
+              widget.coffeeData.acidity = range_acidity.iCounter;
+              widget.coffeeData.bitterness = range_bitterness.iCounter;
+              widget.coffeeData.balance = range_balance.iCounter;
               createDoc();
               Navigator.pop(this.context);
             }
@@ -150,10 +156,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              widget.coffeeData.body = range1.iCounter;
-              widget.coffeeData.acidity = range2.iCounter;
-              widget.coffeeData.bitterness = range3.iCounter;
-              widget.coffeeData.balance = range4.iCounter;
+              widget.coffeeData.aroma = range_aroma.iCounter;
+              widget.coffeeData.body = range_body.iCounter;
+              widget.coffeeData.sweet = range_sweet.iCounter;
+              widget.coffeeData.acidity = range_acidity.iCounter;
+              widget.coffeeData.bitterness = range_bitterness.iCounter;
+              widget.coffeeData.balance = range_balance.iCounter;
               updateDoc();
               Navigator.pop(this.context);
             }
@@ -181,12 +189,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     return TextFormField(
       autocorrect: false,
       decoration: InputDecoration(labelText: "name", hintText: '커피명을 입력해주세요'),
-      validator: (name) {
-        if (name.isEmpty) {
-          return '커피명을 입력하세요.';
-        }
-        return null;
-      },
+      // validator: (name) {
+      //   if (name.isEmpty) {
+      //     return '커피명을 입력하세요.';
+      //   }
+      //   return null;
+      // },
       initialValue: widget.coffeeData.name,
       onSaved: (name) => widget.coffeeData.setName = name,
     );
@@ -214,12 +222,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
     return TextFormField(
       //obscureText: true,
       decoration: InputDecoration(labelText: "city", hintText: '도시명을 입력해주세요'),
-      validator: (city) {
-        if (city.isEmpty) {
-          return '도시명을 입력하세요.';
-        }
-        return null;
-      },
+      // validator: (city) {
+      //   if (city.isEmpty) {
+      //     return '도시명을 입력하세요.';
+      //   }
+      //   return null;
+      // },
       initialValue: widget.coffeeData.city,
       onSaved: (city) => widget.coffeeData.setCity = city,
     );
