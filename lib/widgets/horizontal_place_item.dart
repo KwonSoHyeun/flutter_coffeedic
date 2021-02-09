@@ -6,8 +6,6 @@ class HorizontalPlaceItem extends StatelessWidget {
   final Map coffeedata;
   HorizontalPlaceItem({this.coffeedata});
 
-  // HorizontalPlaceItem(Map<String, > map, {this.coffeedata});
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -61,7 +59,7 @@ class HorizontalPlaceItem extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return Details();
+                return Details(coffeedata);
               },
             ),
           );

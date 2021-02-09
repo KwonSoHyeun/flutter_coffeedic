@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
+import 'package:rating_bar/rating_bar.dart';
+import 'package:coffeedic/widgets/range_icon.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
+  final Map coffeedata;
+  const Details(this.coffeedata);
+
+  @override
+  _DetailsState createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
+    //print(coffeedata.toString());
+    //print("sweet" + coffeedata["sweet"].toString());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -39,7 +51,7 @@ class Details extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "${places[0]["name"]}",
+                      "${widget.coffeedata["name"]}",
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 20,
@@ -67,7 +79,7 @@ class Details extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "${places[0]["location"]}",
+                      "${widget.coffeedata["country"]}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
@@ -83,7 +95,7 @@ class Details extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "${places[0]["price"]}",
+                  "${widget.coffeedata["city"]}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
@@ -109,7 +121,7 @@ class Details extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "${places[0]["details"]}",
+                  "${widget.coffeedata["desc"]}",
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 15.0,
@@ -117,7 +129,15 @@ class Details extends StatelessWidget {
                   textAlign: TextAlign.left,
                 ),
               ),
-              SizedBox(height: 10.0),
+              SizedBox(height: 40.0),
+              buildRangeIcon("Aroma", widget.coffeedata["aroma"].toDouble()),
+              buildRangeIcon("Body", widget.coffeedata["body"].toDouble()),
+              buildRangeIcon("Sweet", widget.coffeedata["sweet"].toDouble()),
+              buildRangeIcon(
+                  "Acidity", widget.coffeedata["acidity"].toDouble()),
+              buildRangeIcon(
+                  "Bitterness", widget.coffeedata["bitterness"].toDouble()),
+              buildRangeIcon("Balance", widget.coffeedata["balance"].toDouble())
             ],
           ),
         ],
@@ -131,6 +151,35 @@ class Details extends StatelessWidget {
     );
   }
 
+  buildRangeIcon(String label, double initvalue) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: RatingBar.readOnly(
+              initialRating: initvalue,
+              isHalfAllowed: false,
+              halfFilledIcon: Icons.star_half,
+              filledIcon: Icons.star,
+              filledColor: Colors.amber,
+              emptyIcon: Icons.star_border,
+              size: 30),
+        ),
+      ],
+    );
+  }
+
   buildSlider() {
     return Container(
       padding: EdgeInsets.only(left: 20),
@@ -140,14 +189,12 @@ class Details extends StatelessWidget {
         primary: false,
         itemCount: places == null ? 0 : places.length,
         itemBuilder: (BuildContext context, int index) {
-          Map place = places[index];
-
           return Padding(
             padding: EdgeInsets.only(right: 10.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.asset(
-                "${place["img"]}",
+              child: Image.network(
+                "${widget.coffeedata["image"]}",
                 height: 250.0,
                 width: MediaQuery.of(context).size.width - 40.0,
                 fit: BoxFit.cover,

@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 class Coffee {
   final String colName = "coffeebasic";
-
-  // 필드명 ....
   String coffeeId;
 
+// 필드명 ....
   final String fnName = "name";
   final String fnCountry = "country";
   final String fnCity = "city";
-
   final String fnAroma = "aroma";
   final String fnBody = "body";
   final String fnSweet = "sweet";
@@ -55,8 +53,8 @@ class Coffee {
     this.sweet = sweet;
   }
 
-  set setAcitidy(int acitidy) {
-    this.acidity = acitidy;
+  set setAcidity(int acidity) {
+    this.acidity = acidity;
   }
 
   set setBitterness(int bitterness) {
@@ -104,7 +102,6 @@ class Coffee {
     balance = 3;
     desc = "";
     image = "";
-    //return;
   }
 
   Map<String, dynamic> toMap() {
@@ -128,6 +125,11 @@ class Coffee {
     country = firestore['country'];
     city = firestore['city'];
     aroma = firestore['aroma'];
+    // body = firestore['body'].toInt();
+    // sweet = firestore['sweet'].toInt();
+    // acidity = firestore['acidity'].toInt();
+    // bitterness = firestore['bitterness'].toInt();
+    // balance = firestore['balance'].toInt();
     body = firestore['body'];
     sweet = firestore['sweet'];
     acidity = firestore['acidity'];
@@ -167,6 +169,20 @@ class Coffee {
 
   Coffee.fromFirestore(Map<String, dynamic> firestore)
       : name = firestore['name'],
+        country = firestore['country'],
+        city = firestore['city'],
+        aroma = firestore['aroma'],
+        body = firestore['body'],
+        sweet = firestore['sweet'],
+        acidity = firestore['acidity'],
+        bitterness = firestore['bitterness'],
+        balance = firestore['balance'],
+        desc = firestore['desc'],
+        image = firestore['image'];
+
+  Coffee.fromFirestoreWithId(String documentId, Map<String, dynamic> firestore)
+      : coffeeId = documentId,
+        name = firestore['name'],
         country = firestore['country'],
         city = firestore['city'],
         aroma = firestore['aroma'],

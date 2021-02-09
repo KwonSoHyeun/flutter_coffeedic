@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/horizontal_place_item.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:coffeedic/widgets/search_bar.dart';
 import 'package:coffeedic/widgets/vertical_place_item.dart';
 import 'package:coffeedic/models/coffee.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,16 +12,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  StreamController<List<Coffee>> streamController = StreamController();
-
-  @override
-  void dispose() {
-    streamController.close(); //Streams must be closed when not needed
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    final products = Provider.of<List<Coffee>>(context);
+    //SearchBar search = SearchBar();
+
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -51,59 +44,61 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.all(20.0),
             child: SearchBar(),
           ),
-          buildHorizontalList(context),
-          buildVerticalList(),
+          buildHorizontalList(products),
+          buildVerticalList(products),
         ],
       ),
     );
   }
 
-  buildHorizontalList(BuildContext context) {
+  reloadData() {}
+
+  buildHorizontalList(List<Coffee> products) {
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 20.0),
       height: 250.0,
       width: MediaQuery.of(context).size.width,
-      child: StreamBuilder<QuerySnapshot>(
-        stream:
-            FirebaseFirestore.instance.collection('coffeebasic').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Container();
-          } else if (snapshot.hasData) {
-            return ListView.builder(
-              primary: false,
+      child: (products != null)
+          ? ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: snapshot.data.docs.length,
-              itemBuilder: (context, index) {
-                Coffee coffeedata = new Coffee.setFromFirestore(
-                    snapshot.data.docs[index].data());
-
-                return HorizontalPlaceItem(coffeedata: coffeedata.toMap());
+              primary: false,
+              itemCount: products == null ? 0.0 : products.length,
+              itemBuilder: (BuildContext context, int index) {
+                if (index <= 4) {
+                  Map place = products[index].toMap();
+                  return HorizontalPlaceItem(coffeedata: place);
+                } else
+                  return Visibility(
+                    child: Text("Gone"),
+                    visible: false,
+                  );
               },
-            );
-          } else {
-            return Center(
-              child: Text("Error"),
-            );
-          }
-        },
-      ),
+            )
+          : Text("Loading..."),
     );
   }
 
-  buildVerticalList() {
+  buildVerticalList(List<Coffee> products) {
     return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: ListView.builder(
-        primary: false,
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: places == null ? 0 : places.length,
-        itemBuilder: (BuildContext context, int index) {
-          Map place = places[index];
-          return VerticalPlaceItem(place: place);
-        },
-      ),
-    );
+        padding: EdgeInsets.all(20.0),
+        child: (products != null)
+            ? ListView.builder(
+                primary: false,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: products == null ? 0 : products.length,
+                itemBuilder: (BuildContext context, int index) {
+                  if (index > 4) {
+                    Map place = products[index].toMap();
+                    return VerticalPlaceItem(coffeedata: place);
+                  } else {
+                    return Visibility(
+                      child: Text("Gone"),
+                      visible: false,
+                    );
+                  }
+                },
+              )
+            : Text("Loading..."));
   }
 }
