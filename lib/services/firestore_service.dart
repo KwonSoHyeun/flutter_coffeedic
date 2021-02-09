@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
+//import 'package:flutter/material.dart';
 
 class FirestoreService {
   FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -17,10 +18,19 @@ class FirestoreService {
   }
 
   Stream<List<Coffee>> getProducts() {
-    return _db.collection(_coffee.colName).snapshots().map((snapshot) =>
-        snapshot.docs
-            .map((document) => Coffee.fromFirestore(document.data()))
-            .toList());
+    return _db.collection(_coffee.colName).snapshots().map((snapshot) {
+      return snapshot.docs.map((document) {
+        return Coffee.fromFirestore(document.data());
+      }).toList();
+    });
+  }
+
+  Stream<List<Coffee>> getCoffees() {
+    return _db.collection(_coffee.colName).snapshots().map((snapshot) {
+      return snapshot.docs.map((document) {
+        return Coffee.fromFirestoreWithId(document.id, document.data());
+      }).toList();
+    });
   }
 
   Future<void> removeProduct(String docID) {

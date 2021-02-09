@@ -259,7 +259,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           widget.coffeeData.acidity = value;
         });
       },
-      onSaved: (acidity) => widget.coffeeData.setAcitidy = acidity,
+      onSaved: (acidity) => widget.coffeeData.setAcidity = acidity,
     );
   }
 
