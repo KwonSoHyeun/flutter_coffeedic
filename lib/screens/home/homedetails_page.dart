@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
+import 'package:rating_bar/rating_bar.dart';
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
+  final Map coffeedata;
+  const Details(this.coffeedata);
+
+  @override
+  _DetailsState createState() => _DetailsState();
+}
+
+class _DetailsState extends State<Details> {
+  double value;
+
+  @override
+  void initState() {
+    value = widget.coffeedata["sweet"].toDouble();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    //print(coffeedata.toString());
+    //print("sweet" + coffeedata["sweet"].toString());
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -39,7 +58,7 @@ class Details extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "${places[0]["name"]}",
+                      "${widget.coffeedata["name"]}",
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 20,
@@ -67,7 +86,7 @@ class Details extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "${places[0]["location"]}",
+                      "${widget.coffeedata["country"]}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 13,
@@ -83,7 +102,7 @@ class Details extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "${places[0]["price"]}",
+                  "${widget.coffeedata["city"]}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17,
@@ -109,7 +128,7 @@ class Details extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "${places[0]["details"]}",
+                  "${widget.coffeedata["desc"]}",
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 15.0,
@@ -118,6 +137,31 @@ class Details extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 10.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "달콤함",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                  maxLines: 1,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              SizedBox(height: 10.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: RatingBar.readOnly(
+                    initialRating: value,
+                    isHalfAllowed: false,
+                    halfFilledIcon: Icons.star_half,
+                    filledIcon: Icons.star,
+                    filledColor: Colors.amber,
+                    emptyIcon: Icons.star_border,
+                    size: 35),
+              ),
+              SizedBox(height: 8),
             ],
           ),
         ],
@@ -140,14 +184,12 @@ class Details extends StatelessWidget {
         primary: false,
         itemCount: places == null ? 0 : places.length,
         itemBuilder: (BuildContext context, int index) {
-          Map place = places[index];
-
           return Padding(
             padding: EdgeInsets.only(right: 10.0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10.0),
-              child: Image.asset(
-                "${place["img"]}",
+              child: Image.network(
+                "${widget.coffeedata["image"]}",
                 height: 250.0,
                 width: MediaQuery.of(context).size.width - 40.0,
                 fit: BoxFit.cover,
