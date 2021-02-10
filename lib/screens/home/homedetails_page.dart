@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:rating_bar/rating_bar.dart';
+import 'package:coffeedic/widgets/range_icon.dart';
 
 class Details extends StatefulWidget {
   final Map coffeedata;
@@ -12,14 +13,6 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  double value;
-
-  @override
-  void initState() {
-    value = widget.coffeedata["sweet"].toDouble();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     //print(coffeedata.toString());
@@ -136,32 +129,15 @@ class _DetailsState extends State<Details> {
                   textAlign: TextAlign.left,
                 ),
               ),
-              SizedBox(height: 10.0),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "달콤함",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                  maxLines: 1,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: RatingBar.readOnly(
-                    initialRating: value,
-                    isHalfAllowed: false,
-                    halfFilledIcon: Icons.star_half,
-                    filledIcon: Icons.star,
-                    filledColor: Colors.amber,
-                    emptyIcon: Icons.star_border,
-                    size: 35),
-              ),
-              SizedBox(height: 8),
+              SizedBox(height: 40.0),
+              buildRangeIcon("Aroma", widget.coffeedata["aroma"].toDouble()),
+              buildRangeIcon("Body", widget.coffeedata["body"].toDouble()),
+              buildRangeIcon("Sweet", widget.coffeedata["sweet"].toDouble()),
+              buildRangeIcon(
+                  "Acidity", widget.coffeedata["acidity"].toDouble()),
+              buildRangeIcon(
+                  "Bitterness", widget.coffeedata["bitterness"].toDouble()),
+              buildRangeIcon("Balance", widget.coffeedata["balance"].toDouble())
             ],
           ),
         ],
@@ -172,6 +148,35 @@ class _DetailsState extends State<Details> {
         ),
         onPressed: () {},
       ),
+    );
+  }
+
+  buildRangeIcon(String label, double initvalue) {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.centerLeft,
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: RatingBar.readOnly(
+              initialRating: initvalue,
+              isHalfAllowed: false,
+              halfFilledIcon: Icons.star_half,
+              filledIcon: Icons.star,
+              filledColor: Colors.amber,
+              emptyIcon: Icons.star_border,
+              size: 30),
+        ),
+      ],
     );
   }
 
