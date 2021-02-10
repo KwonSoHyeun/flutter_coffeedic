@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<List<Coffee>>(context);
+    //SearchBar search = SearchBar();
 
     return Scaffold(
       appBar: AppBar(
@@ -49,6 +50,8 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  reloadData() {}
 
   buildHorizontalList(List<Coffee> products) {
     return Container(
