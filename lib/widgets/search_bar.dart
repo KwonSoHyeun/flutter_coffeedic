@@ -54,7 +54,9 @@ class SearchBar extends StatelessWidget {
             padding: new EdgeInsets.only(left: 12),
             icon: Icon(Icons.search),
             tooltip: 'Increase volume by 10',
-            onPressed: () {},
+            onPressed: () {
+              print("TEXT######" + _searchControl.text.toString());
+            },
           ),
         ],
       ),
