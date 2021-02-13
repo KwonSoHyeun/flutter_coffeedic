@@ -5,6 +5,7 @@ import 'package:coffeedic/widgets/search_bar.dart';
 import 'package:coffeedic/widgets/vertical_place_item.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:provider/provider.dart';
+import 'package:coffeedic/services/firestore_service.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,10 +13,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String _search_word = "";
+
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<List<Coffee>>(context);
-    //SearchBar search = SearchBar();
+    List<Coffee> coffeeproduct;
+    if (products != null) {
+      coffeeproduct = filtedCoffeeList(products);
+    }
+    final firestoreService = FirestoreService();
 
     return Scaffold(
       appBar: AppBar(
@@ -42,16 +49,30 @@ class _HomeState extends State<Home> {
           ),
           Padding(
             padding: EdgeInsets.all(20.0),
-            child: SearchBar(),
+            child: SearchBar(coffeelist: products, setkeyword: setSearchWord),
           ),
-          buildHorizontalList(products),
-          buildVerticalList(products),
+          if (coffeeproduct != null)
+            buildHorizontalList(
+                firestoreService.keywordFilter(coffeeproduct, _search_word)),
+          if (coffeeproduct != null)
+            buildVerticalList(
+                firestoreService.keywordFilter(coffeeproduct, _search_word)),
         ],
       ),
     );
   }
 
-  reloadData() {}
+  void setSearchWord(String word) {
+    this._search_word = word;
+    print("this._search_word######" + this._search_word);
+    setState(() {});
+  }
+
+  filtedCoffeeList(List<Coffee> products) {
+    List<Coffee> coffeeproduct = new List<Coffee>();
+    coffeeproduct.addAll(products);
+    return coffeeproduct;
+  }
 
   buildHorizontalList(List<Coffee> products) {
     return Container(

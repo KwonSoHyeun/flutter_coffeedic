@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:coffeedic/models/coffee.dart';
 
-class SearchBar extends StatelessWidget {
+class SearchBar extends StatefulWidget {
+  final List<Coffee> coffeelist;
+  final Function setkeyword;
+
+  SearchBar({Key key, @required this.coffeelist, this.setkeyword})
+      : super(key: key);
+
+  @override
+  _SearchBarState createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<SearchBar> {
   final TextEditingController _searchControl = new TextEditingController();
 
   @override
@@ -53,8 +65,13 @@ class SearchBar extends StatelessWidget {
           IconButton(
             padding: new EdgeInsets.only(left: 12),
             icon: Icon(Icons.search),
-            tooltip: 'Increase volume by 10',
+            tooltip: 'Search name',
             onPressed: () {
+              setState(() {
+                //widget.coffeelist[0].name = "TEST";
+                widget.setkeyword(_searchControl.text.toString());
+              });
+
               print("TEXT######" + _searchControl.text.toString());
             },
           ),

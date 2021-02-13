@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
+import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
 
-class FirestoreService {
+class FirestoreService with ChangeNotifier {
   FirebaseFirestore _db = FirebaseFirestore.instance;
   Coffee _coffee = new Coffee();
 
@@ -31,6 +32,17 @@ class FirestoreService {
         return Coffee.fromFirestoreWithId(document.id, document.data());
       }).toList();
     });
+  }
+
+  List<Coffee> keywordFilter(List<Coffee> coffeelist, String keyword) {
+    var filteredlist = new List<Coffee>();
+
+    coffeelist.forEach((element) {
+      if (element.name.contains(keyword)) {
+        filteredlist.add(element);
+      }
+    });
+    return filteredlist;
   }
 
   Future<void> removeProduct(String docID) {
