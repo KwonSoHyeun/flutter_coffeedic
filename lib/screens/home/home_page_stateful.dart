@@ -18,9 +18,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<List<Coffee>>(context);
-
-    List<Coffee> coffeeproduct = filtedCoffeeList(products);
-    //SearchBar search = SearchBar();
+    List<Coffee> coffeeproduct;
+    if (products != null) {
+      coffeeproduct = filtedCoffeeList(products);
+    }
     final firestoreService = FirestoreService();
 
     return Scaffold(
@@ -50,10 +51,12 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.all(20.0),
             child: SearchBar(coffeelist: products, setkeyword: setSearchWord),
           ),
-          buildHorizontalList(
-              firestoreService.keywordFilter(coffeeproduct, _search_word)),
-          buildVerticalList(
-              firestoreService.keywordFilter(coffeeproduct, _search_word)),
+          if (coffeeproduct != null)
+            buildHorizontalList(
+                firestoreService.keywordFilter(coffeeproduct, _search_word)),
+          if (coffeeproduct != null)
+            buildVerticalList(
+                firestoreService.keywordFilter(coffeeproduct, _search_word)),
         ],
       ),
     );
