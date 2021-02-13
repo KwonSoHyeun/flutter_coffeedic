@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/models/coffee.dart';
 
 class SearchBar extends StatefulWidget {
-  final List<Coffee> coffeelist;
   final Function setkeyword;
 
-  SearchBar({Key key, @required this.coffeelist, this.setkeyword})
-      : super(key: key);
+  SearchBar({Key key, this.setkeyword}) : super(key: key);
 
   @override
   _SearchBarState createState() => _SearchBarState();
@@ -30,49 +28,47 @@ class _SearchBarState extends State<SearchBar> {
               ),
             ),
             child: TextField(
-              style: TextStyle(
-                fontSize: 15.0,
-                color: Colors.blueGrey[800],
-              ),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(10.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.white,
-                  ),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                hintText: "찾고 싶은 원두명을 적어보세요",
-                prefixIcon: Icon(
-                  Icons.location_on,
-                  color: Colors.blueGrey[300],
-                ),
-                hintStyle: TextStyle(
+                style: TextStyle(
                   fontSize: 15.0,
-                  color: Colors.blueGrey[300],
+                  color: Colors.blueGrey[800],
                 ),
-              ),
-              maxLines: 1,
-              controller: _searchControl,
-            ),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.all(10.0),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.white,
+                    ),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  hintText: "찾고 싶은 원두명을 적어보세요",
+                  prefixIcon: Icon(
+                    Icons.location_on,
+                    color: Colors.blueGrey[300],
+                  ),
+                  hintStyle: TextStyle(
+                    fontSize: 15.0,
+                    color: Colors.blueGrey[300],
+                  ),
+                ),
+                maxLines: 1,
+                controller: _searchControl,
+                onChanged: (text) {
+                  if (text == "")
+                    widget.setkeyword(_searchControl.text.toString());
+                }),
           )),
           IconButton(
             padding: new EdgeInsets.only(left: 12),
             icon: Icon(Icons.search),
             tooltip: 'Search name',
             onPressed: () {
-              setState(() {
-                //widget.coffeelist[0].name = "TEST";
-                widget.setkeyword(_searchControl.text.toString());
-              });
-
-              print("TEXT######" + _searchControl.text.toString());
+              widget.setkeyword(_searchControl.text.toString());
             },
           ),
         ],
