@@ -42,7 +42,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection(coffee.colName)
-                  .orderBy(coffee.fnName, descending: false)
+                  .orderBy(coffee.fnCountry, descending: false)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -36,9 +36,9 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             SizedBox(width: 7.0),
-            barIcon(icon: Icons.home, page: 0),
-            barIcon(icon: Icons.favorite, page: 1),
-            barIcon(icon: Icons.mode_comment, page: 2, badge: true),
+            barIcon(icon: Icons.home_filled, page: 0),
+            barIcon(icon: Icons.sentiment_satisfied_alt, page: 1),
+            barIcon(icon: Icons.storefront, page: 2),
             barIcon(
               icon: Icons.person,
               page: 3,
@@ -74,11 +74,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget barIcon(
-      {IconData icon = Icons.home, int page = 0, bool badge = false}) {
+      {IconData icon = Icons.home_filled, int page = 0, bool badge = false}) {
     return IconButton(
       icon: badge ? IconBadge(icon: icon, size: 24.0) : Icon(icon, size: 24.0),
       color:
-          _page == page ? Theme.of(context).accentColor : Colors.blueGrey[300],
+          //  _page == page ? Theme.of(context).accentColor : Colors.blueGrey[300],
+          _page == page ? Colors.amber : Colors.blueGrey[300],
       onPressed: () {
         //print("page" + page);
         return _pageController.jumpToPage(page);
