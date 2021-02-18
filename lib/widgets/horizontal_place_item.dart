@@ -21,6 +21,11 @@ class HorizontalPlaceItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: CachedNetworkImage(
+                  placeholder: (context, url) => Center(
+                      child: SizedBox(
+                          width: 30,
+                          height: 30,
+                          child: CircularProgressIndicator(strokeWidth: 1.0))),
                   height: 178.0,
                   width: 140.0,
                   fit: BoxFit.cover, imageUrl: "${coffeedata["image"]}",
