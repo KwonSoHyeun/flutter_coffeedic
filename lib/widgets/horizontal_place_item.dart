@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/home/homedetails_page.dart';
+import '../screens/home/home_details_page.dart';
+//import 'package:coffeedic/services/firestore_service.dart';
 
 class HorizontalPlaceItem extends StatelessWidget {
   final Map coffeedata;
@@ -18,11 +20,16 @@ class HorizontalPlaceItem extends StatelessWidget {
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  "${coffeedata["image"]}",
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => Center(
+                      child: SizedBox(
+                          width: 30,
+                          height: 30,
+                          child: CircularProgressIndicator(strokeWidth: 1.0))),
                   height: 178.0,
                   width: 140.0,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.cover, imageUrl: "${coffeedata["image"]}",
+                  //filterquality:  FilterQuality.low
                 ),
               ),
               SizedBox(height: 7.0),

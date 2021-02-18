@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:rating_bar/rating_bar.dart';
-import 'package:coffeedic/widgets/range_icon.dart';
+//import 'package:coffeedic/widgets/range_icon.dart';
 
 class Details extends StatefulWidget {
   final Map coffeedata;
@@ -187,7 +187,8 @@ class _DetailsState extends State<Details> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         primary: false,
-        itemCount: places == null ? 0 : places.length,
+        //itemCount: places == null ? 0 : places.length,
+        itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: EdgeInsets.only(right: 10.0),
