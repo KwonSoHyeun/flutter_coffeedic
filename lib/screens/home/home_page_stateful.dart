@@ -1,3 +1,4 @@
+import 'package:coffeedic/language/translations.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/horizontal_place_item.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
@@ -37,7 +38,7 @@ class _HomeState extends State<Home> {
           Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
-              "내게 맞는\n커피를 찾아보세요~",
+              Translations.of(context).trans('home_title'),
               style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.w600,
