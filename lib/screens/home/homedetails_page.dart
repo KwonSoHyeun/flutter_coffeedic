@@ -187,7 +187,8 @@ class _DetailsState extends State<Details> {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         primary: false,
-        itemCount: places == null ? 0 : places.length,
+        //itemCount: places == null ? 0 : places.length,
+        itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: EdgeInsets.only(right: 10.0),
