@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:rating_bar/rating_bar.dart';
-import 'package:coffeedic/widgets/range_icon.dart';
+//import 'package:coffeedic/widgets/range_icon.dart';
 
 class Details extends StatefulWidget {
   final Map coffeedata;

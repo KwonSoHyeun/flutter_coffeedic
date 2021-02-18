@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
           Padding(
             padding: EdgeInsets.all(20.0),
             child: Text(
-              "어떤 커피를 \n좋아하세요?",
+              "내게 맞는\n커피를 찾아보세요~",
               style: TextStyle(
                 fontSize: 30.0,
                 fontWeight: FontWeight.w600,
