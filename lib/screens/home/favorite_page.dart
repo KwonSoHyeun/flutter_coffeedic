@@ -28,7 +28,15 @@ class _FavouritePageState extends State<FavouritePage> {
   };
 
   @override
+  initState() {
+    super.initState();
+    getRememberInfo();
+    print("initState ###");
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print("Widget build ###");
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -62,7 +70,7 @@ class _FavouritePageState extends State<FavouritePage> {
           buildListTile("acidity"),
           buildListTile("bitter"),
           buildListTile("balance"),
-          ListTile(title: saveButton())
+          // ListTile(title: saveButton())
         ],
       ),
     );
@@ -75,8 +83,9 @@ class _FavouritePageState extends State<FavouritePage> {
           value: isSwitchOn[label],
           onChanged: (value) {
             setState(() {
+              setIsOnInfo(label, value);
               isSwitchOn[label] = value;
-              print(label + "###" + value.toString());
+              print("isOn ::::::" + label + "::::" + value.toString());
             });
           },
           activeTrackColor: Colors.grey,
@@ -109,8 +118,9 @@ class _FavouritePageState extends State<FavouritePage> {
               emptyIcon: Icons.star_border,
               size: 25,
               onRatingChanged: (double rating) {
-                favoritValue[label] = rating.toInt();
                 setState(() {
+                  setFavoriteInfo(label, rating.toInt());
+                  favoritValue[label] = rating.toInt();
                   isSwitchOn[label] = true;
                 });
               },
@@ -119,53 +129,47 @@ class _FavouritePageState extends State<FavouritePage> {
     );
   }
 
-  Widget saveButton() {
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: RaisedButton(
-          onPressed: () {
-            showAlertDialog(context);
-          },
-          child: Text('Save'),
-          color: Colors.lightBlue,
-          textColor: Colors.white,
-        ));
-  }
+  // Widget saveButton() {
+  //   return Padding(
+  //       padding: const EdgeInsets.symmetric(vertical: 16.0),
+  //       child: RaisedButton(
+  //         onPressed: () {
+  //           setRememberInfo();
+  //           showAlertDialog(context);
+  //         },
+  //         child: Text('Save'),
+  //         color: Colors.lightBlue,
+  //         textColor: Colors.white,
+  //       ));
+  // }
 
   getRememberInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      isSwitchOn['aroma'] = (prefs.getBool("on_aroma") ?? false);
-      isSwitchOn['body'] = (prefs.getBool("on_body") ?? false);
-      isSwitchOn['sweet'] = (prefs.getBool("on_sweet") ?? false);
-      isSwitchOn['acidity'] = (prefs.getBool("on_acidity") ?? false);
-      isSwitchOn['bitter'] = (prefs.getBool("on_bitter") ?? false);
-      isSwitchOn['balance'] = (prefs.getBool("on_balance") ?? false);
+      isSwitchOn['aroma'] = (prefs.getBool("o_aroma") ?? false);
+      isSwitchOn['body'] = (prefs.getBool("o_body") ?? false);
+      isSwitchOn['sweet'] = (prefs.getBool("o_sweet") ?? false);
+      isSwitchOn['acidity'] = (prefs.getBool("o_acidity") ?? false);
+      isSwitchOn['bitter'] = (prefs.getBool("o_bitter") ?? false);
+      isSwitchOn['balance'] = (prefs.getBool("o_balance") ?? false);
 
-      favoritValue['aroma'] = (prefs.getInt("favorite_aroma") ?? 1);
-      favoritValue['body'] = (prefs.getInt("favorite_body") ?? 1);
-      favoritValue['sweet'] = (prefs.getInt("favorite_sweet") ?? 1);
-      favoritValue['acidity'] = (prefs.getInt("favorite_acidity") ?? 1);
-      favoritValue['bitter'] = (prefs.getInt("favorite_bitter") ?? 1);
-      favoritValue['balance'] = (prefs.getInt("favorite_balance") ?? 1);
+      favoritValue['aroma'] = (prefs.getInt("f_aroma") ?? 1);
+      favoritValue['body'] = (prefs.getInt("f_body") ?? 1);
+      favoritValue['sweet'] = (prefs.getInt("f_sweet") ?? 1);
+      favoritValue['acidity'] = (prefs.getInt("f_acidity") ?? 1);
+      favoritValue['bitter'] = (prefs.getInt("f_bitter") ?? 1);
+      favoritValue['balance'] = (prefs.getInt("f_balance") ?? 1);
     });
   }
 
-  setRememberInfo() async {
+  setIsOnInfo(String key, bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("on_aroma", isSwitchOn['aroma']);
-    prefs.setBool("on_body", isSwitchOn['body']);
-    prefs.setBool("on_sweet", isSwitchOn['sweet']);
-    prefs.setBool("on_acidity", isSwitchOn['acidity']);
-    prefs.setBool("on_bitter", isSwitchOn['bitter']);
-    prefs.setBool("on_balance", isSwitchOn['balance']);
+    prefs.setBool("o_" + key, value);
+  }
 
-    prefs.setInt("favorite_aroma", favoritValue['aroma']);
-    prefs.setInt("favorite_body", favoritValue['body']);
-    prefs.setInt("favorite_sweet", favoritValue['sweet']);
-    prefs.setInt("favorite_acidity", favoritValue['acidity']);
-    prefs.setInt("favorite_bitter", favoritValue['bitter']);
-    prefs.setInt("favorite_balance", favoritValue['balance']);
+  setFavoriteInfo(String key, int value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("f_" + key, value);
   }
 
   void showAlertDialog(BuildContext context) async {
