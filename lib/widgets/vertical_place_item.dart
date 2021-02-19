@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../screens/home/homedetails_page.dart';
+import '../screens/home/home_details_page.dart';
 
 class VerticalPlaceItem extends StatelessWidget {
   final Map coffeedata;

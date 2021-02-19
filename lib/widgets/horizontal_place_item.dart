@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/home/homedetails_page.dart';
+import '../screens/home/home_details_page.dart';
 //import 'package:coffeedic/services/firestore_service.dart';
 
 class HorizontalPlaceItem extends StatelessWidget {

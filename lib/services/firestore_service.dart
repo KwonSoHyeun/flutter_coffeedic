@@ -45,6 +45,17 @@ class FirestoreService with ChangeNotifier {
     return filteredlist;
   }
 
+  List<Coffee> favoriteFilter(List<Coffee> coffeelist, Map myfavorite) {
+    var filteredlist = new List<Coffee>();
+
+    // coffeelist.forEach((element) {
+    //   if (element.name.contains(keyword)) {
+    //     filteredlist.add(element);
+    //   }
+    // });
+    return filteredlist;
+  }
+
   Future<void> removeProduct(String docID) {
     return _db.collection(_coffee.colName).doc(docID).delete();
   }
