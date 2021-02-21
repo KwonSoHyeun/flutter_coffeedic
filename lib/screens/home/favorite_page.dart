@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:rating_bar/rating_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:coffeedic/widgets/vertical_place_item_test.dart';
+import 'package:coffeedic/util/places.dart';
 
 class FavouritePage extends StatefulWidget {
   @override
@@ -9,6 +11,7 @@ class FavouritePage extends StatefulWidget {
 }
 
 class _FavouritePageState extends State<FavouritePage> {
+  bool isVisibleList = false;
   Map<String, int> favoritValue = {
     'aroma': 1,
     'body': 1,
@@ -37,55 +40,119 @@ class _FavouritePageState extends State<FavouritePage> {
   @override
   Widget build(BuildContext context) {
     print("Widget build ###");
+
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: IconBadge(
-              icon: Icons.notifications_none,
-            ),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Text(
-              "원두 취향 \n찾아 보시겠어요?",
-              style: TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.w600,
+        appBar: AppBar(
+          actions: <Widget>[
+            IconButton(
+              icon: IconBadge(
+                icon: Icons.notifications_none,
               ),
+              onPressed: () {},
             ),
+          ],
+        ),
+        body: Stack(alignment: Alignment.topLeft, children: <Widget>[
+          ListView(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  "원두 취향 \n찾아 보시겠어요?",
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              Row(children: <Widget>[
+                Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(5.0),
+                    )),
+                Expanded(
+                  flex: 5,
+                  child: FlatButton(
+                      child: Text('취향 설정'),
+                      color: isVisibleList ? Colors.grey : Colors.blueAccent,
+                      textColor: Colors.white,
+                      onPressed: () {
+                        setState(() {
+                          isVisibleList = false;
+                        });
+                      }),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(5.0),
+                    )),
+                Expanded(
+                  flex: 5,
+                  child: FlatButton(
+                    child: Text("원두 목록"),
+                    color: !isVisibleList ? Colors.grey : Colors.blueAccent,
+                    textColor: Colors.white,
+                    onPressed: () {
+                      setState(() {
+                        isVisibleList = true;
+                        print("isVisibleList #### $isVisibleList");
+                      });
+                    },
+                  ),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(5.0),
+                    )),
+              ]),
+              Stack(
+                children: [
+                  AnimatedOpacity(
+                      opacity: isVisibleList ? 0.0 : 1.0,
+                      duration: Duration(milliseconds: 500),
+                      child: buildRatioValueSetting()),
+                  AnimatedOpacity(
+                      opacity: isVisibleList ? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child: buildVerticalListTest()),
+                ],
+              )
+            ],
           ),
-          Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Text("원두 취향 찾기"),
-          ),
-          buildListTile("aroma"),
-          buildListTile("body"),
-          buildListTile("sweet"),
-          buildListTile("acidity"),
-          buildListTile("bitter"),
-          buildListTile("balance"),
-          // ListTile(title: saveButton())
-        ],
-      ),
+        ]));
+  }
+
+  Widget buildRatioValueSetting() {
+    return Column(
+      children: [
+        buildListTileOpacity("aroma"),
+        buildListTileOpacity("body"),
+        buildListTileOpacity("sweet"),
+        buildListTileOpacity("acidity"),
+        buildListTileOpacity("bitter"),
+        buildListTileOpacity("balance"),
+      ],
     );
+  }
+
+  Widget buildListTileOpacity(String label) {
+    return AnimatedOpacity(
+        opacity: isVisibleList ? 0.0 : 1.0,
+        duration: Duration(milliseconds: 500),
+        child: buildListTile(label));
   }
 
   Widget buildListTile(String label) {
     return ListTile(
-        //leading. 타일 앞에 표시되는 위젯. 참고로 타일 뒤에는 trailing 위젯으로 사용 가능
         leading: Switch(
           value: isSwitchOn[label],
           onChanged: (value) {
             setState(() {
               setIsOnInfo(label, value);
               isSwitchOn[label] = value;
-              print("isOn ::::::" + label + "::::" + value.toString());
             });
           },
           activeTrackColor: Colors.grey,
@@ -128,20 +195,6 @@ class _FavouritePageState extends State<FavouritePage> {
       ],
     );
   }
-
-  // Widget saveButton() {
-  //   return Padding(
-  //       padding: const EdgeInsets.symmetric(vertical: 16.0),
-  //       child: RaisedButton(
-  //         onPressed: () {
-  //           setRememberInfo();
-  //           showAlertDialog(context);
-  //         },
-  //         child: Text('Save'),
-  //         color: Colors.lightBlue,
-  //         textColor: Colors.white,
-  //       ));
-  // }
 
   getRememberInfo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -196,6 +249,22 @@ class _FavouritePageState extends State<FavouritePage> {
           ],
         );
       },
+    );
+  }
+
+  Widget buildVerticalListTest() {
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: ListView.builder(
+        primary: false,
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: places == null ? 0 : places.length,
+        itemBuilder: (BuildContext context, int index) {
+          Map place = places[index];
+          return VerticalPlaceItem(place: place);
+        },
+      ),
     );
   }
 }

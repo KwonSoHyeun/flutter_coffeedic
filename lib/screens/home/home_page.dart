@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/horizontal_place_item.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:coffeedic/widgets/search_bar.dart';
-import 'package:coffeedic/widgets/vertical_place_item.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeedic/services/firestore_service.dart';
+import 'package:coffeedic/widgets/vertical_place_item.dart';
+
+//import 'package:coffeedic/util/places.dart';
 
 class Home extends StatefulWidget {
   @override
