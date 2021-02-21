@@ -18,8 +18,19 @@ class FirestoreService with ChangeNotifier {
         .set(product.toMap());
   }
 
-  Stream<List<Coffee>> getProducts() {
-    return _db.collection(_coffee.colName).snapshots().map((snapshot) {
+/*
+ Stream<List<User>> getUsers() {
+    // DocumentSnapshot 으로 되어 있기에 이를 리스트 형식으로 바꿔줌.
+    return _db.collection('user').snapshots().map((list) =>
+        list.documents.map((doc) => User.fromFireStore(doc)).toList());
+  }
+*/
+  Stream<List<Coffee>> getFavoritCoffees() {
+    return _db
+        .collection(_coffee.colName)
+        .where('sweet', isEqualTo: 3)
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((document) {
         return Coffee.fromFirestore(document.data());
       }).toList();
@@ -35,15 +46,34 @@ class FirestoreService with ChangeNotifier {
   }
 
   List<Coffee> keywordFilter(List<Coffee> coffeelist, String keyword) {
-    var filteredlist = new List<Coffee>();
+    List<Coffee> filteredlist = new List<Coffee>();
 
     coffeelist.forEach((element) {
+      print(element.name);
       if (element.name.contains(keyword)) {
         filteredlist.add(element);
       }
     });
     return filteredlist;
   }
+
+//
+  //   List<Coffee> favoriteFilter(List<Coffee> coffeelist) {
+  //   List<Coffee> filteredlist = new List<Coffee>();
+
+  //   coffeelist.forEach((element) {
+  //     if (element.name.contains(keyword)) {
+  //       filteredlist.add(element);
+  //     }
+  //   });
+  //   return filteredlist;
+  // }
+
+  // List<Coffee> filtedCoffeeList(List<Coffee> products) {
+  //   List<Coffee> coffeeproduct = new List<Coffee>();
+  //   if (products != null) coffeeproduct.addAll(products);
+  //   return coffeeproduct;
+  // }
 
   List<Coffee> favoriteFilter(List<Coffee> coffeelist, Map myfavorite) {
     var filteredlist = new List<Coffee>();

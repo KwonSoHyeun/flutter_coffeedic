@@ -18,8 +18,8 @@ class VerticalPlaceItem extends StatelessWidget {
             children: <Widget>[
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
-                child: Image.asset(
-                  "${place["img"]}",
+                child: Image.network(
+                  "${place["image"]}",
                   height: 70.0,
                   width: 70.0,
                   fit: BoxFit.cover,
@@ -58,7 +58,7 @@ class VerticalPlaceItem extends StatelessWidget {
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "${place["location"]}",
+                            "${place["city"]}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 13.0,
@@ -74,7 +74,7 @@ class VerticalPlaceItem extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "${place["price"]}",
+                        "${place["desc"]}",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 13.0,

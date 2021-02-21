@@ -20,8 +20,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<List<Coffee>>(context);
-    List<Coffee> coffeeproduct = filtedCoffeeList(products);
+    final product = Provider.of<List<Coffee>>(context);
+    print("product.length******");
+    print("product.length*: $product.length");
+    //List<Coffee> coffeeproduct = filtedCoffeeList(product);
     final firestoreService = FirestoreService();
 
     return Scaffold(
@@ -51,20 +53,21 @@ class _HomeState extends State<Home> {
             padding: EdgeInsets.all(20.0),
             child: SearchBar(setkeyword: setSearchWord),
           ),
-          if (coffeeproduct != null)
+          if (product != null)
             buildHorizontalList(
-                firestoreService.keywordFilter(coffeeproduct, _search_word)),
-          if (coffeeproduct != null)
+                firestoreService.keywordFilter(product, _search_word)),
+          if (product != null)
             buildVerticalList(
-                firestoreService.keywordFilter(coffeeproduct, _search_word)),
+                firestoreService.keywordFilter(product, _search_word)),
         ],
       ),
     );
   }
 
   void setSearchWord(String word) {
-    this._search_word = word;
-    setState(() {});
+    setState(() {
+      this._search_word = word;
+    });
   }
 
   filtedCoffeeList(List<Coffee> products) {
@@ -75,8 +78,12 @@ class _HomeState extends State<Home> {
 
   buildHorizontalList(List<Coffee> products) {
     List<Coffee> horizontallist = new List<Coffee>();
+
     if (products != null && products.length >= 4) {
+      //print("######products have data:::" + products.length.toString());
       horizontallist = products.sublist(0, 4);
+    } else {
+      horizontallist.addAll(products);
     }
 
     return Container(
@@ -93,7 +100,7 @@ class _HomeState extends State<Home> {
                 return HorizontalPlaceItem(coffeedata: place);
               },
             )
-          : Text("Loading..."),
+          : Text("no data..."),
     );
   }
 
@@ -118,6 +125,6 @@ class _HomeState extends State<Home> {
                   }
                 },
               )
-            : Text("Loading..."));
+            : Text("no data..."));
   }
 }

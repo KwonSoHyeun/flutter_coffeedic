@@ -4,6 +4,9 @@ import 'package:rating_bar/rating_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffeedic/widgets/vertical_place_item_test.dart';
 import 'package:coffeedic/util/places.dart';
+import 'package:coffeedic/models/coffee.dart';
+import 'package:provider/provider.dart';
+import 'package:coffeedic/services/firestore_service.dart';
 
 class FavouritePage extends StatefulWidget {
   @override
@@ -39,7 +42,8 @@ class _FavouritePageState extends State<FavouritePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("Widget build ###");
+    final product = Provider.of<List<Coffee>>(context);
+    final firestoreService = FirestoreService();
 
     return Scaffold(
         appBar: AppBar(
@@ -117,8 +121,13 @@ class _FavouritePageState extends State<FavouritePage> {
                   AnimatedOpacity(
                       opacity: isVisibleList ? 1.0 : 0.0,
                       duration: Duration(milliseconds: 500),
-                      child: buildVerticalListTest()),
+                      child: buildVerticalListTest(product)),
                 ],
+                /*
+                          if (product != null)
+            buildVerticalList(
+                firestoreService.keywordFilter(product, _search_word)),
+                */
               )
             ],
           ),
@@ -128,22 +137,22 @@ class _FavouritePageState extends State<FavouritePage> {
   Widget buildRatioValueSetting() {
     return Column(
       children: [
-        buildListTileOpacity("aroma"),
-        buildListTileOpacity("body"),
-        buildListTileOpacity("sweet"),
-        buildListTileOpacity("acidity"),
-        buildListTileOpacity("bitter"),
-        buildListTileOpacity("balance"),
+        buildListTile("aroma"),
+        buildListTile("body"),
+        buildListTile("sweet"),
+        buildListTile("acidity"),
+        buildListTile("bitter"),
+        buildListTile("balance"),
       ],
     );
   }
 
-  Widget buildListTileOpacity(String label) {
-    return AnimatedOpacity(
-        opacity: isVisibleList ? 0.0 : 1.0,
-        duration: Duration(milliseconds: 500),
-        child: buildListTile(label));
-  }
+  // Widget buildListTileOpacity(String label) {
+  //   return AnimatedOpacity(
+  //       opacity: isVisibleList ? 0.0 : 1.0,
+  //       duration: Duration(milliseconds: 500),
+  //       child: buildListTile(label));
+  // }
 
   Widget buildListTile(String label) {
     return ListTile(
@@ -252,16 +261,16 @@ class _FavouritePageState extends State<FavouritePage> {
     );
   }
 
-  Widget buildVerticalListTest() {
+  Widget buildVerticalListTest(List<Coffee> product) {
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: ListView.builder(
         primary: false,
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: places == null ? 0 : places.length,
+        itemCount: product == null ? 0 : product.length,
         itemBuilder: (BuildContext context, int index) {
-          Map place = places[index];
+          Map place = product[index].toMap();
           return VerticalPlaceItem(place: place);
         },
       ),
