@@ -7,7 +7,7 @@ icon button 으로 구현한경우 여백이 너무 커서 예쁘게 표현되�
 */
 class ValueIconWidget {
   int _iCounter;
-  String _labelText;
+  //String _labelText;
   ValuePicker _valuepicker;
   bool _isreadonly = true;
 
@@ -23,10 +23,9 @@ class ValueIconWidget {
   ValueIconWidget(
       {@required lableText, @required iCounter, @required isReadOnly}) {
     _iCounter = iCounter;
-    _labelText = lableText;
+    //_labelText = lableText;
     _isreadonly = isReadOnly;
-    _valuepicker = ValuePicker(
-        this._labelText, this._iCounter, fnDataChanged, this._isreadonly);
+    _valuepicker = ValuePicker(this._iCounter, fnDataChanged, this._isreadonly);
   }
   get iCounter => _iCounter;
 }
@@ -35,12 +34,11 @@ ValuePickerState pageState;
 
 class ValuePicker extends StatefulWidget {
   final int iCounter;
-  final String labelText;
+  //final String labelText;
   final Function fnDataChanged;
   final bool isReadOnly;
 
-  ValuePicker(
-      this.labelText, this.iCounter, this.fnDataChanged, this.isReadOnly);
+  ValuePicker(this.iCounter, this.fnDataChanged, this.isReadOnly);
 
   @override
   ValuePickerState createState() {
@@ -67,14 +65,7 @@ class ValuePickerState extends State<ValuePicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15.0),
-      child: InputDecorator(
-        decoration: InputDecoration(
-          labelText: widget.labelText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
+        margin: const EdgeInsets.only(bottom: 15.0),
         child: Container(
           margin: const EdgeInsets.only(right: 10.0),
           child: Row(
@@ -195,9 +186,7 @@ class ValuePickerState extends State<ValuePicker> {
               //Expanded(child: Text("test"))
             ],
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   int getValue() {

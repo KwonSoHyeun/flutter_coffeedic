@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
-import 'package:rating_bar/rating_bar.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 //import 'package:coffeedic/widgets/range_icon.dart';
 
 class Details extends StatefulWidget {
@@ -104,7 +105,7 @@ class _DetailsState extends State<Details> {
                   textAlign: TextAlign.left,
                 ),
               ),
-              SizedBox(height: 40),
+              SizedBox(height: 20),
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -129,7 +130,7 @@ class _DetailsState extends State<Details> {
                   textAlign: TextAlign.left,
                 ),
               ),
-              SizedBox(height: 40.0),
+              SizedBox(height: 20.0),
               buildRangeIcon("Aroma", widget.coffeedata["aroma"].toDouble()),
               buildRangeIcon("Body", widget.coffeedata["body"].toDouble()),
               buildRangeIcon("Sweet", widget.coffeedata["sweet"].toDouble()),
@@ -152,33 +153,73 @@ class _DetailsState extends State<Details> {
   }
 
   buildRangeIcon(String label, double initvalue) {
-    return Column(
+    return Row(
       children: [
-        Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+        Expanded(
+          flex: 3,
+          child: Container(
+            height: 50,
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
             ),
           ),
         ),
-        Container(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: RatingBar.readOnly(
-              initialRating: initvalue,
-              isHalfAllowed: false,
-              halfFilledIcon: Icons.star_half,
-              filledIcon: Icons.star,
-              filledColor: Colors.amber,
-              emptyIcon: Icons.star_border,
-              size: 30),
+        Expanded(
+          flex: 5,
+          child: Container(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: RatingBarIndicator(
+              rating: initvalue,
+              itemCount: 5,
+              itemSize: 30.0,
+              physics: BouncingScrollPhysics(),
+              itemBuilder: (context, _) => Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
+            ),
+          ),
         ),
       ],
     );
   }
+
+  // buildRangeIcon(String label, double initvalue) {
+  //   return Column(
+  //     children: [
+  //       Container(
+  //         alignment: Alignment.centerLeft,
+  //         padding: const EdgeInsets.only(bottom: 8),
+  //         child: Text(
+  //           label,
+  //           style: TextStyle(
+  //             fontWeight: FontWeight.bold,
+  //             fontSize: 16,
+  //           ),
+  //         ),
+  //       ),
+  //       Container(
+  //         padding: const EdgeInsets.only(bottom: 8),
+  //         child: RatingBarIndicator(
+  //           rating: initvalue,
+  //           itemCount: 5,
+  //           itemSize: 30.0,
+  //           physics: BouncingScrollPhysics(),
+  //           itemBuilder: (context, _) => Icon(
+  //             Icons.star,
+  //             color: Colors.amber,
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   buildSlider() {
     return Container(

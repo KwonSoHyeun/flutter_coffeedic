@@ -1,13 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
-import 'package:rating_bar/rating_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:coffeedic/widgets/vertical_place_item_test.dart';
-import 'package:coffeedic/util/places.dart';
+import 'package:coffeedic/widgets/vertical_favorite_item.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeedic/services/firestore_service.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class FavouritePage extends StatefulWidget {
   @override
@@ -163,22 +162,32 @@ class _FavouritePageState extends State<FavouritePage> {
         ),
         Expanded(
             flex: 5,
-            child: RatingBar(
+            child: RatingBar.builder(
               initialRating: initvalue,
-              isHalfAllowed: false,
-              halfFilledIcon: Icons.star_half,
-              filledIcon: isSwitchOn[label] ? Icons.star : Icons.star_border,
-              filledColor: isSwitchOn[label] ? Colors.amber : Colors.grey,
-              emptyIcon: Icons.star_border,
-              size: 25,
-              onRatingChanged: (double rating) {
+              minRating: 0,
+              itemSize: 25.0,
+              direction: Axis.horizontal,
+              //allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+              itemBuilder: (context, _) {
+                return Icon(
+                  isSwitchOn[label] ? Icons.star : Icons.star,
+                  color: isSwitchOn[label] ? Colors.amber : Colors.grey[600],
+                );
+              },
+              onRatingUpdate: (rating) {
                 setState(() {
-                  setFavoriteInfo(label, rating.toInt());
+                  if (!isSwitchOn[label]) {
+                    isSwitchOn[label] = true;
+                    setIsOnInfo(label, true);
+                  }
+
                   favoritValue[label] = rating.toInt();
-                  isSwitchOn[label] = true;
+                  setFavoriteInfo(label, rating.toInt());
                 });
               },
-            )),
+            ))
       ],
     );
   }
