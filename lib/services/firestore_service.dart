@@ -59,7 +59,7 @@ class FirestoreService with ChangeNotifier {
     List<Coffee> filteredlist = new List<Coffee>();
 
     coffeelist.forEach((element) {
-      print(element.name);
+      //print(element.name);
       if (element.name.contains(keyword)) {
         filteredlist.add(element);
       }

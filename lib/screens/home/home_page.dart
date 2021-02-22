@@ -21,9 +21,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<List<Coffee>>(context);
-    print("product.length******");
-    print("product.length*: $product.length");
-    //List<Coffee> coffeeproduct = filtedCoffeeList(product);
     final firestoreService = FirestoreService();
 
     return Scaffold(

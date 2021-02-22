@@ -71,11 +71,7 @@ class _FavouritePageState extends State<FavouritePage> {
                 ),
               ),
               Row(children: <Widget>[
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: EdgeInsets.all(5.0),
-                    )),
+                SizedBox(width: 20.0),
                 Expanded(
                   flex: 5,
                   child: FlatButton(
@@ -107,21 +103,14 @@ class _FavouritePageState extends State<FavouritePage> {
                     },
                   ),
                 ),
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: EdgeInsets.all(5.0),
-                    )),
+                SizedBox(width: 20.0),
               ]),
               Stack(
                 children: [
-                  AnimatedOpacity(
-                      opacity: isVisibleList ? 0.0 : 1.0,
-                      duration: Duration(milliseconds: 500),
-                      child: buildRatioValueSetting()),
-                  AnimatedOpacity(
-                      opacity: isVisibleList ? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
+                  Visibility(
+                      visible: !isVisibleList, child: buildRatioValueSetting()),
+                  Visibility(
+                      visible: isVisibleList,
                       child: buildVerticalListTest(firestoreService)),
                 ],
               )
@@ -268,7 +257,7 @@ class _FavouritePageState extends State<FavouritePage> {
                   shrinkWrap: true,
                   itemCount: snapshot.data.docs.length,
                   itemBuilder: (context, index) {
-                    print("length#####" + snapshot.data.docs.length.toString());
+                    //print("length#####" + snapshot.data.docs.length.toString());
                     Map place = snapshot.data.docs[index].data();
                     return VerticalPlaceItem(place: place);
                   },
