@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:rating_bar/rating_bar.dart';
@@ -121,7 +122,7 @@ class _FavouritePageState extends State<FavouritePage> {
                   AnimatedOpacity(
                       opacity: isVisibleList ? 1.0 : 0.0,
                       duration: Duration(milliseconds: 500),
-                      child: buildVerticalListTest(product)),
+                      child: buildVerticalListTest(firestoreService)),
                 ],
                 /*
                           if (product != null)
@@ -261,19 +262,65 @@ class _FavouritePageState extends State<FavouritePage> {
     );
   }
 
-  Widget buildVerticalListTest(List<Coffee> product) {
-    return Padding(
-      padding: EdgeInsets.all(20.0),
-      child: ListView.builder(
-        primary: false,
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: product == null ? 0 : product.length,
-        itemBuilder: (BuildContext context, int index) {
-          Map place = product[index].toMap();
-          return VerticalPlaceItem(place: place);
-        },
-      ),
+/*
+StreamBuilder(
+                stream: Firestore.instance.collection('kontakt')
+                              .orderBy(sortby, descending: decending).snapshots(),
+                builder: (context, snapshot) {
+                  print(snapshot.data.documents.length); //This value changes
+                  if (!snapshot.hasData) {return Container();}
+                  else if(snapshot.hasData){
+                    print(snapshot.data.documents.length);
+                    return ListView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    itemBuilder: (context, index) =>
+                        _personer(context, snapshot.data.documents[index], index),
+                  );}else{
+                    return Center(child:Text("Error"),);
+                  }
+                  
+                },
+              ),
+*/
+
+  Widget buildVerticalListTest(FirestoreService _firestoreService) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: _firestoreService.getFavoritCoffees(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) return Text("Error: ${snapshot.error}");
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Text("Loading...");
+          default:
+            return Container(
+                height: 550,
+                padding: EdgeInsets.all(20.0),
+                child: ListView.builder(
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, index) {
+                    print("length#####" + snapshot.data.docs.length.toString());
+                    Map place = snapshot.data.docs[index].data();
+                    return VerticalPlaceItem(place: place);
+                  },
+                ));
+        }
+      },
     );
   }
+
+  // Widget buildVerticalListTest(FirestoreService _firestoreService) {
+  //   return Padding(
+  //     padding: EdgeInsets.all(20.0),
+  //     child: ListView.builder(
+  //       primary: false,
+  //       physics: NeverScrollableScrollPhysics(),
+  //       shrinkWrap: true,
+  //       itemCount: product == null ? 0 : product.length,
+  //       itemBuilder: (BuildContext context, int index) {
+  //         Map place = product[index].toMap();
+  //         return VerticalPlaceItem(place: place);
+  //       },
+  //     ),
+  //   );
+  // }
 }

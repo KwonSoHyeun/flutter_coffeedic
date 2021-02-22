@@ -25,17 +25,27 @@ class FirestoreService with ChangeNotifier {
         list.documents.map((doc) => User.fromFireStore(doc)).toList());
   }
 */
-  Stream<List<Coffee>> getFavoritCoffees() {
+  // stream: Firestore.instance.collection('kontakt')
+  //                 .orderBy(sortby, descending: decending).snapshots(),
+
+  Stream getFavoritCoffees() {
+    //sharedpreference 값을 가져와서 조건식을 만든다.
     return _db
         .collection(_coffee.colName)
-        .where('sweet', isEqualTo: 3)
-        .snapshots()
-        .map((snapshot) {
-      return snapshot.docs.map((document) {
-        return Coffee.fromFirestore(document.data());
-      }).toList();
-    });
+        .where('sweet', isEqualTo: 4)
+        .snapshots();
   }
+  // Stream<List<Coffee>> getFavoritCoffees() {
+  //   return _db
+  //       .collection(_coffee.colName)
+  //       .where('sweet', isEqualTo: 3)
+  //       .snapshots()
+  //       .map((snapshot) {
+  //     return snapshot.docs.map((document) {
+  //       return Coffee.fromFirestore(document.data());
+  //     }).toList();
+  //   });
+  // }
 
   Stream<List<Coffee>> getCoffees() {
     return _db.collection(_coffee.colName).snapshots().map((snapshot) {

@@ -31,7 +31,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         // ignore: missing_required_param
         ChangeNotifierProvider(create: (context) => FirebaseAuthProvider()),
-        StreamProvider(create: (context) => firestoreService.getCoffees()),
+        StreamProvider(create: (context) {
+          return firestoreService.getCoffees();
+        }),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
