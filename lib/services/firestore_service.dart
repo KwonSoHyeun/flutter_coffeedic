@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
+import 'package:coffeedic/provider/sharedprefer_provider.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
 
@@ -18,34 +19,24 @@ class FirestoreService with ChangeNotifier {
         .set(product.toMap());
   }
 
-/*
- Stream<List<User>> getUsers() {
-    // DocumentSnapshot 으로 되어 있기에 이를 리스트 형식으로 바꿔줌.
-    return _db.collection('user').snapshots().map((list) =>
-        list.documents.map((doc) => User.fromFireStore(doc)).toList());
-  }
-*/
-  // stream: Firestore.instance.collection('kontakt')
-  //                 .orderBy(sortby, descending: decending).snapshots(),
+  Stream getFavoritCoffees(Map isswichon, Map myfavorite) {
+    Query query = _db.collection(_coffee.colName);
 
-  Stream getFavoritCoffees() {
-    //sharedpreference 값을 가져와서 조건식을 만든다.
-    return _db
-        .collection(_coffee.colName)
-        .where('sweet', isEqualTo: 4)
-        .snapshots();
+    if (isswichon["aroma"])
+      query = query.where('aroma', isEqualTo: myfavorite["aroma"]);
+    if (isswichon["body"])
+      query = query.where('body', isEqualTo: myfavorite["body"]);
+    if (isswichon["sweet"])
+      query = query.where('sweet', isEqualTo: myfavorite["sweet"]);
+    if (isswichon["acidity"])
+      query = query.where('acidity', isEqualTo: myfavorite["acidity"]);
+    if (isswichon["bitter"])
+      query = query.where('bitter', isEqualTo: myfavorite["bitter"]);
+    if (isswichon["balance"])
+      query = query.where('balance', isEqualTo: myfavorite["balance"]);
+
+    return query.snapshots();
   }
-  // Stream<List<Coffee>> getFavoritCoffees() {
-  //   return _db
-  //       .collection(_coffee.colName)
-  //       .where('sweet', isEqualTo: 3)
-  //       .snapshots()
-  //       .map((snapshot) {
-  //     return snapshot.docs.map((document) {
-  //       return Coffee.fromFirestore(document.data());
-  //     }).toList();
-  //   });
-  // }
 
   Stream<List<Coffee>> getCoffees() {
     return _db.collection(_coffee.colName).snapshots().map((snapshot) {
