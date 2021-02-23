@@ -97,7 +97,7 @@ class _FavouritePageState extends State<FavouritePage> {
                     onPressed: () {
                       setState(() {
                         isVisibleList = true;
-                        print("isVisibleList #### $isVisibleList");
+                        //print("isVisibleList #### $isVisibleList");
                       });
                     },
                   ),
@@ -110,7 +110,7 @@ class _FavouritePageState extends State<FavouritePage> {
                       visible: !isVisibleList, child: buildRatioValueSetting()),
                   Visibility(
                       visible: isVisibleList,
-                      child: buildVerticalListTest(firestoreService)),
+                      child: buildVerticalList(firestoreService)),
                 ],
               )
             ],
@@ -182,7 +182,6 @@ class _FavouritePageState extends State<FavouritePage> {
                     isSwitchOn[label] = true;
                     setIsOnInfo(label, true);
                   }
-
                   favoritValue[label] = rating.toInt();
                   setFavoriteInfo(label, rating.toInt());
                 });
@@ -248,30 +247,36 @@ class _FavouritePageState extends State<FavouritePage> {
     );
   }
 
-  Widget buildVerticalListTest(FirestoreService _firestoreService) {
+  Widget buildVerticalList(FirestoreService _firestoreService) {
     return Padding(
         padding: const EdgeInsets.all(20.0),
         child: StreamBuilder<QuerySnapshot>(
-          stream: _firestoreService.getFavoritCoffees(),
+          stream: _firestoreService.getFavoritCoffees(isSwitchOn, favoritValue),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) return Text("Error: ${snapshot.error}");
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return CircularProgressIndicator();
-              default:
-                return ListView.builder(
-                  primary: false,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data.docs.length,
-                  itemBuilder: (context, index) {
-                    //print("length#####" + snapshot.data.docs.length.toString());
-                    Map place = snapshot.data.docs[index].data();
-                    return VerticalPlaceItem(place: place);
-                  },
-                );
+            if (snapshot.hasError) {
+              return Text("Error: ${snapshot.error}");
             }
+            if (!snapshot.hasData) {
+              return Text("no data...");
+            } else {
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return CircularProgressIndicator();
+                default:
+                  return ListView.builder(
+                      primary: false,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (context, index) {
+                        //print("length#####" + snapshot.data.docs.length.toString());
+                        Map place = snapshot.data.docs[index].data();
+                        return VerticalPlaceItem(place: place);
+                      });
+              }
+            }
+            ;
           },
         ));
   }

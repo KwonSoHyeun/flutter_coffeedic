@@ -1,3 +1,4 @@
+import 'package:coffeedic/screens/home/home_details_page.dart';
 import 'package:flutter/material.dart';
 
 //import '../screens/home/home_details_page.dart';
@@ -90,13 +91,13 @@ class VerticalPlaceItem extends StatelessWidget {
           ),
         ),
         onTap: () {
-          // Navigator.of(context).push(
-          //   MaterialPageRoute(
-          //     builder: (BuildContext context) {
-          //       return Details(coffeedata);
-          //     },
-          //   ),
-          // );
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return Details(place);
+              },
+            ),
+          );
         },
       ),
     );

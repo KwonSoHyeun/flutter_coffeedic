@@ -38,6 +38,7 @@ class SharedPreferProvider {
     isSwitchOn['acidity'] = (prefs.getBool("o_acidity") ?? false);
     isSwitchOn['bitter'] = (prefs.getBool("o_bitter") ?? false);
     isSwitchOn['balance'] = (prefs.getBool("o_balance") ?? false);
+
     return isSwitchOn;
   }
 
@@ -50,6 +51,7 @@ class SharedPreferProvider {
     favoritValue['acidity'] = (prefs.getInt("f_acidity") ?? 1);
     favoritValue['bitter'] = (prefs.getInt("f_bitter") ?? 1);
     favoritValue['balance'] = (prefs.getInt("f_balance") ?? 1);
+    print("favoritValue[aroma]*" + favoritValue["aroma"].toString());
     return favoritValue;
   }
 }
