@@ -110,7 +110,7 @@ class _FavouritePageState extends State<FavouritePage> {
                       visible: !isVisibleList, child: buildRatioValueSetting()),
                   Visibility(
                       visible: isVisibleList,
-                      child: buildVerticalListTest(firestoreService)),
+                      child: buildVerticalList(firestoreService)),
                 ],
               )
             ],
@@ -247,7 +247,7 @@ class _FavouritePageState extends State<FavouritePage> {
     );
   }
 
-  Widget buildVerticalListTest(FirestoreService _firestoreService) {
+  Widget buildVerticalList(FirestoreService _firestoreService) {
     return Padding(
         padding: const EdgeInsets.all(20.0),
         child: StreamBuilder<QuerySnapshot>(
