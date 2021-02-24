@@ -38,7 +38,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
       body: ListView(
         children: <Widget>[
           Container(
-            height: 500,
+            height: MediaQuery.of(context).size.height,
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection(coffee.colName)

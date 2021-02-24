@@ -60,11 +60,9 @@ flutter:
     - assets/
     - assets/locale/en.json
     - assets/locale/ko.json
-    - assets/1.jpeg
-    - assets/2.jpeg
-    - assets/3.jpeg
-    - assets/4.jpeg
-    - assets/5.jpeg
+    - assets/default_coffee.jpeg
+    - assets/coffeetree.png
+
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

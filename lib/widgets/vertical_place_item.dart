@@ -23,6 +23,15 @@ class VerticalPlaceItem extends StatelessWidget {
                   height: 70.0,
                   width: 70.0,
                   fit: BoxFit.cover,
+                  errorBuilder: (BuildContext context, Object exception,
+                      StackTrace stackTrace) {
+                    return Image.asset(
+                      "assets/default_coffee.jpeg",
+                      height: 70.0,
+                      width: 70.0,
+                      fit: BoxFit.cover,
+                    );
+                  },
                 ),
               ),
               SizedBox(width: 15.0),

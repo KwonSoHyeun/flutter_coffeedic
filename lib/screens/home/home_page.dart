@@ -111,7 +111,7 @@ class _HomeState extends State<Home> {
                 shrinkWrap: true,
                 itemCount: products == null ? 0 : products.length,
                 itemBuilder: (BuildContext context, int index) {
-                  if (index > 4) {
+                  if (index >= 4) {
                     Map place = products[index].toMap();
                     return VerticalPlaceItem(coffeedata: place);
                   } else {

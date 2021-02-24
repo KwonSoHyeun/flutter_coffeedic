@@ -276,7 +276,6 @@ class _FavouritePageState extends State<FavouritePage> {
                       });
               }
             }
-            ;
           },
         ));
   }

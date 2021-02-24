@@ -106,6 +106,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 descField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 imageField(),
+                SizedBox(height: 30.0),
                 Row(
                   children: <Widget>[
                     if (isAddState) submitButton(),
@@ -338,14 +339,73 @@ class CoffeebasePageState extends State<CoffeebasePage> {
             handleUploadType('gallery');
           },
         ),
+        SizedBox(width: 2.0),
         RaisedButton(
           color: Colors.lightBlue,
           child: Text("Camera"),
           onPressed: () {
             handleUploadType('camera');
           },
+        ),
+        SizedBox(width: 10.0),
+        FlatButton(
+          child: Text('Delete'),
+          color: Colors.amber,
+          textColor: Colors.white,
+          onPressed: () {
+            if (widget.coffeeData.image != "") {
+              Reference photoRef =
+                  _firebaseStorage.refFromURL(widget.coffeeData.image);
+              photoRef.delete().whenComplete(() {
+                setState(() {
+                  cleanDocImage(widget.documentID);
+                  widget.coffeeData.image = ""; //array 내용지워줌
+                });
+
+                //update record data
+                showAlertDialog(
+                    context, "이미지 삭제", "이미지가 클라우드 스토리지에서 삭제 되었습니다.");
+                //clean image widget
+              });
+            } else {
+              showAlertDialog(context, "이미지 삭제", "삭제할 이미지가 없습니다.");
+            }
+          },
         )
+
+        /*
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+                    StorageReference storageReference = firebaseStorage.getReferenceFromUrl(pd.getUrl());
+                    storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.e("Picture","#deleted");
+                        }
+                    });
+        */
       ],
+    );
+  }
+
+  void showAlertDialog(
+      BuildContext context, String title, String message) async {
+    String result = await showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.pop(context, "OK");
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -423,6 +483,13 @@ class CoffeebasePageState extends State<CoffeebasePage> {
         .collection(widget.coffeeData.colName)
         .doc(widget.documentID)
         .update(widget.coffeeData.toMap());
+  }
+
+  void cleanDocImage(String documentId) {
+    FirebaseFirestore.instance
+        .collection(widget.coffeeData.colName)
+        .doc(widget.documentID)
+        .update({"image": ""});
   }
 
   void deleteDoc() {

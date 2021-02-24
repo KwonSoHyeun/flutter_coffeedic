@@ -7,8 +7,7 @@ import 'package:coffeedic/provider/firebase_auth_provider.dart';
 import 'package:coffeedic/services/firestore_service.dart';
 //import 'package:coffeedic/provider/product_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-import 'package:coffeedic/language/translations.dart';
+//import 'package:coffeedic/language/translations.dart';
 import 'package:coffeedic/language/translations_delegate.dart';
 
 Future<void> main() async {
