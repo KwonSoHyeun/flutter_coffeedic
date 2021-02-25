@@ -7,6 +7,7 @@ import 'package:coffeedic/models/coffee.dart';
 import 'package:provider/provider.dart';
 import 'package:coffeedic/services/firestore_service.dart';
 import 'package:coffeedic/widgets/vertical_place_item.dart';
+import 'package:admob_flutter/admob_flutter.dart';
 
 //import 'package:coffeedic/util/places.dart';
 
@@ -56,6 +57,11 @@ class _HomeState extends State<Home> {
           if (product != null)
             buildVerticalList(
                 firestoreService.keywordFilter(product, _search_word)),
+          Expanded(
+            child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: bannerContainer()),
+          ),
         ],
       ),
     );
@@ -123,5 +129,18 @@ class _HomeState extends State<Home> {
                 },
               )
             : Text("no data..."));
+  }
+
+  bannerContainer() {
+    return Container(
+        height: 60,
+        child: AdmobBanner(
+            adUnitId:
+                'ca-app-pub-3940256099942544/2934735716', // test adUnit Id
+            adSize: AdmobBannerSize.BANNER,
+            listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+              print(event);
+              print(args);
+            }));
   }
 }
