@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:coffeedic/services/firestore_service.dart';
 import 'package:coffeedic/widgets/vertical_place_item.dart';
 import 'package:admob_flutter/admob_flutter.dart';
+import 'package:coffeedic/util/admanager.dart';
 
 //import 'package:coffeedic/util/places.dart';
 
@@ -25,46 +26,47 @@ class _HomeState extends State<Home> {
     final firestoreService = FirestoreService();
 
     return Scaffold(
-      appBar: AppBar(
-        actions: <Widget>[
-          IconButton(
-            icon: IconBadge(
-              icon: Icons.notifications_none,
-            ),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Text(
-              Translations.of(context).trans('home_title'),
-              style: TextStyle(
-                fontSize: 30.0,
-                fontWeight: FontWeight.w600,
+        appBar: AppBar(
+          toolbarHeight: 32,
+          actions: <Widget>[
+            IconButton(
+              icon: IconBadge(
+                icon: Icons.notifications_none,
               ),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: Column(children: [
+          Expanded(
+            flex: 1,
+            child: ListView(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                    Translations.of(context).trans('home_title'),
+                    style: TextStyle(
+                      fontSize: 26.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: SearchBar(setkeyword: setSearchWord),
+                ),
+                if (product != null)
+                  buildHorizontalList(
+                      firestoreService.keywordFilter(product, _search_word)),
+                if (product != null)
+                  buildVerticalList(
+                      firestoreService.keywordFilter(product, _search_word)),
+              ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(20.0),
-            child: SearchBar(setkeyword: setSearchWord),
-          ),
-          if (product != null)
-            buildHorizontalList(
-                firestoreService.keywordFilter(product, _search_word)),
-          if (product != null)
-            buildVerticalList(
-                firestoreService.keywordFilter(product, _search_word)),
-          Expanded(
-            child: Align(
-                alignment: FractionalOffset.bottomCenter,
-                child: bannerContainer()),
-          ),
-        ],
-      ),
-    );
+          bannerContainer(),
+        ]));
   }
 
   void setSearchWord(String word) {
@@ -109,7 +111,7 @@ class _HomeState extends State<Home> {
 
   buildVerticalList(List<Coffee> products) {
     return Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.only(left: 20.0), //EdgeInsets.all(20.0),
         child: (products != null)
             ? ListView.builder(
                 primary: false,
@@ -131,12 +133,12 @@ class _HomeState extends State<Home> {
             : Text("no data..."));
   }
 
+////'ca-app-pub-3940256099942544/2934735716', // test adUnit Id
   bannerContainer() {
     return Container(
-        height: 60,
+        height: 50,
         child: AdmobBanner(
-            adUnitId:
-                'ca-app-pub-3940256099942544/2934735716', // test adUnit Id
+            adUnitId: AdManager.bannerAdUnitId,
             adSize: AdmobBannerSize.BANNER,
             listener: (AdmobAdEvent event, Map<String, dynamic> args) {
               print(event);

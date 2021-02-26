@@ -20,6 +20,7 @@ class _DetailsState extends State<Details> {
     //print("sweet" + coffeedata["sweet"].toString());
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 32,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,

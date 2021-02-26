@@ -47,6 +47,7 @@ class _FavouritePageState extends State<FavouritePage> {
 
     return Scaffold(
         appBar: AppBar(
+          toolbarHeight: 32,
           actions: <Widget>[
             IconButton(
               icon: IconBadge(
@@ -64,7 +65,7 @@ class _FavouritePageState extends State<FavouritePage> {
                 child: Text(
                   "원두 취향 \n찾아 보시겠어요?",
                   style: TextStyle(
-                    fontSize: 30.0,
+                    fontSize: 26.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

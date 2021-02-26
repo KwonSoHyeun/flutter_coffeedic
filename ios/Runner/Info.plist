@@ -51,5 +51,7 @@
     <string>ca-app-pub-8520099320288331~9511703914</string>  
     <key>io.flutter.embedded_views_preview</key>
     <true/>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>This identifier will be used to deliver personalized ads to you.</string>
 </dict>
 </plist>
