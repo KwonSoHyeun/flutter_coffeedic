@@ -22,22 +22,27 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> fakeBottomButtons = new List<Widget>();
+    fakeBottomButtons.add(bannerContainer());
+
     return Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 32,
-          actions: <Widget>[
-            IconButton(
-              icon: IconBadge(
-                icon: Icons.notifications_none,
-              ),
-              onPressed: () {},
+      appBar: AppBar(
+        toolbarHeight: 32,
+        actions: <Widget>[
+          IconButton(
+            icon: IconBadge(
+              icon: Icons.notifications_none,
             ),
-          ],
-        ),
-        body: Column(children: [
-          Expanded(flex: 1, child: buildListView()),
-          bannerContainer(),
-        ]));
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: new Padding(
+        padding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
+        child: buildListView(),
+      ),
+      persistentFooterButtons: fakeBottomButtons,
+    );
   }
 
   void setSearchWord(String word) {
@@ -135,6 +140,8 @@ class _HomeState extends State<Home> {
   }
 
 ////'ca-app-pub-3940256099942544/2934735716', // test adUnit Id
+  ///List<Widget> fakeBottomButtons = new List<Widget>();
+
   Widget bannerContainer() {
     return Container(
         height: 50,
