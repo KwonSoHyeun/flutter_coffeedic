@@ -22,9 +22,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<List<Coffee>>(context);
-    final firestoreService = FirestoreService();
-
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 32,
@@ -38,33 +35,7 @@ class _HomeState extends State<Home> {
           ],
         ),
         body: Column(children: [
-          Expanded(
-            flex: 1,
-            child: ListView(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    Translations.of(context).trans('home_title'),
-                    style: TextStyle(
-                      fontSize: 26.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: SearchBar(setkeyword: setSearchWord),
-                ),
-                if (product != null)
-                  buildHorizontalList(
-                      firestoreService.keywordFilter(product, _search_word)),
-                if (product != null)
-                  buildVerticalList(
-                      firestoreService.keywordFilter(product, _search_word)),
-              ],
-            ),
-          ),
+          Expanded(flex: 1, child: buildListView()),
           bannerContainer(),
         ]));
   }
@@ -81,7 +52,37 @@ class _HomeState extends State<Home> {
     return coffeeproduct;
   }
 
-  buildHorizontalList(List<Coffee> products) {
+  Widget buildListView() {
+    final product = Provider.of<List<Coffee>>(context);
+    final firestoreService = FirestoreService();
+
+    return ListView(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Text(
+            Translations.of(context).trans('home_title'),
+            style: TextStyle(
+              fontSize: 26.0,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.all(10.0),
+          child: SearchBar(setkeyword: setSearchWord),
+        ),
+        if (product != null)
+          buildHorizontalList(
+              firestoreService.keywordFilter(product, _search_word)),
+        if (product != null)
+          buildVerticalList(
+              firestoreService.keywordFilter(product, _search_word)),
+      ],
+    );
+  }
+
+  Widget buildHorizontalList(List<Coffee> products) {
     List<Coffee> horizontallist = new List<Coffee>();
 
     if (products != null && products.length >= 4) {
@@ -109,7 +110,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  buildVerticalList(List<Coffee> products) {
+  Widget buildVerticalList(List<Coffee> products) {
     return Padding(
         padding: EdgeInsets.only(left: 20.0), //EdgeInsets.all(20.0),
         child: (products != null)
@@ -134,7 +135,7 @@ class _HomeState extends State<Home> {
   }
 
 ////'ca-app-pub-3940256099942544/2934735716', // test adUnit Id
-  bannerContainer() {
+  Widget bannerContainer() {
     return Container(
         height: 50,
         child: AdmobBanner(
