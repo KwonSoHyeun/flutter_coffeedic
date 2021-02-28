@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/util/places.dart';
+//import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:coffeedic/util/admanager.dart';
 
 //import 'package:coffeedic/widgets/range_icon.dart';
 
@@ -14,6 +15,8 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
+  AdManager adMob = AdManager();
+
   @override
   Widget build(BuildContext context) {
     //print(coffeedata.toString());
@@ -38,9 +41,11 @@ class _DetailsState extends State<Details> {
       ),
       body: ListView(
         children: <Widget>[
-          SizedBox(height: 20.0),
+          //SizedBox(height: 20.0),
           buildSlider(),
-          SizedBox(height: 20),
+          SizedBox(height: 10.0),
+          adMob.bannerContainer(),
+          SizedBox(height: 10),
           ListView(
             padding: EdgeInsets.symmetric(horizontal: 20),
             primary: false,
@@ -108,7 +113,8 @@ class _DetailsState extends State<Details> {
               ),
               SizedBox(height: 20),
               Container(
-                alignment: Alignment.centerLeft,
+                //alignment: Alignment.centerLeft,
+                alignment: Alignment.topLeft,
                 child: Text(
                   "Details",
                   style: TextStyle(

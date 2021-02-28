@@ -18,8 +18,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  AdManager adMob = AdManager();
   String _search_word = "";
-  AdmobBannerSize bannerSize;
+  //AdmobBannerSize bannerSize;
 
   @override
   Widget build(BuildContext context) {
@@ -35,24 +36,9 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        body:
-            // new ListView(
-            //   children: <Widget>[
-            //     new Container(
-            //         height: MediaQuery.of(context).size.height -
-            //             (100 + AdmobBannerSize.BANNER.height),
-            //         child: buildListView()),
-            //     SizedBox(
-            //       height: 10,
-            //     ),
-            //     bannerContainer(),
-            //   ],
-            // ));
-
-            new Column(
+        body: new Column(
           children: <Widget>[
             Expanded(child: buildListView()),
-            // bannerContainer(),
           ],
         ));
   }
@@ -92,9 +78,9 @@ class _HomeState extends State<Home> {
           child: SearchBar(setkeyword: setSearchWord),
         ),
         Padding(
-          padding: EdgeInsets.all(2.0),
-          child: bannerContainer(),
-        ),
+            padding: EdgeInsets.all(2.0),
+            child: adMob.bannerContainer() //bannerContainer(),
+            ),
         if (product != null)
           buildHorizontalList(
               firestoreService.keywordFilter(product, _search_word)),
