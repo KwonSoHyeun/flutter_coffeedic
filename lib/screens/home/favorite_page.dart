@@ -47,7 +47,7 @@ class _FavouritePageState extends State<FavouritePage> {
 
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 32,
+          toolbarHeight: 30,
           actions: <Widget>[
             IconButton(
               icon: IconBadge(

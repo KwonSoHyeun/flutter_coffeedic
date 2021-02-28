@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 32,
+          toolbarHeight: 30,
           actions: <Widget>[
             IconButton(
               icon: IconBadge(
@@ -44,18 +44,17 @@ class _HomeState extends State<Home> {
                 height: MediaQuery.of(context).size.height -
                     (100 + AdmobBannerSize.BANNER.height),
                 child: buildListView()),
+            SizedBox(
+              height: 10,
+            ),
             bannerContainer(),
           ],
         ));
 
-    // new Container(
-    //     height: MediaQuery.of(context).size.height - 150,
-    //     child: buildListView()));
-
-    // new Column(
+    //     new Column(
     //   children: <Widget>[
     //     Expanded(child: buildListView()),
-    //     bannerContainer(),
+    //     // bannerContainer(),
     //   ],
     // ));
 
@@ -123,7 +122,7 @@ class _HomeState extends State<Home> {
     return Container(
       //color: Colors.white,
       padding: EdgeInsets.only(top: 10.0, left: 20.0),
-      height: 250.0,
+      height: 240.0,
       width: MediaQuery.of(context).size.width,
       child: (horizontallist != null && horizontallist.length != 0)
           ? ListView.builder(
@@ -149,14 +148,16 @@ class _HomeState extends State<Home> {
                 shrinkWrap: true,
                 itemCount: products == null ? 0 : products.length,
                 itemBuilder: (BuildContext context, int index) {
-                  if (index >= 4) {
-                    Map place = products[index].toMap();
-                    return VerticalPlaceItem(coffeedata: place);
-                  } else {
+                  if (index < 4) {
+                    //if (index == 0) return bannerContainer();
                     return Visibility(
                       child: Text("Gone"),
                       visible: false,
                     );
+                  } else {
+                    // if (index == 6) return bannerContainer();
+                    Map place = products[index].toMap();
+                    return VerticalPlaceItem(coffeedata: place);
                   }
                 },
               )
@@ -167,15 +168,18 @@ class _HomeState extends State<Home> {
   ///List<Widget> fakeBottomButtons = new List<Widget>();
 
   Widget bannerContainer() {
-    return Container(
-        height: 50,
-        child: AdmobBanner(
-            adUnitId: AdManager.bannerAdUnitId,
-            adSize: AdmobBannerSize.BANNER,
-            listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-              print(event);
-              print(args);
-              //handleEvent();
-            }));
+    return Padding(
+        padding: const EdgeInsets.only(bottom: 15.0),
+        child: InkWell(
+            child: Container(
+                // height: 50,
+                child: AdmobBanner(
+                    adUnitId: AdManager.bannerAdUnitId,
+                    adSize: AdmobBannerSize.BANNER,
+                    listener: (AdmobAdEvent event, Map<String, dynamic> args) {
+                      print(event);
+                      print(args);
+                      //handleEvent();
+                    }))));
   }
 }
