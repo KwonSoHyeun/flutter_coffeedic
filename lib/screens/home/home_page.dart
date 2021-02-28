@@ -26,23 +26,42 @@ class _HomeState extends State<Home> {
     fakeBottomButtons.add(bannerContainer());
 
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 32,
-        actions: <Widget>[
-          IconButton(
-            icon: IconBadge(
-              icon: Icons.notifications_none,
+        appBar: AppBar(
+          toolbarHeight: 32,
+          actions: <Widget>[
+            IconButton(
+              icon: IconBadge(
+                icon: Icons.notifications_none,
+              ),
+              onPressed: () {},
             ),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: new Padding(
-        padding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
-        child: buildListView(),
-      ),
-      persistentFooterButtons: fakeBottomButtons,
-    );
+          ],
+        ),
+        body: new ListView(
+          children: <Widget>[
+            new Container(
+                height: MediaQuery.of(context).size.height - 150,
+                child: buildListView()),
+            bannerContainer(),
+          ],
+        ));
+
+    // new Container(
+    //     height: MediaQuery.of(context).size.height - 150,
+    //     child: buildListView()));
+
+    // new Column(
+    //   children: <Widget>[
+    //     Expanded(child: buildListView()),
+    //     bannerContainer(),
+    //   ],
+    // ));
+
+    // new Padding(
+    //   padding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
+    //   child: buildListView(),
+    // ),
+    // persistentFooterButtons: fakeBottomButtons,
   }
 
   void setSearchWord(String word) {
@@ -62,6 +81,8 @@ class _HomeState extends State<Home> {
     final firestoreService = FirestoreService();
 
     return ListView(
+      shrinkWrap: true,
+      physics: ScrollPhysics(),
       children: <Widget>[
         Padding(
           padding: EdgeInsets.all(20.0),
@@ -98,6 +119,7 @@ class _HomeState extends State<Home> {
     }
 
     return Container(
+      //color: Colors.white,
       padding: EdgeInsets.only(top: 10.0, left: 20.0),
       height: 250.0,
       width: MediaQuery.of(context).size.width,
