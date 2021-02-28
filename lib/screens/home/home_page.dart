@@ -19,6 +19,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String _search_word = "";
+  AdmobBannerSize bannerSize;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,8 @@ class _HomeState extends State<Home> {
         body: new ListView(
           children: <Widget>[
             new Container(
-                height: MediaQuery.of(context).size.height - 150,
+                height: MediaQuery.of(context).size.height -
+                    (100 + AdmobBannerSize.BANNER.height),
                 child: buildListView()),
             bannerContainer(),
           ],
@@ -173,6 +175,7 @@ class _HomeState extends State<Home> {
             listener: (AdmobAdEvent event, Map<String, dynamic> args) {
               print(event);
               print(args);
+              //handleEvent();
             }));
   }
 }
