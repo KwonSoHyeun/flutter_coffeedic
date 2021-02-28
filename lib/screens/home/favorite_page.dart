@@ -47,7 +47,7 @@ class _FavouritePageState extends State<FavouritePage> {
 
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 30,
+          // toolbarHeight: 30,
           actions: <Widget>[
             IconButton(
               icon: IconBadge(
@@ -61,7 +61,7 @@ class _FavouritePageState extends State<FavouritePage> {
           ListView(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Text(
                   "원두 취향 \n찾아 보시겠어요?",
                   style: TextStyle(

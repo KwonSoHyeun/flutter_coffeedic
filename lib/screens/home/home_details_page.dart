@@ -20,7 +20,7 @@ class _DetailsState extends State<Details> {
     //print("sweet" + coffeedata["sweet"].toString());
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 30,
+        //toolbarHeight: 30,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -38,7 +38,7 @@ class _DetailsState extends State<Details> {
       ),
       body: ListView(
         children: <Widget>[
-          SizedBox(height: 10.0),
+          SizedBox(height: 20.0),
           buildSlider(),
           SizedBox(height: 20),
           ListView(
@@ -144,12 +144,12 @@ class _DetailsState extends State<Details> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.airplanemode_active,
-        ),
-        onPressed: () {},
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   child: Icon(
+      //     Icons.airplanemode_active,
+      //   ),
+      //   onPressed: () {},
+      // ),
     );
   }
 

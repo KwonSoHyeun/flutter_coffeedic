@@ -23,12 +23,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> fakeBottomButtons = new List<Widget>();
-    fakeBottomButtons.add(bannerContainer());
-
     return Scaffold(
         appBar: AppBar(
-          toolbarHeight: 30,
+          //toolbarHeight: 30,
           actions: <Widget>[
             IconButton(
               icon: IconBadge(
@@ -38,31 +35,26 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        body: new ListView(
+        body:
+            // new ListView(
+            //   children: <Widget>[
+            //     new Container(
+            //         height: MediaQuery.of(context).size.height -
+            //             (100 + AdmobBannerSize.BANNER.height),
+            //         child: buildListView()),
+            //     SizedBox(
+            //       height: 10,
+            //     ),
+            //     bannerContainer(),
+            //   ],
+            // ));
+
+            new Column(
           children: <Widget>[
-            new Container(
-                height: MediaQuery.of(context).size.height -
-                    (100 + AdmobBannerSize.BANNER.height),
-                child: buildListView()),
-            SizedBox(
-              height: 10,
-            ),
-            bannerContainer(),
+            Expanded(child: buildListView()),
+            // bannerContainer(),
           ],
         ));
-
-    //     new Column(
-    //   children: <Widget>[
-    //     Expanded(child: buildListView()),
-    //     // bannerContainer(),
-    //   ],
-    // ));
-
-    // new Padding(
-    //   padding: new EdgeInsets.symmetric(vertical: 0.0, horizontal: 4.0),
-    //   child: buildListView(),
-    // ),
-    // persistentFooterButtons: fakeBottomButtons,
   }
 
   void setSearchWord(String word) {
@@ -86,7 +78,7 @@ class _HomeState extends State<Home> {
       physics: ScrollPhysics(),
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.all(20.0),
+          padding: EdgeInsets.only(left: 20.0, right: 20),
           child: Text(
             Translations.of(context).trans('home_title'),
             style: TextStyle(
@@ -98,6 +90,10 @@ class _HomeState extends State<Home> {
         Padding(
           padding: EdgeInsets.all(10.0),
           child: SearchBar(setkeyword: setSearchWord),
+        ),
+        Padding(
+          padding: EdgeInsets.all(2.0),
+          child: bannerContainer(),
         ),
         if (product != null)
           buildHorizontalList(
@@ -169,7 +165,7 @@ class _HomeState extends State<Home> {
 
   Widget bannerContainer() {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 15.0),
+        padding: const EdgeInsets.only(bottom: 0.0),
         child: InkWell(
             child: Container(
                 // height: 50,
