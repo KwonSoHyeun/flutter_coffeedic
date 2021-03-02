@@ -6,6 +6,7 @@ class ExperiencePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 32,
         actions: <Widget>[
           IconButton(
             icon: IconBadge(
@@ -21,7 +22,7 @@ class ExperiencePage extends StatelessWidget {
           child: Text(
             "맛있는 커피점을 \n소개합니다.",
             style: TextStyle(
-              fontSize: 30.0,
+              fontSize: 26.0,
               fontWeight: FontWeight.w600,
             ),
           ),

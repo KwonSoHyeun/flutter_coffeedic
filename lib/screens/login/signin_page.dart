@@ -43,9 +43,22 @@ class SignInPageState extends State<SignInPage> {
     logger.d(fp.getUser());
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(title: Text("Sign-In Page")),
+      appBar: AppBar(),
       body: ListView(
         children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Text(
+              "로그인 하시겠습니까?",
+              style: TextStyle(
+                fontSize: 26.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 35,
+          ),
           Container(
             margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
             child: Column(
@@ -56,7 +69,7 @@ class SignInPageState extends State<SignInPage> {
                   decoration: BoxDecoration(color: Colors.amber),
                   child: Center(
                     child: Text(
-                      "Sign In to Your Account",
+                      "이메일 로그인",
                       style: TextStyle(
                           color: Colors.blueGrey,
                           fontSize: 18,

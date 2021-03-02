@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffeedic/util/alertdialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffeedic/widgets/vertical_favorite_item.dart';
-import 'package:coffeedic/models/coffee.dart';
-import 'package:provider/provider.dart';
 import 'package:coffeedic/services/firestore_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:coffeedic/util/admanager.dart';
 
 class FavouritePage extends StatefulWidget {
   @override
@@ -14,6 +14,7 @@ class FavouritePage extends StatefulWidget {
 }
 
 class _FavouritePageState extends State<FavouritePage> {
+  AdManager adMob = AdManager();
   bool isVisibleList = false;
   Map<String, int> favoritValue = {
     'aroma': 1,
@@ -37,84 +38,89 @@ class _FavouritePageState extends State<FavouritePage> {
   initState() {
     super.initState();
     getRememberInfo();
-    print("initState ###");
   }
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<List<Coffee>>(context);
+    //final product = Provider.of<List<Coffee>>(context);
     final firestoreService = FirestoreService();
 
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
-              icon: IconBadge(
-                icon: Icons.notifications_none,
-              ),
-              onPressed: () {},
+              icon: Icon(Icons.help_outline_rounded),
+              onPressed: () {
+                showAlertDialogHelp(context, "favorite");
+              },
+              color: Colors.orange,
             ),
           ],
         ),
-        body: Stack(alignment: Alignment.topLeft, children: <Widget>[
-          ListView(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  "원두 취향 \n찾아 보시겠어요?",
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w600,
+        body: Column(children: [
+          Expanded(
+              child: Stack(alignment: Alignment.topLeft, children: <Widget>[
+            ListView(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Text(
+                    "원두 취향 \n찾아 보시겠어요?",
+                    style: TextStyle(
+                      fontSize: 26.0,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
-              ),
-              Row(children: <Widget>[
-                SizedBox(width: 20.0),
-                Expanded(
-                  flex: 5,
-                  child: FlatButton(
-                      child: Text('취향 설정'),
-                      color: isVisibleList ? Colors.grey : Colors.blueAccent,
+                Row(children: <Widget>[
+                  SizedBox(width: 20.0),
+                  Expanded(
+                    flex: 5,
+                    child: FlatButton(
+                        child: Text('취향 설정'),
+                        color: isVisibleList ? Colors.grey : Colors.blueAccent,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          setState(() {
+                            isVisibleList = false;
+                          });
+                        }),
+                  ),
+                  Expanded(
+                      flex: 1,
+                      child: Padding(
+                        padding: EdgeInsets.all(5.0),
+                      )),
+                  Expanded(
+                    flex: 5,
+                    child: FlatButton(
+                      child: Text("원두 목록"),
+                      color: !isVisibleList ? Colors.grey : Colors.blueAccent,
                       textColor: Colors.white,
                       onPressed: () {
                         setState(() {
-                          isVisibleList = false;
+                          isVisibleList = true;
+                          //print("isVisibleList #### $isVisibleList");
                         });
-                      }),
-                ),
-                Expanded(
-                    flex: 1,
-                    child: Padding(
-                      padding: EdgeInsets.all(5.0),
-                    )),
-                Expanded(
-                  flex: 5,
-                  child: FlatButton(
-                    child: Text("원두 목록"),
-                    color: !isVisibleList ? Colors.grey : Colors.blueAccent,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      setState(() {
-                        isVisibleList = true;
-                        //print("isVisibleList #### $isVisibleList");
-                      });
-                    },
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(width: 20.0),
-              ]),
-              Stack(
-                children: [
-                  Visibility(
-                      visible: !isVisibleList, child: buildRatioValueSetting()),
-                  Visibility(
-                      visible: isVisibleList,
-                      child: buildVerticalList(firestoreService)),
-                ],
-              )
-            ],
-          ),
+                  SizedBox(width: 20.0),
+                ]),
+                Stack(
+                  children: [
+                    Visibility(
+                        visible: !isVisibleList,
+                        child: buildRatioValueSetting()),
+                    Visibility(
+                        visible: isVisibleList,
+                        child: buildVerticalList(firestoreService)),
+                  ],
+                )
+              ],
+            ),
+          ])),
+          adMob.bannerContainer(),
         ]));
   }
 

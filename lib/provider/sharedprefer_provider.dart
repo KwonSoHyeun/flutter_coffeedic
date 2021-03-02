@@ -1,6 +1,3 @@
-import 'package:coffeedic/models/coffee.dart';
-import 'package:coffeedic/services/firestore_service.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferProvider {
@@ -21,11 +18,11 @@ class SharedPreferProvider {
     'balance': 1,
   };
 
-  get_isSwitchOn() {
+  getIsSwitchon() {
     return isSwitchOn;
   }
 
-  get_favoritValue() {
+  getFavoritValue() {
     return favoritValue;
   }
 

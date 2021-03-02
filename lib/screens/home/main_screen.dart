@@ -1,3 +1,4 @@
+import 'package:coffeedic/util/const.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/screens/home/home_page.dart';
 import 'package:coffeedic/screens/home/favorite_page.dart';
@@ -23,28 +24,42 @@ class _MainScreenState extends State<MainScreen> {
         //AlwaysScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: onPageChanged,
-        children: <Widget>[
-          Home(),
-          FavouritePage(),
-          ExperiencePage(),
-          AuthPage(),
-        ],
+        children: Constants.isForManager
+            ? <Widget>[
+                Home(),
+                FavouritePage(),
+                ExperiencePage(),
+                AuthPage(),
+              ]
+            : <Widget>[
+                Home(),
+                FavouritePage(),
+                //ExperiencePage(),
+                //AuthPage(),
+              ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            SizedBox(width: 7.0),
-            barIcon(icon: Icons.home_filled, page: 0),
-            barIcon(icon: Icons.sentiment_satisfied_alt, page: 1),
-            barIcon(icon: Icons.storefront, page: 2),
-            barIcon(
-              icon: Icons.person,
-              page: 3,
-            ),
-            SizedBox(width: 7.0),
-          ],
+          children: Constants.isForManager
+              ? <Widget>[
+                  SizedBox(width: 7.0),
+                  barIcon(icon: Icons.home_filled, page: 0),
+                  barIcon(icon: Icons.sentiment_satisfied_alt, page: 1),
+                  barIcon(icon: Icons.storefront, page: 2),
+                  barIcon(
+                    icon: Icons.person,
+                    page: 3,
+                  ),
+                  SizedBox(width: 7.0),
+                ]
+              : <Widget>[
+                  SizedBox(width: 7.0),
+                  barIcon(icon: Icons.home_filled, page: 0),
+                  barIcon(icon: Icons.sentiment_satisfied_alt, page: 1),
+                  SizedBox(width: 7.0),
+                ],
         ),
         color: Theme.of(context).primaryColor,
       ),

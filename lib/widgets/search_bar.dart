@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coffeedic/models/coffee.dart';
+//import 'package:coffeedic/models/coffee.dart';
 
 class SearchBar extends StatefulWidget {
   final Function setkeyword;

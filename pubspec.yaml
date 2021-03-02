@@ -39,6 +39,7 @@ dependencies:
   image_picker: ^0.6.1
   flutter_rating_bar: ^3.2.0+1
   cached_network_image: ^2.5.0
+  admob_flutter: ^1.0.1
 
 dev_dependencies:
   flutter_test:

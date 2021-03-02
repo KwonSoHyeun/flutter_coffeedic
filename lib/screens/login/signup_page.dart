@@ -35,9 +35,22 @@ class SignUpPageState extends State<SignUpPage> {
 
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(title: Text("Sign-Up Page")),
+        appBar: AppBar(),
         body: ListView(
           children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(left: 20.0, right: 20.0),
+              child: Text(
+                "반갑습니다.\n회원가입 하시겠습니까?",
+                style: TextStyle(
+                  fontSize: 26.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 35,
+            ),
             Container(
               margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: Column(

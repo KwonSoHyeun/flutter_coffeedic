@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
-import 'package:coffeedic/provider/sharedprefer_provider.dart';
+//import 'package:coffeedic/provider/sharedprefer_provider.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter/material.dart';
 
@@ -20,7 +20,7 @@ class FirestoreService with ChangeNotifier {
   }
 
   Stream getFavoritCoffees(Map isswichon, Map myfavorite) {
-    Query query = _db.collection(_coffee.colName);
+    Query query = _db.collection(_coffee.colName).orderBy('name');
 
     if (isswichon["aroma"])
       query = query.where('aroma', isEqualTo: myfavorite["aroma"]);
@@ -39,7 +39,11 @@ class FirestoreService with ChangeNotifier {
   }
 
   Stream<List<Coffee>> getCoffees() {
-    return _db.collection(_coffee.colName).snapshots().map((snapshot) {
+    return _db
+        .collection(_coffee.colName)
+        .orderBy('name')
+        .snapshots()
+        .map((snapshot) {
       return snapshot.docs.map((document) {
         return Coffee.fromFirestoreWithId(document.id, document.data());
       }).toList();
