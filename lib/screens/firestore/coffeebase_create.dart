@@ -38,29 +38,29 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   final picker = ImagePicker();
 
   User firebaseUser = FirebaseAuth.instance.currentUser;
-  ValuePickerWidget range_aroma,
-      range_body,
-      range_sweet,
-      range_acidity,
-      range_bitterness,
-      range_balance;
+  ValuePickerWidget rangeAroma,
+      rangeBody,
+      rangeSweet,
+      rangeAcidity,
+      rangeBitterness,
+      rangeBalance;
 
   @override
   void initState() {
     super.initState();
     _prepareService();
 
-    range_aroma = ValuePickerWidget(
+    rangeAroma = ValuePickerWidget(
         lableText: "Aroma", iCounter: widget.coffeeData.aroma);
-    range_body = ValuePickerWidget(
+    rangeBody = ValuePickerWidget(
         lableText: "Body", iCounter: widget.coffeeData.acidity);
-    range_sweet = ValuePickerWidget(
+    rangeSweet = ValuePickerWidget(
         lableText: "Sweet", iCounter: widget.coffeeData.sweet);
-    range_acidity = ValuePickerWidget(
+    rangeAcidity = ValuePickerWidget(
         lableText: "Acidity", iCounter: widget.coffeeData.balance);
-    range_bitterness = ValuePickerWidget(
+    rangeBitterness = ValuePickerWidget(
         lableText: "Bitterness", iCounter: widget.coffeeData.bitterness);
-    range_balance = ValuePickerWidget(
+    rangeBalance = ValuePickerWidget(
         lableText: "Balanace", iCounter: widget.coffeeData.balance);
   }
 
@@ -78,7 +78,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
       isAddState = false;
     }
 
-    print("isAddState:#########" + isAddState.toString());
+    // print("isAddState:#########" + isAddState.toString());
 
     return Scaffold(
         key: _scaffoldKey,
@@ -97,12 +97,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 cityField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
-                range_aroma.getValuePickerWidget(),
-                range_body.getValuePickerWidget(),
-                range_sweet.getValuePickerWidget(),
-                range_acidity.getValuePickerWidget(),
-                range_bitterness.getValuePickerWidget(),
-                range_balance.getValuePickerWidget(),
+                rangeAroma.getValuePickerWidget(),
+                rangeBody.getValuePickerWidget(),
+                rangeSweet.getValuePickerWidget(),
+                rangeAcidity.getValuePickerWidget(),
+                rangeBitterness.getValuePickerWidget(),
+                rangeBalance.getValuePickerWidget(),
                 descField(),
                 Container(margin: EdgeInsets.only(bottom: 10.0)),
                 imageField(),
@@ -124,12 +124,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              widget.coffeeData.aroma = range_aroma.iCounter;
-              widget.coffeeData.body = range_body.iCounter;
-              widget.coffeeData.sweet = range_sweet.iCounter;
-              widget.coffeeData.acidity = range_acidity.iCounter;
-              widget.coffeeData.bitterness = range_bitterness.iCounter;
-              widget.coffeeData.balance = range_balance.iCounter;
+              widget.coffeeData.aroma = rangeAroma.iCounter;
+              widget.coffeeData.body = rangeBody.iCounter;
+              widget.coffeeData.sweet = rangeSweet.iCounter;
+              widget.coffeeData.acidity = rangeAcidity.iCounter;
+              widget.coffeeData.bitterness = rangeBitterness.iCounter;
+              widget.coffeeData.balance = rangeBalance.iCounter;
               createDoc();
               Navigator.pop(this.context);
             }
@@ -157,12 +157,12 @@ class CoffeebasePageState extends State<CoffeebasePage> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               _formKey.currentState.save();
-              widget.coffeeData.aroma = range_aroma.iCounter;
-              widget.coffeeData.body = range_body.iCounter;
-              widget.coffeeData.sweet = range_sweet.iCounter;
-              widget.coffeeData.acidity = range_acidity.iCounter;
-              widget.coffeeData.bitterness = range_bitterness.iCounter;
-              widget.coffeeData.balance = range_balance.iCounter;
+              widget.coffeeData.aroma = rangeAroma.iCounter;
+              widget.coffeeData.body = rangeBody.iCounter;
+              widget.coffeeData.sweet = rangeSweet.iCounter;
+              widget.coffeeData.acidity = rangeAcidity.iCounter;
+              widget.coffeeData.bitterness = rangeBitterness.iCounter;
+              widget.coffeeData.balance = rangeBalance.iCounter;
               updateDoc();
               Navigator.pop(this.context);
             }

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:coffeedic/screens/home/main_screen.dart';
 import 'package:coffeedic/util/const.dart';
@@ -14,16 +12,11 @@ import 'package:coffeedic/language/translations_delegate.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 
 Future<void> main() async {
-//  final String myAppId = Platform.isAndroid
-//       ? 'ca-app-pub-3940256099942544~3347511713'
-//       : 'ca-app-pub-3940256099942544~1458002511';
-
   WidgetsFlutterBinding.ensureInitialized();
-
-  //FirebaseAdMob.instance.initialize
   await Firebase.initializeApp();
   Admob.initialize();
   await Admob.requestTrackingAuthorization();
+
   runApp(MyApp());
 }
 

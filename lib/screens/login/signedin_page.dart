@@ -25,122 +25,55 @@ class SignedInPageState extends State<SignedInPage> {
 
     double propertyWith = 130;
     return Scaffold(
-      appBar: AppBar(title: Text("Singed In Page")),
+      appBar: AppBar(),
       body: ListView(
         children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: Column(
-              children: <Widget>[
-                //Hader
-                Container(
-                  height: 50,
-                  decoration: BoxDecoration(color: Colors.amber),
-                  child: Center(
-                    child: Text(
-                      "Signed In User Info",
-                      style: TextStyle(
-                          color: Colors.blueGrey,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-
-                // User's Info Area
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.amber, width: 1),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: propertyWith,
-                            child: Text("UID", style: tsItem),
-                          ),
-                          Expanded(
-                            child: Text(fp.getUser().uid, style: tsContent),
-                          )
-                        ],
-                      ),
-                      Divider(height: 1),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: propertyWith,
-                            child: Text("Email", style: tsItem),
-                          ),
-                          Expanded(
-                            child: Text(fp.getUser().email, style: tsContent),
-                          )
-                        ],
-                      ),
-                      Divider(height: 1),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: propertyWith,
-                            child: Text("Name", style: tsItem),
-                          ),
-                          Expanded(
-                            child: Text(fp.getUser().displayName ?? "",
-                                style: tsContent),
-                          )
-                        ],
-                      ),
-                      Divider(height: 1),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: propertyWith,
-                            child: Text("Phone Number", style: tsItem),
-                          ),
-                          Expanded(
-                            child: Text(fp.getUser().phoneNumber ?? "",
-                                style: tsContent),
-                          )
-                        ],
-                      ),
-                      Divider(height: 1),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: propertyWith,
-                            child: Text("isEmailVerified", style: tsItem),
-                          ),
-                          Expanded(
-                            child: Text(fp.getUser().emailVerified.toString(),
-                                style: tsContent),
-                          )
-                        ],
-                      ),
-                      Divider(height: 1),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: propertyWith,
-                            child: Text("Provider ID", style: tsItem),
-                          ),
-                          Expanded(
-                            child: Text(fp.getUser().providerData.toString(),
-                                style: tsContent),
-                          )
-                        ],
-                      ),
-                    ].map((c) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        child: c,
-                      );
-                    }).toList(),
-                  ),
-                )
-              ],
+          Padding(
+            padding: EdgeInsets.only(left: 20.0, right: 20.0),
+            child: Text(
+              "로그인 되었습니다. \n환영합니다.",
+              style: TextStyle(
+                fontSize: 26.0,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
+          SizedBox(
+            height: 35,
+          ),
+          Container(
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Container(
+                child: Column(children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: propertyWith,
+                        child: Text(
+                          "Email",
+                          style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          fp.getUser().email,
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 18,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ]),
+              ),
+            ),
+          ),
+          // User's Info Area
 
           // Sign In Button
           Container(
@@ -202,41 +135,33 @@ class SignedInPageState extends State<SignedInPage> {
             ),
           ),
 
-          // Firebase CloudStore CRUD
-          Container(
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: RaisedButton(
-              color: Colors.blueGrey[300],
-              child: Text(
-                "커피 데이타 입력/수정",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CoffeebaseList()));
-              },
-            ),
-          ),
-
-          // image test
-          Container(
-            margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-            child: RaisedButton(
-              color: Colors.blueGrey[300],
-              child: Text(
-                "image file  upload test",
-                style: TextStyle(color: Colors.white),
-              ),
-              onPressed: () {
-                // Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //         builder: (context) => CloudStorageDemo()));
-              },
-            ),
-          ),
+          managerPage()
         ],
       ),
     );
+  }
+
+  Widget managerPage() {
+    if (fp.getUser().email == "tnflower@naver.com") {
+      return // Firebase CloudStore CRUD
+          Container(
+        margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
+        child: RaisedButton(
+          color: Colors.blueGrey[300],
+          child: Text(
+            "관리자용 : 커피 데이타 입력/수정",
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CoffeebaseList()));
+          },
+        ),
+      );
+    } else {
+      return Container(
+          margin: const EdgeInsets.only(left: 20, right: 20, top: 30),
+          child: Text(""));
+    }
   }
 }

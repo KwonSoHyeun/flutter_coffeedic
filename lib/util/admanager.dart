@@ -3,7 +3,7 @@ import 'package:admob_flutter/admob_flutter.dart';
 import 'package:flutter/material.dart';
 
 class AdManager {
-  AdmobBanner _bannerAd;
+  //AdmobBanner _bannerAd;
 
   // init() async {
   //  // FirebaseAdMob.instance.initialize(appId: appID);
@@ -22,7 +22,7 @@ class AdManager {
 
   Widget bannerContainer() {
     return Padding(
-        padding: const EdgeInsets.only(bottom: 0.0),
+        padding: const EdgeInsets.only(top: 0.0, bottom: 0.0),
         child: InkWell(
             child: Container(
                 // height: 50,

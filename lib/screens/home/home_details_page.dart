@@ -1,10 +1,8 @@
+import 'package:coffeedic/util/alertdialogs.dart';
 import 'package:flutter/material.dart';
-//import 'package:coffeedic/util/places.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:coffeedic/util/admanager.dart';
-
-//import 'package:coffeedic/widgets/range_icon.dart';
 
 class Details extends StatefulWidget {
   final Map coffeedata;
@@ -19,144 +17,144 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    //print(coffeedata.toString());
-    //print("sweet" + coffeedata["sweet"].toString());
     return Scaffold(
-      appBar: AppBar(
-        //toolbarHeight: 30,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: IconBadge(
-              icon: Icons.notifications_none,
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
             ),
-            onPressed: () {},
+            onPressed: () => Navigator.pop(context),
           ),
-        ],
-      ),
-      body: ListView(
-        children: <Widget>[
-          //SizedBox(height: 20.0),
-          buildSlider(),
-          SizedBox(height: 10.0),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.help_outline_rounded),
+              onPressed: () {
+                showAlertDialogHelp(context, "homedetail");
+              },
+              color: Colors.orange,
+            ),
+          ],
+        ),
+        body: Column(children: [
+          Expanded(
+            child: ListView(
+              children: <Widget>[
+                //SizedBox(height: 20.0),
+                buildSlider(),
+                SizedBox(height: 10.0),
+                //adMob.bannerContainer(),
+                SizedBox(height: 10),
+                ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  primary: false,
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "${widget.coffeedata["name"]}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                            ),
+                            maxLines: 2,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.bookmark,
+                          ),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.location_on,
+                          size: 14,
+                          color: Colors.blueGrey[300],
+                        ),
+                        SizedBox(width: 3),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "${widget.coffeedata["country"]}",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: Colors.blueGrey[300],
+                            ),
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "${widget.coffeedata["city"]}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
+                        maxLines: 1,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      //alignment: Alignment.topLeft,
+                      child: Text(
+                        "Details",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        maxLines: 1,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "${widget.coffeedata["desc"]}",
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 15.0,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    SizedBox(height: 20.0),
+                    buildRangeIcon(
+                        "Aroma", widget.coffeedata["aroma"].toDouble()),
+                    buildRangeIcon(
+                        "Body", widget.coffeedata["body"].toDouble()),
+                    buildRangeIcon(
+                        "Sweet", widget.coffeedata["sweet"].toDouble()),
+                    buildRangeIcon(
+                        "Acidity", widget.coffeedata["acidity"].toDouble()),
+                    buildRangeIcon("Bitterness",
+                        widget.coffeedata["bitterness"].toDouble()),
+                    buildRangeIcon(
+                        "Balance", widget.coffeedata["balance"].toDouble())
+                  ],
+                ),
+              ],
+            ),
+          ),
           adMob.bannerContainer(),
-          SizedBox(height: 10),
-          ListView(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            primary: false,
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "${widget.coffeedata["name"]}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                      maxLines: 2,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.bookmark,
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Icon(
-                    Icons.location_on,
-                    size: 14,
-                    color: Colors.blueGrey[300],
-                  ),
-                  SizedBox(width: 3),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "${widget.coffeedata["country"]}",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13,
-                        color: Colors.blueGrey[300],
-                      ),
-                      maxLines: 1,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "${widget.coffeedata["city"]}",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17,
-                  ),
-                  maxLines: 1,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                //alignment: Alignment.centerLeft,
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Details",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                  maxLines: 1,
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "${widget.coffeedata["desc"]}",
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.0,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              SizedBox(height: 20.0),
-              buildRangeIcon("Aroma", widget.coffeedata["aroma"].toDouble()),
-              buildRangeIcon("Body", widget.coffeedata["body"].toDouble()),
-              buildRangeIcon("Sweet", widget.coffeedata["sweet"].toDouble()),
-              buildRangeIcon(
-                  "Acidity", widget.coffeedata["acidity"].toDouble()),
-              buildRangeIcon(
-                  "Bitterness", widget.coffeedata["bitterness"].toDouble()),
-              buildRangeIcon("Balance", widget.coffeedata["balance"].toDouble())
-            ],
-          ),
-        ],
-      ),
-      // floatingActionButton: FloatingActionButton(
-      //   child: Icon(
-      //     Icons.airplanemode_active,
-      //   ),
-      //   onPressed: () {},
-      // ),
-    );
+        ]));
   }
 
   buildRangeIcon(String label, double initvalue) {

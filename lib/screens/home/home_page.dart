@@ -1,7 +1,7 @@
 import 'package:coffeedic/language/translations.dart';
+import 'package:coffeedic/util/alertdialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/horizontal_place_item.dart';
-import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:coffeedic/widgets/search_bar.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +10,6 @@ import 'package:coffeedic/widgets/vertical_place_item.dart';
 import 'package:admob_flutter/admob_flutter.dart';
 import 'package:coffeedic/util/admanager.dart';
 
-//import 'package:coffeedic/util/places.dart';
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -19,20 +17,19 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   AdManager adMob = AdManager();
-  String _search_word = "";
-  //AdmobBannerSize bannerSize;
+  String _searchWord = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          //toolbarHeight: 30,
           actions: <Widget>[
             IconButton(
-              icon: IconBadge(
-                icon: Icons.notifications_none,
-              ),
-              onPressed: () {},
+              icon: Icon(Icons.help_outline_rounded),
+              onPressed: () {
+                showAlertDialogHelp(context, "home");
+              },
+              color: Colors.orange,
             ),
           ],
         ),
@@ -45,7 +42,7 @@ class _HomeState extends State<Home> {
 
   void setSearchWord(String word) {
     setState(() {
-      this._search_word = word;
+      this._searchWord = word;
     });
   }
 
@@ -58,7 +55,7 @@ class _HomeState extends State<Home> {
   Widget buildListView() {
     final product = Provider.of<List<Coffee>>(context);
     final firestoreService = FirestoreService();
-
+//resizeToAvoidBottomInset : false 키보드로 인한 재 계산을 하지 않도록
     return ListView(
       shrinkWrap: true,
       physics: ScrollPhysics(),
@@ -77,16 +74,19 @@ class _HomeState extends State<Home> {
           padding: EdgeInsets.all(10.0),
           child: SearchBar(setkeyword: setSearchWord),
         ),
-        Padding(
-            padding: EdgeInsets.all(2.0),
-            child: adMob.bannerContainer() //bannerContainer(),
-            ),
+
+        //Banner 를 홈리스트뷰에서 보이지 않도록 한다. 자료를 효과적으로 이용 한 사람에게만 광고를 보여주자
+        // Padding(
+        //     padding: EdgeInsets.all(2.0),
+        //     child: adMob.bannerContainer() //bannerContainer(),
+        //     ),
+
         if (product != null)
           buildHorizontalList(
-              firestoreService.keywordFilter(product, _search_word)),
+              firestoreService.keywordFilter(product, _searchWord)),
         if (product != null)
           buildVerticalList(
-              firestoreService.keywordFilter(product, _search_word)),
+              firestoreService.keywordFilter(product, _searchWord)),
       ],
     );
   }
@@ -95,14 +95,12 @@ class _HomeState extends State<Home> {
     List<Coffee> horizontallist = new List<Coffee>();
 
     if (products != null && products.length >= 4) {
-      //print("######products have data:::" + products.length.toString());
       horizontallist = products.sublist(0, 4);
     } else {
       horizontallist.addAll(products);
     }
 
     return Container(
-      //color: Colors.white,
       padding: EdgeInsets.only(top: 10.0, left: 20.0),
       height: 240.0,
       width: MediaQuery.of(context).size.width,
@@ -145,9 +143,6 @@ class _HomeState extends State<Home> {
               )
             : Text("no data..."));
   }
-
-////'ca-app-pub-3940256099942544/2934735716', // test adUnit Id
-  ///List<Widget> fakeBottomButtons = new List<Widget>();
 
   Widget bannerContainer() {
     return Padding(
