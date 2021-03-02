@@ -74,7 +74,7 @@ class ProductProvider with ChangeNotifier {
   }
 
   loadValues(Coffee product) {
-    print("##########loadValues" + _coffeeId.toString());
+    //print("##########loadValues" + _coffeeId.toString());
     _coffeeId = product.coffeeId;
     _name = product.name;
     _country = product.country;

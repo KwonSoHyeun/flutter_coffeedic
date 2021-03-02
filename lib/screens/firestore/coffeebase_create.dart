@@ -317,7 +317,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   //Image
   Widget imageField() {
     _profileImageURL = widget.coffeeData.image;
-    print("_profileImageURL###########" + _profileImageURL);
+    //print("_profileImageURL###########" + _profileImageURL);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,

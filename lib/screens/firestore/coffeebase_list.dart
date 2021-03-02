@@ -118,9 +118,6 @@ class CoffeebaseListState extends State<CoffeebaseList> {
       //final Map<String, dynamic> map = doc.data();
 
       var coffeedata = Coffee.setFromFirestore(doc.data());
-      print("coffee_data:#####" +
-          coffeedata.name.toString() +
-          coffeedata.country.toString());
       Navigator.push(
           context,
           MaterialPageRoute(

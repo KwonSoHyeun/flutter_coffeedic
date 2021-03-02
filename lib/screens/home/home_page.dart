@@ -46,11 +46,11 @@ class _HomeState extends State<Home> {
     });
   }
 
-  filtedCoffeeList(List<Coffee> products) {
-    List<Coffee> coffeeproduct = new List<Coffee>();
-    if (products != null) coffeeproduct.addAll(products);
-    return coffeeproduct;
-  }
+  // filtedCoffeeList(List<Coffee> products) {
+  //   List<Coffee> coffeeproduct = new List<Coffee>();
+  //   if (products != null) coffeeproduct.addAll(products);
+  //   return coffeeproduct;
+  // }
 
   Widget buildListView() {
     final product = Provider.of<List<Coffee>>(context);
@@ -154,9 +154,8 @@ class _HomeState extends State<Home> {
                     adUnitId: AdManager.bannerAdUnitId,
                     adSize: AdmobBannerSize.BANNER,
                     listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-                      print(event);
-                      print(args);
-                      //handleEvent();
+                      //print(event);
+                      //print(args);
                     }))));
   }
 }

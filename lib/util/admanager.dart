@@ -15,8 +15,8 @@ class AdManager {
         adUnitId: AdManager.bannerAdUnitId,
         adSize: AdmobBannerSize.BANNER,
         listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-          print(event);
-          print(args);
+          // print(event);
+          // print(args);
         });
   }
 

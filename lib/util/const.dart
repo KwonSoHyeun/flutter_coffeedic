@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Constants {
   static bool isForManager = false; //로그인 모드를 설정함
+
   static String appName = "Coffee Tree";
 
   //Colors for theme

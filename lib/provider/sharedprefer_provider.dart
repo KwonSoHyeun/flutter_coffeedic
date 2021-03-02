@@ -48,7 +48,7 @@ class SharedPreferProvider {
     favoritValue['acidity'] = (prefs.getInt("f_acidity") ?? 1);
     favoritValue['bitter'] = (prefs.getInt("f_bitter") ?? 1);
     favoritValue['balance'] = (prefs.getInt("f_balance") ?? 1);
-    print("favoritValue[aroma]*" + favoritValue["aroma"].toString());
+    //print("favoritValue[aroma]*" + favoritValue["aroma"].toString());
     return favoritValue;
   }
 }

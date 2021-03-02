@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffeedic/models/coffee.dart';
 import 'package:coffeedic/util/alertdialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
@@ -7,6 +8,7 @@ import 'package:coffeedic/widgets/vertical_favorite_item.dart';
 import 'package:coffeedic/services/firestore_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:coffeedic/util/admanager.dart';
+import 'package:provider/provider.dart';
 
 class FavouritePage extends StatefulWidget {
   @override
@@ -42,7 +44,7 @@ class _FavouritePageState extends State<FavouritePage> {
 
   @override
   Widget build(BuildContext context) {
-    //final product = Provider.of<List<Coffee>>(context);
+    final product = Provider.of<List<Coffee>>(context);
     final firestoreService = FirestoreService();
 
     return Scaffold(
@@ -114,7 +116,9 @@ class _FavouritePageState extends State<FavouritePage> {
                         child: buildRatioValueSetting()),
                     Visibility(
                         visible: isVisibleList,
-                        child: buildVerticalList(firestoreService)),
+                        child: buildVerticalList(
+                            firestoreService.favoriteValuesFilter(
+                                product, isSwitchOn, favoritValue))),
                   ],
                 )
               ],
@@ -253,36 +257,20 @@ class _FavouritePageState extends State<FavouritePage> {
     );
   }
 
-  Widget buildVerticalList(FirestoreService _firestoreService) {
+  Widget buildVerticalList(List<Coffee> products) {
     return Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: _firestoreService.getFavoritCoffees(isSwitchOn, favoritValue),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasError) {
-              return Text("Error: ${snapshot.error}");
-            }
-            if (!snapshot.hasData) {
-              return Text("no data...");
-            } else {
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return CircularProgressIndicator();
-                default:
-                  return ListView.builder(
-                      primary: false,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (context, index) {
-                        //print("length#####" + snapshot.data.docs.length.toString());
-                        Map place = snapshot.data.docs[index].data();
-                        return VerticalPlaceItem(place: place);
-                      });
-              }
-            }
-          },
-        ));
+        padding: EdgeInsets.only(left: 20.0), //EdgeInsets.all(20.0),
+        child: (products != null)
+            ? ListView.builder(
+                primary: false,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: products == null ? 0 : products.length,
+                itemBuilder: (BuildContext context, int index) {
+                  Map place = products[index].toMap();
+                  return VerticalPlaceItem(coffeedata: place);
+                },
+              )
+            : Text("no data..."));
   }
 }

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 //import '../screens/home/home_details_page.dart';
 
 class VerticalPlaceItem extends StatelessWidget {
-  final Map place;
+  final Map coffeedata;
 
-  VerticalPlaceItem({this.place});
+  VerticalPlaceItem({this.coffeedata});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class VerticalPlaceItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Image.network(
-                  "${place["image"]}",
+                  "${coffeedata["image"]}",
                   height: 70.0,
                   width: 70.0,
                   fit: BoxFit.cover,
@@ -38,7 +38,7 @@ class VerticalPlaceItem extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "${place["name"]}",
+                        "${coffeedata["name"]}",
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14.0,
@@ -59,7 +59,7 @@ class VerticalPlaceItem extends StatelessWidget {
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "${place["city"]}",
+                            "${coffeedata["city"]}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 13.0,
@@ -75,7 +75,7 @@ class VerticalPlaceItem extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "${place["desc"]}",
+                        "${coffeedata["desc"]}",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 13.0,
@@ -94,7 +94,7 @@ class VerticalPlaceItem extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return Details(place);
+                return Details(coffeedata);
               },
             ),
           );

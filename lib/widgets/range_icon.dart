@@ -59,7 +59,6 @@ class ValuePickerState extends State<ValuePicker> {
     _iCounter = widget.iCounter;
     _isreadonly = widget.isReadOnly;
     //_mydefaultsize = 50.0;
-    print("_iCounter ======" + _iCounter.toString());
   }
 
   @override
