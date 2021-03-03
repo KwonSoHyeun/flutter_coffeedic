@@ -1,8 +1,10 @@
+import 'package:coffeedic/provider/heartcheck_provider.dart';
 import 'package:coffeedic/util/alertdialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:coffeedic/util/admanager.dart';
+import 'package:provider/provider.dart';
 
 class Details extends StatefulWidget {
   final Map coffeedata;
@@ -17,6 +19,7 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
+    final checkedProduct = Provider.of<HeartCheckProvider>(context);
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -67,9 +70,13 @@ class _DetailsState extends State<Details> {
                         ),
                         IconButton(
                           icon: Icon(
-                            Icons.bookmark,
+                            Icons.favorite_border,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            print("${widget.coffeedata["coffeeId"]}");
+                            checkedProduct.addCheckedDocList(
+                                "${widget.coffeedata["coffeeId"]}");
+                          },
                         ),
                       ],
                     ),
