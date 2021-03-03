@@ -6,6 +6,8 @@ import 'package:coffeedic/screens/home/experience_page.dart';
 import 'package:coffeedic/screens/home/auth_page.dart';
 import 'package:coffeedic/widgets/icon_badge.dart';
 
+import 'heart_page.dart';
+
 class MainScreen extends StatefulWidget {
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -28,12 +30,14 @@ class _MainScreenState extends State<MainScreen> {
             ? <Widget>[
                 Home(),
                 FavouritePage(),
+                HeartPage(),
                 ExperiencePage(),
                 AuthPage(),
               ]
             : <Widget>[
                 Home(),
                 FavouritePage(),
+                HeartPage(),
                 //ExperiencePage(),
                 //AuthPage(),
               ],
@@ -47,17 +51,16 @@ class _MainScreenState extends State<MainScreen> {
                   SizedBox(width: 7.0),
                   barIcon(icon: Icons.home_filled, page: 0),
                   barIcon(icon: Icons.sentiment_satisfied_alt, page: 1),
-                  barIcon(icon: Icons.storefront, page: 2),
-                  barIcon(
-                    icon: Icons.person,
-                    page: 3,
-                  ),
+                  barIcon(icon: Icons.favorite, page: 2),
+                  barIcon(icon: Icons.storefront, page: 3),
+                  barIcon(icon: Icons.person, page: 4),
                   SizedBox(width: 7.0),
                 ]
               : <Widget>[
                   SizedBox(width: 7.0),
                   barIcon(icon: Icons.home_filled, page: 0),
                   barIcon(icon: Icons.sentiment_satisfied_alt, page: 1),
+                  barIcon(icon: Icons.favorite, page: 2),
                   SizedBox(width: 7.0),
                 ],
         ),

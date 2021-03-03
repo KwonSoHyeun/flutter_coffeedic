@@ -51,4 +51,7 @@ class SharedPreferProvider {
     //print("favoritValue[aroma]*" + favoritValue["aroma"].toString());
     return favoritValue;
   }
+
+  //heart check / uncheck
+
 }

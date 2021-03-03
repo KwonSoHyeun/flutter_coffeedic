@@ -40,7 +40,7 @@ class SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     fp = Provider.of<FirebaseAuthProvider>(context);
 
-    logger.d(fp.getUser());
+    //logger.d(fp.getUser());
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(),

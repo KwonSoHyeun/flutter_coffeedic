@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+////import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:coffeedic/util/alertdialogs.dart';
 import 'package:flutter/material.dart';
-import 'package:coffeedic/widgets/icon_badge.dart';
+//import 'package:coffeedic/widgets/icon_badge.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:coffeedic/widgets/vertical_favorite_item.dart';
 import 'package:coffeedic/services/firestore_service.dart';

@@ -1,3 +1,4 @@
+import 'package:coffeedic/provider/heartcheck_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:coffeedic/screens/home/main_screen.dart';
 import 'package:coffeedic/util/const.dart';
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
         StreamProvider(create: (context) {
           return firestoreService.getCoffees();
         }),
+        ChangeNotifierProvider(create: (context) => HeartCheckProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
