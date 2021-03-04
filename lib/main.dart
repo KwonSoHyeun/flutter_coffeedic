@@ -38,7 +38,11 @@ class _MyAppState extends State<MyApp> {
         StreamProvider(create: (context) {
           return firestoreService.getCoffees();
         }),
-        ChangeNotifierProvider(create: (context) => HeartCheckProvider()),
+        // ChangeNotifierProvider(create: (context) {
+        //   return HeartCheckProvider();
+        // }),
+        ChangeNotifierProvider<HeartCheckProvider>(
+            create: (context) => HeartCheckProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

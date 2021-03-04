@@ -14,16 +14,21 @@ class HeartPage extends StatefulWidget {
 class _HeartPageState extends State<HeartPage> {
   AdManager adMob = AdManager();
 
+  HeartCheckProvider checkedProduct;
+
   @override
-  initState() {
+  void initState() {
     super.initState();
+    //checkedProduct = Provider.of<HeartCheckProvider>(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<List<Coffee>>(context);
-    final checkedProduct = Provider.of<HeartCheckProvider>(context);
-
+    //print("product size=======" + product.length.toString());
+    checkedProduct = Provider.of<HeartCheckProvider>(context);
+    //List<Coffee> postDatas = checkedProduct.getPostList(product);
+    //print("postDatas size=======" + postDatas.length.toString());
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
@@ -53,8 +58,10 @@ class _HeartPageState extends State<HeartPage> {
                 ),
                 //SizedBox(width: 20.0),
                 Container(
-                    padding: EdgeInsets.only(top: 20),
-                    child: buildCheckedList(checkedProduct, product)),
+                  padding: EdgeInsets.only(top: 20),
+                  child:
+                      buildVerticalList(checkedProduct.getHeartList(product)),
+                )
               ],
             ),
           ])),
@@ -87,20 +94,6 @@ class _HeartPageState extends State<HeartPage> {
         );
       },
     );
-  }
-
-  Widget buildCheckedList(HeartCheckProvider pro, List<Coffee> products) {
-    pro.getCheckedList(products).then((val) {
-      if (val == null) {
-        print("val 실행시 길이1::::" + val.length.toString());
-        return Container();
-      } else {
-        //setState(() {
-        return buildVerticalList(val);
-        //});
-        //return buildVerticalList(val);
-      }
-    });
   }
 
   Widget buildVerticalList(List<Coffee> products) {
