@@ -19,23 +19,20 @@ class _HeartPageState extends State<HeartPage> {
   @override
   void initState() {
     super.initState();
-    //checkedProduct = Provider.of<HeartCheckProvider>(context);
   }
 
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<List<Coffee>>(context);
-    //print("product size=======" + product.length.toString());
     checkedProduct = Provider.of<HeartCheckProvider>(context);
-    //List<Coffee> postDatas = checkedProduct.getPostList(product);
-    //print("postDatas size=======" + postDatas.length.toString());
+
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.help_outline_rounded),
               onPressed: () {
-                showAlertDialogHelp(context, "favorite");
+                showAlertDialogHelp(context, "heart");
               },
               color: Colors.orange,
             ),

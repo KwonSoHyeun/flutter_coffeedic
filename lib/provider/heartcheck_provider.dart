@@ -18,18 +18,20 @@ class HeartCheckProvider with ChangeNotifier {
   }
 
   List<Coffee> getHeartList(List<Coffee> coffeelist) {
-    //asyc 이면서 배열값을 리턴하기에 future를 써서 받는쪽에서 어렵다.
-    initHeartCheck(coffeelist);
-    return heartCheckedList;
-  }
-
-  void initHeartCheck(List<Coffee> coffeelist) async {
     heartCheckedList.clear();
     coffeelist.forEach((element) {
       if (heartDocIdList.contains(element.coffeeId)) {
         heartCheckedList.add(element);
       }
     });
+    return heartCheckedList;
+  }
+
+  bool isHeart(String documentId) {
+    if (heartDocIdList.contains(documentId))
+      return true;
+    else
+      return false;
   }
 
   addCheckedDocList(String documentId) async {

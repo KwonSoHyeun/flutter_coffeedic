@@ -69,13 +69,23 @@ class _DetailsState extends State<Details> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(
-                            Icons.favorite_border,
-                          ),
+                          icon: checkedProduct
+                                  .isHeart(widget.coffeedata["coffeeId"])
+                              ? Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                )
+                              : Icon(
+                                  Icons.favorite_border,
+                                  color: Colors.grey,
+                                ),
                           onPressed: () {
-                            print("${widget.coffeedata["coffeeId"]}");
-                            checkedProduct.addCheckedDocList(
-                                "${widget.coffeedata["coffeeId"]}");
+                            checkedProduct
+                                    .isHeart(widget.coffeedata["coffeeId"])
+                                ? checkedProduct.removeCheckedDocList(
+                                    "${widget.coffeedata["coffeeId"]}")
+                                : checkedProduct.addCheckedDocList(
+                                    "${widget.coffeedata["coffeeId"]}");
                           },
                         ),
                       ],
