@@ -14,17 +14,17 @@ class HeartPage extends StatefulWidget {
 class _HeartPageState extends State<HeartPage> {
   AdManager adMob = AdManager();
 
+  HeartCheckProvider checkedProduct;
+
   @override
-  initState() {
+  void initState() {
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<List<Coffee>>(context);
-    final checkedProduct = Provider.of<HeartCheckProvider>(context);
-
-    checkedProduct.initCheckedList(product);
+    checkedProduct = Provider.of<HeartCheckProvider>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -32,7 +32,7 @@ class _HeartPageState extends State<HeartPage> {
             IconButton(
               icon: Icon(Icons.help_outline_rounded),
               onPressed: () {
-                showAlertDialogHelp(context, "favorite");
+                showAlertDialogHelp(context, "heart");
               },
               color: Colors.orange,
             ),
@@ -55,8 +55,10 @@ class _HeartPageState extends State<HeartPage> {
                 ),
                 //SizedBox(width: 20.0),
                 Container(
-                    padding: EdgeInsets.only(top: 20),
-                    child: buildVerticalList(product)),
+                  padding: EdgeInsets.only(top: 20),
+                  child:
+                      buildVerticalList(checkedProduct.getHeartList(product)),
+                )
               ],
             ),
           ])),
@@ -92,6 +94,7 @@ class _HeartPageState extends State<HeartPage> {
   }
 
   Widget buildVerticalList(List<Coffee> products) {
+    print("buildVerticalList 실행시 길이" + products.length.toString());
     return Padding(
         padding: EdgeInsets.only(left: 20.0), //EdgeInsets.all(20.0),
         child: (products != null)
@@ -101,6 +104,7 @@ class _HeartPageState extends State<HeartPage> {
                 shrinkWrap: true,
                 itemCount: products == null ? 0 : products.length,
                 itemBuilder: (BuildContext context, int index) {
+                  print("index::::" + index.toString());
                   Map place = products[index].toMap();
                   return VerticalHeartItem(coffeedata: place);
                 },

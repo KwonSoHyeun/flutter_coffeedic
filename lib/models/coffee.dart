@@ -106,6 +106,7 @@ class Coffee {
 
   Map<String, dynamic> toMap() {
     return {
+      'coffeeId': coffeeId,
       'name': name,
       'country': country,
       'city': city,
