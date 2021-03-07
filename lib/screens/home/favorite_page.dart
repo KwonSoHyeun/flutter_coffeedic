@@ -78,6 +78,7 @@ class _FavouritePageState extends State<FavouritePage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 20.0),
                 Row(children: <Widget>[
                   SizedBox(width: 20.0),
                   Expanded(
@@ -108,7 +109,7 @@ class _FavouritePageState extends State<FavouritePage> {
                             alignment: Alignment.center,
                             padding: EdgeInsets.only(bottom: 2),
                             decoration: BoxDecoration(
-                              color: Colors.orange.withOpacity(0.3),
+                              color: Colors.amber.withOpacity(0.3),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Text(
