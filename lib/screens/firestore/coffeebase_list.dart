@@ -2,6 +2,7 @@ import 'package:coffeedic/screens/firestore/coffeebase_create.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
+import 'package:provider/provider.dart';
 
 CoffeebaseListState pageState;
 
@@ -19,6 +20,8 @@ class CoffeebaseListState extends State<CoffeebaseList> {
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<List<Coffee>>(context);
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(title: Text("FirestoreFirstDemo")),
@@ -38,7 +41,16 @@ class CoffeebaseListState extends State<CoffeebaseList> {
       body: ListView(
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height,
+              alignment: Alignment.centerRight,
+              child: Text(
+                "ItemCount: ${product.length} ",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w600,
+                ),
+              )),
+          Container(
+            height: MediaQuery.of(context).size.height - 100,
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection(coffee.colName)
