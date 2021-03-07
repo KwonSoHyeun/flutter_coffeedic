@@ -47,6 +47,10 @@ class _FavouritePageState extends State<FavouritePage> {
     final product = Provider.of<List<Coffee>>(context);
     final firestoreService = FirestoreService();
 
+    List<Coffee> filteredlist = new List<Coffee>();
+    filteredlist = firestoreService.favoriteValuesFilter(
+        product, isSwitchOn, favoritValue);
+
     return Scaffold(
         appBar: AppBar(
           actions: <Widget>[
@@ -67,7 +71,7 @@ class _FavouritePageState extends State<FavouritePage> {
                 Padding(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                    "원두 취향 \n찾아 보시겠어요?",
+                    "취향에 맞는 원두를 \n찾아 보시겠어요?",
                     style: TextStyle(
                       fontSize: 26.0,
                       fontWeight: FontWeight.w600,
@@ -96,13 +100,29 @@ class _FavouritePageState extends State<FavouritePage> {
                   Expanded(
                     flex: 5,
                     child: FlatButton(
-                      child: Text("원두 목록"),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("원두목록 "),
+                          Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.only(bottom: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.orange.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                            child: Text(
+                                firestoreService.favoriteItemCount.toString()),
+                            height: 27.0,
+                            width: 27.0,
+                          )
+                        ],
+                      ), //Text("원두 목록"),
                       color: !isVisibleList ? Colors.grey : Colors.blueAccent,
                       textColor: Colors.white,
                       onPressed: () {
                         setState(() {
                           isVisibleList = true;
-                          //print("isVisibleList #### $isVisibleList");
                         });
                       },
                     ),
@@ -116,9 +136,7 @@ class _FavouritePageState extends State<FavouritePage> {
                         child: buildRatioValueSetting()),
                     Visibility(
                         visible: isVisibleList,
-                        child: buildVerticalList(
-                            firestoreService.favoriteValuesFilter(
-                                product, isSwitchOn, favoritValue))),
+                        child: buildVerticalList(filteredlist)),
                   ],
                 )
               ],

@@ -10,7 +10,7 @@ class VerticalHeartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("map 실행시 길이");
+    //print("map 실행시 길이");
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: InkWell(

@@ -97,7 +97,7 @@ class _HeartPageState extends State<HeartPage> {
   }
 
   Widget buildVerticalList(List<Coffee> products) {
-    print("buildVerticalList 실행시 길이" + products.length.toString());
+    //print("buildVerticalList 실행시 길이" + products.length.toString());
     return Padding(
         padding: EdgeInsets.only(left: 20.0), //EdgeInsets.all(20.0),
         child: (products != null)
@@ -107,7 +107,7 @@ class _HeartPageState extends State<HeartPage> {
                 shrinkWrap: true,
                 itemCount: products == null ? 0 : products.length,
                 itemBuilder: (BuildContext context, int index) {
-                  print("index::::" + index.toString());
+                  //print("index::::" + index.toString());
                   Map place = products[index].toMap();
                   return VerticalHeartItem(coffeedata: place);
                 },
