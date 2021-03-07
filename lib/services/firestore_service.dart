@@ -19,6 +19,14 @@ class FirestoreService with ChangeNotifier {
         .set(product.toMap());
   }
 
+  int favoriteItemCount = 0;
+
+  int getFavoriteItemCount() {
+    //print("getFavoriteItemCount:called");
+
+    return favoriteItemCount;
+  }
+
   List<Coffee> favoriteValuesFilter(
       List<Coffee> coffeelist, Map isswichon, Map myfavorite) {
     List<Coffee> filteredlist = new List<Coffee>();
@@ -59,6 +67,8 @@ class FirestoreService with ChangeNotifier {
         continue;
     }
     //print("length:" + filteredlist.length.toString());
+    favoriteItemCount = filteredlist.length;
+
     return filteredlist;
   }
 
