@@ -46,7 +46,10 @@ class _HeartPageState extends State<HeartPage> {
                 Padding(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                    "맘에 드는 원두 \n보관함입니다.",
+                    //"맘에 드는 원두 \n보관함입니다.",
+                    //"나만의 원두 보관함",
+                    //내가 좋아하는 \n원두 보관함",
+                    "내가 고른 \n원두 보관함",
                     style: TextStyle(
                       fontSize: 26.0,
                       fontWeight: FontWeight.w600,

@@ -46,12 +46,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  // filtedCoffeeList(List<Coffee> products) {
-  //   List<Coffee> coffeeproduct = new List<Coffee>();
-  //   if (products != null) coffeeproduct.addAll(products);
-  //   return coffeeproduct;
-  // }
-
   Widget buildListView() {
     final product = Provider.of<List<Coffee>>(context);
     final firestoreService = FirestoreService();

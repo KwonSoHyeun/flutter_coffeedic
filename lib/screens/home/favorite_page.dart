@@ -231,7 +231,7 @@ class _FavouritePageState extends State<FavouritePage> {
   }
 
   void showAlertDialog(BuildContext context) async {
-    String result = await showDialog(
+    await showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {

@@ -19,11 +19,14 @@ class HeartCheckProvider with ChangeNotifier {
 
   List<Coffee> getHeartList(List<Coffee> coffeelist) {
     heartCheckedList.clear();
-    coffeelist.forEach((element) {
-      if (heartDocIdList.contains(element.coffeeId)) {
-        heartCheckedList.add(element);
+    heartDocIdList.forEach((element) {
+      int index = -1;
+      index = coffeelist.indexWhere((data) => data.coffeeId == element);
+      if (index >= 0) {
+        heartCheckedList.add(coffeelist[index]);
       }
     });
+
     return heartCheckedList;
   }
 

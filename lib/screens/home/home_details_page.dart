@@ -1,7 +1,7 @@
 import 'package:coffeedic/provider/heartcheck_provider.dart';
 import 'package:coffeedic/util/alertdialogs.dart';
 import 'package:flutter/material.dart';
-import 'package:coffeedic/widgets/icon_badge.dart';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:coffeedic/util/admanager.dart';
 import 'package:provider/provider.dart';

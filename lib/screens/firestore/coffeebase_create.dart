@@ -389,7 +389,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
 
   void showAlertDialog(
       BuildContext context, String title, String message) async {
-    String result = await showDialog(
+    await showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
@@ -453,7 +453,7 @@ class CoffeebasePageState extends State<CoffeebasePage> {
 
     // 파일 업로드 완료까지 대기
     await storageUploadTask.whenComplete(() {
-      null;
+      //null;
     });
 
     // 업로드한 사진의 URL 획득
