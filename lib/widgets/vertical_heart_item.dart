@@ -78,7 +78,7 @@ class VerticalHeartItem extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(right: 14, top: 10, bottom: 10),
                 alignment: Alignment.centerLeft,
-                child: Icon(Icons.favorite, color: Colors.red),
+                child: Icon(Icons.favorite, color: Colors.amber),
               ),
             ],
           ),

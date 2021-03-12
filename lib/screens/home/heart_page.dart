@@ -97,11 +97,12 @@ class _HeartPageState extends State<HeartPage> {
   }
 
   Widget buildVerticalList(List<Coffee> products) {
-    //print("buildVerticalList 실행시 길이" + products.length.toString());
+    print("buildVerticalList 실행시 길이" + products.length.toString());
     return Padding(
         padding: EdgeInsets.only(left: 20.0), //EdgeInsets.all(20.0),
-        child: (products != null)
-            ? ListView.builder(
+        child: (products == null || products.length == 0)
+            ? Text("상세 페이지에서 빨간하트를 눌러 좋아하는 원두를 등록해보세요.")
+            : ListView.builder(
                 primary: false,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -111,7 +112,6 @@ class _HeartPageState extends State<HeartPage> {
                   Map place = products[index].toMap();
                   return VerticalHeartItem(coffeedata: place);
                 },
-              )
-            : Text("no data..."));
+              ));
   }
 }
