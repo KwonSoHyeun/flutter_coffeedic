@@ -473,28 +473,28 @@ class CoffeebasePageState extends State<CoffeebasePage> {
   // 문서 생성 (Create)
   void createDoc() {
     FirebaseFirestore.instance
-        .collection(widget.coffeeData.colName)
+        .collection(Coffee.colName)
         .add(widget.coffeeData.toMap());
     // .then((value) => Navigator.pop(context));
   }
 
   void updateDoc() {
     FirebaseFirestore.instance
-        .collection(widget.coffeeData.colName)
+        .collection(Coffee.colName)
         .doc(widget.documentID)
         .update(widget.coffeeData.toMap());
   }
 
   void cleanDocImage(String documentId) {
     FirebaseFirestore.instance
-        .collection(widget.coffeeData.colName)
+        .collection(Coffee.colName)
         .doc(widget.documentID)
         .update({"image": ""});
   }
 
   void deleteDoc() {
     FirebaseFirestore.instance
-        .collection(widget.coffeeData.colName)
+        .collection(Coffee.colName)
         .doc(widget.documentID)
         .delete();
   }

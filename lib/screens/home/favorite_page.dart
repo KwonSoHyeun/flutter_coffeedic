@@ -1,3 +1,4 @@
+import 'package:coffeedic/language/translations.dart';
 ////import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:coffeedic/util/alertdialogs.dart';
@@ -57,7 +58,7 @@ class _FavouritePageState extends State<FavouritePage> {
             IconButton(
               icon: Icon(Icons.help_outline_rounded),
               onPressed: () {
-                showAlertDialogHelp(context, "favorite");
+                showAlertDialogHelp(context, "help_favorite");
               },
               color: Colors.orange,
             ),
@@ -71,7 +72,7 @@ class _FavouritePageState extends State<FavouritePage> {
                 Padding(
                   padding: EdgeInsets.only(left: 20.0, right: 20.0),
                   child: Text(
-                    "취향에 맞는 원두를 \n찾아 보시겠어요?",
+                    Translations.of(context).trans('favorite_title'),
                     style: TextStyle(
                       fontSize: 26.0,
                       fontWeight: FontWeight.w600,
@@ -84,7 +85,8 @@ class _FavouritePageState extends State<FavouritePage> {
                   Expanded(
                     flex: 5,
                     child: FlatButton(
-                        child: Text('취향 설정'),
+                        child: Text(
+                            Translations.of(context).trans('button_setting')),
                         color: isVisibleList ? Colors.grey : Colors.blueAccent,
                         textColor: Colors.white,
                         onPressed: () {
@@ -104,7 +106,7 @@ class _FavouritePageState extends State<FavouritePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("원두목록 "),
+                          Text(Translations.of(context).trans('button_list')),
                           Container(
                             alignment: Alignment.center,
                             padding: EdgeInsets.only(bottom: 2),
@@ -118,7 +120,7 @@ class _FavouritePageState extends State<FavouritePage> {
                             width: 27.0,
                           )
                         ],
-                      ), //Text("원두 목록"),
+                      ),
                       color: !isVisibleList ? Colors.grey : Colors.blueAccent,
                       textColor: Colors.white,
                       onPressed: () {
@@ -150,33 +152,36 @@ class _FavouritePageState extends State<FavouritePage> {
   Widget buildRatioValueSetting() {
     return Column(
       children: [
-        buildListTile("aroma"),
-        buildListTile("body"),
-        buildListTile("sweet"),
-        buildListTile("acidity"),
-        buildListTile("bitter"),
-        buildListTile("balance"),
+        buildListTile(Translations.of(context).trans('item_aroma'), "aroma"),
+        buildListTile(Translations.of(context).trans('item_body'), "body"),
+        buildListTile(Translations.of(context).trans('item_sweet'), "sweet"),
+        buildListTile(
+            Translations.of(context).trans('item_acidity'), "acidity"),
+        buildListTile(
+            Translations.of(context).trans('item_bitterness'), "bitter"),
+        buildListTile(
+            Translations.of(context).trans('item_balance'), "balance"),
       ],
     );
   }
 
-  Widget buildListTile(String label) {
+  Widget buildListTile(String label, String index) {
     return ListTile(
         leading: Switch(
-          value: isSwitchOn[label],
+          value: isSwitchOn[index],
           onChanged: (value) {
             setState(() {
-              setIsOnInfo(label, value);
-              isSwitchOn[label] = value;
+              setIsOnInfo(index, value);
+              isSwitchOn[index] = value;
             });
           },
           activeTrackColor: Colors.grey,
           activeColor: Colors.amberAccent,
         ),
-        title: buildRangeIcon(label, favoritValue[label].toDouble()));
+        title: buildRangeIcon(label, index, favoritValue[index].toDouble()));
   }
 
-  buildRangeIcon(String label, double initvalue) {
+  buildRangeIcon(String label, String index, double initvalue) {
     return Row(
       children: [
         Expanded(
@@ -201,18 +206,18 @@ class _FavouritePageState extends State<FavouritePage> {
               itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
               itemBuilder: (context, _) {
                 return Icon(
-                  isSwitchOn[label] ? Icons.star : Icons.star,
-                  color: isSwitchOn[label] ? Colors.amber : Colors.grey[600],
+                  isSwitchOn[index] ? Icons.star : Icons.star,
+                  color: isSwitchOn[index] ? Colors.amber : Colors.grey[600],
                 );
               },
               onRatingUpdate: (rating) {
                 setState(() {
-                  if (!isSwitchOn[label]) {
-                    isSwitchOn[label] = true;
-                    setIsOnInfo(label, true);
+                  if (!isSwitchOn[index]) {
+                    isSwitchOn[index] = true;
+                    setIsOnInfo(index, true);
                   }
-                  favoritValue[label] = rating.toInt();
-                  setFavoriteInfo(label, rating.toInt());
+                  favoritValue[index] = rating.toInt();
+                  setFavoriteInfo(index, rating.toInt());
                 });
               },
             ))

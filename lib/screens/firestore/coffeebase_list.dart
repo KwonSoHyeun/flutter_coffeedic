@@ -15,7 +15,7 @@ class CoffeebaseList extends StatefulWidget {
 }
 
 class CoffeebaseListState extends State<CoffeebaseList> {
-  Coffee coffee = new Coffee();
+  //Coffee coffee = new Coffee();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -53,8 +53,8 @@ class CoffeebaseListState extends State<CoffeebaseList> {
             height: MediaQuery.of(context).size.height - 100,
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
-                  .collection(coffee.colName)
-                  .orderBy(coffee.fnCountry, descending: false)
+                  .collection(Coffee.colName)
+                  .orderBy(Coffee.fnCountry, descending: false)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -82,7 +82,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Text(
-                                        document[coffee.fnName],
+                                        document[Coffee.fnName],
                                         style: TextStyle(
                                           color: Colors.blueGrey,
                                           fontSize: 17,
@@ -90,7 +90,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                                         ),
                                       ),
                                       Text(
-                                        document[coffee.fnCity],
+                                        document[Coffee.fnCity],
                                         style:
                                             TextStyle(color: Colors.grey[600]),
                                       ),
@@ -99,7 +99,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
                                   Container(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      document[coffee.fnCountry],
+                                      document[Coffee.fnCountry],
                                       style: TextStyle(color: Colors.black54),
                                     ),
                                   )
@@ -123,7 +123,7 @@ class CoffeebaseListState extends State<CoffeebaseList> {
   // Update& Delete
   void showUpdateOrDeleteDocument(String documentID) {
     FirebaseFirestore.instance
-        .collection(coffee.colName)
+        .collection(Coffee.colName)
         .doc(documentID)
         .get()
         .then((doc) {

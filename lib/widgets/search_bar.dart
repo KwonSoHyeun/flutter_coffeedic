@@ -1,3 +1,4 @@
+import 'package:coffeedic/language/translations.dart';
 import 'package:flutter/material.dart';
 //import 'package:coffeedic/models/coffee.dart';
 
@@ -46,7 +47,7 @@ class _SearchBarState extends State<SearchBar> {
                     ),
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  hintText: "찾고 싶은 원두명을 적어보세요",
+                  hintText: Translations.of(context).trans('message_find'),
                   prefixIcon: Icon(
                     Icons.location_on,
                     color: Colors.blueGrey[300],

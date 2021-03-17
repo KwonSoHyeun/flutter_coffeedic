@@ -1,5 +1,22 @@
 {
     "main_title": "Localization Demo Page",
     "main_center_text": "you have pushed the button this many times:",
-    "home_title": "Search the coffee\nwhat you want~"
+    "home_title": "Search the coffee\nwhat you want~",
+    "favorite_title": "The Filtered coffee list",
+    "heart_title": "My favorite coffee box",
+    "button_setting":"Setting",
+    "button_list":"Filtered Coffee ",
+    "item_aroma":"aroma",
+    "item_body":"body",
+    "item_sweet":"sweet",
+    "item_acidity":"acidity",
+    "item_bitterness":"bitter",
+    "item_balance":"balance",
+    "message_none_heart":"You can put the coffe you like by pressing red heart icon in detail page",
+    "message_find":"Coffee name to find",
+    "help_home":"Enter the bean name you want to find in the search box. \n The bean information you are looking for is displayed sorted by bean name.",
+    "help_homedetail":"You can view detailed bean information. It shows information on the origin of coffee beans and information on aroma, body, sweetness, acidity, bitterness, and balance.",
+    "help_favorite":"After setting your favorite taste, click the coffee bean list.\n You can see only the bean information that suits your taste.",
+    "help_heart":"If you click the heart shape on the detail page to save your favorite beans, \nyou can see only the beans you like.",
+    "help_login":"This is the admin screen. General users cannot log in."
 }

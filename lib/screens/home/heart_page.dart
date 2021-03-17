@@ -1,3 +1,4 @@
+import 'package:coffeedic/language/translations.dart';
 import 'package:coffeedic/models/coffee.dart';
 import 'package:coffeedic/provider/heartcheck_provider.dart';
 import 'package:coffeedic/util/alertdialogs.dart';
@@ -32,7 +33,7 @@ class _HeartPageState extends State<HeartPage> {
             IconButton(
               icon: Icon(Icons.help_outline_rounded),
               onPressed: () {
-                showAlertDialogHelp(context, "heart");
+                showAlertDialogHelp(context, "help_heart");
               },
               color: Colors.orange,
             ),
@@ -49,7 +50,7 @@ class _HeartPageState extends State<HeartPage> {
                     //"맘에 드는 원두 \n보관함입니다.",
                     //"나만의 원두 보관함",
                     //내가 좋아하는 \n원두 보관함",
-                    "내가 고른 \n원두 보관함",
+                    Translations.of(context).trans('heart_title'),
                     style: TextStyle(
                       fontSize: 26.0,
                       fontWeight: FontWeight.w600,
@@ -97,11 +98,11 @@ class _HeartPageState extends State<HeartPage> {
   }
 
   Widget buildVerticalList(List<Coffee> products) {
-    print("buildVerticalList 실행시 길이" + products.length.toString());
+    //print("buildVerticalList 실행시 길이" + products.length.toString());
     return Padding(
         padding: EdgeInsets.only(left: 20.0), //EdgeInsets.all(20.0),
         child: (products == null || products.length == 0)
-            ? Text("상세 페이지에서 빨간하트를 눌러 좋아하는 원두를 등록해보세요.")
+            ? Text(Translations.of(context).trans('message_none_heart'))
             : ListView.builder(
                 primary: false,
                 physics: NeverScrollableScrollPhysics(),

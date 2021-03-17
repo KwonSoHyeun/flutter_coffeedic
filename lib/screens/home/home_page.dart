@@ -27,7 +27,7 @@ class _HomeState extends State<Home> {
             IconButton(
               icon: Icon(Icons.help_outline_rounded),
               onPressed: () {
-                showAlertDialogHelp(context, "home");
+                showAlertDialogHelp(context, "help_home");
               },
               color: Colors.orange,
             ),
@@ -78,6 +78,8 @@ class _HomeState extends State<Home> {
         if (product != null)
           buildHorizontalList(
               firestoreService.keywordFilter(product, _searchWord)),
+
+        SizedBox(height: 10.0),
         if (product != null)
           buildVerticalList(
               firestoreService.keywordFilter(product, _searchWord)),

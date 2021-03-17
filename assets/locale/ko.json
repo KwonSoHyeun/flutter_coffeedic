@@ -1,5 +1,22 @@
 {
     "main_title": "언어 설정 페이지",
     "main_center_text": "버튼을 누른 횟수:",
-    "home_title": "내게 맞는\n커피를 찾아보세요~~"
+    "home_title": "원하는\n커피를 찾아보세요~~",
+    "favorite_title": "취향에 맞는 원두를 \n찾아 보시겠어요?",
+    "heart_title": "내가 고른 \n원두 보관함",
+    "button_setting":"취향 설정",
+    "button_list":"원두목록 ",
+    "item_aroma":"향기",
+    "item_body":"바디감",
+    "item_sweet":"달콤함",
+    "item_acidity":"산미",
+    "item_bitterness":"쓴맛",
+    "item_balance":"밸런스",
+    "message_none_heart":"원두함이 비어있습니다. \n상세 페이지에서 빨간 하트를 눌러서 n좋아하는 원두를 등록해 보세요.",
+    "message_find":"찾고 싶은 원두명",
+    "help_home":"검색창에 찾고 싶은 원두명을 입력해 보세요. \n 찾으시는 원두정보가 원두명을 기준으로 정렬되어 보여집니다.",
+    "help_homedetail":"상세 원두 정보를 볼 수 있습니다. 원두의 생산지 정보와 향, 바디감, 단맛, 산미, 쓴맛, 발란스 정보등을 보여줍니다.",
+    "help_favorite":"내가 좋아하는 취향 설정을 한 후, 원두 목록을 눌러보세요.\n 내 취향에 맞는 원두 정보만을 볼수 있습니다.",
+    "help_heart":"상세 페이지에서 하트 모양을 눌러 좋아하는 원두를 저장하면, \n내가 고른 좋이하는 원두만 볼 수 있습니다.",
+    "help_login":"관리자 화면입니다. 일반 유저는 로그인 할 수 없습니다."
 }

@@ -37,7 +37,7 @@ class HorizontalPlaceItem extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontSize: 15.0,
                   ),
-                  maxLines: 2,
+                  maxLines: 1,
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -45,7 +45,7 @@ class HorizontalPlaceItem extends StatelessWidget {
               Container(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "${coffeedata["city"]}",
+                  "${coffeedata["country"]}",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 13.0,

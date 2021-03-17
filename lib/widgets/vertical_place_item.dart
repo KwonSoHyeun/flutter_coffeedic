@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import '../screens/home/home_details_page.dart';
@@ -9,6 +11,9 @@ class VerticalPlaceItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Locale myLocale = Localizations.localeOf(context);
+    final String defaultLocale = Platform.localeName;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
       child: InkWell(
@@ -46,7 +51,9 @@ class VerticalPlaceItem extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "${coffeedata["name"]}",
+                        defaultLocale == "ko_KR"
+                            ? "${coffeedata["name"]}"
+                            : "${coffeedata["name_en"]}",
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 14.0,
@@ -67,7 +74,9 @@ class VerticalPlaceItem extends StatelessWidget {
                         Container(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "${coffeedata["city"]}",
+                            defaultLocale == "ko_KR"
+                                ? "${coffeedata["country"]}"
+                                : "${coffeedata["country_en"]}",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 13.0,
@@ -83,7 +92,9 @@ class VerticalPlaceItem extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "${coffeedata["desc"]}",
+                        defaultLocale == "ko_KR"
+                            ? "${coffeedata["desc"]}"
+                            : "${coffeedata["desc_en"]}",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 13.0,

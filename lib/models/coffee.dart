@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
 
 class Coffee {
-  final String colName = "coffeebasic";
+  static String colName = "coffeebasic";
   String coffeeId;
 
 // 필드명 ....
-  final String fnName = "name";
-  final String fnCountry = "country";
-  final String fnCity = "city";
-  final String fnAroma = "aroma";
-  final String fnBody = "body";
-  final String fnSweet = "sweet";
-  final String fnAcidity = "acidity";
-  final String fnBitterness = "bitterness";
-  final String fnBalance = "balance";
-  final String fnDesc = "desc";
-  final String fnImage = "image";
+  static String fnName = "name";
+  static String fnNameEn = "name_en";
+  static String fnCountry = "country";
+  static String fnCountryEn = "country_en";
+  static String fnCity = "city";
+  static String fnCityEn = "city_en";
+  static String fnAroma = "aroma";
+  static String fnBody = "body";
+  static String fnSweet = "sweet";
+  static String fnAcidity = "acidity";
+  static String fnBitterness = "bitterness";
+  static String fnBalance = "balance";
+  static String fnDesc = "desc";
+  static String fnDescEn = "desc_en";
+  static String fnImage = "image";
 
   String name = "";
   String country = "";
   String city = "";
+  String nameEn = "";
+  String countryEn = "";
+  String cityEn = "";
+  String descEn = "";
   int aroma = 3;
   int body = 3;
   int sweet = 3;
@@ -29,16 +37,16 @@ class Coffee {
   String desc = "";
   String image = "";
 
-  set setName(String name) {
-    this.name = name;
+  set setName(String str) {
+    this.name = str;
   }
 
-  set setCountry(String country) {
-    this.country = country;
+  set setCountry(String str) {
+    this.country = str;
   }
 
-  set setCity(String city) {
-    this.city = city;
+  set setCity(String str) {
+    this.city = str;
   }
 
   set setAroma(int aroma) {
@@ -49,28 +57,46 @@ class Coffee {
     this.body = body;
   }
 
-  set setSweet(int sweet) {
-    this.sweet = sweet;
+  set setSweet(int value) {
+    this.sweet = value;
   }
 
-  set setAcidity(int acidity) {
-    this.acidity = acidity;
+  set setAcidity(int value) {
+    this.acidity = value;
   }
 
-  set setBitterness(int bitterness) {
-    this.bitterness = bitterness;
+  set setBitterness(int value) {
+    this.bitterness = value;
   }
 
-  set setBalance(int balance) {
-    this.balance = balance;
+  set setBalance(int value) {
+    this.balance = value;
   }
 
-  set setDesc(String desc) {
-    this.desc = desc;
+  set setDesc(String str) {
+    this.desc = str;
   }
 
-  set setImage(String image) {
-    this.image = image;
+  set setImage(String str) {
+    this.image = str;
+  }
+
+  //for English
+
+  set setNameEn(String str) {
+    this.nameEn = str;
+  }
+
+  set setCountryEn(String str) {
+    this.countryEn = str;
+  }
+
+  set setCityEn(String str) {
+    this.cityEn = str;
+  }
+
+  set setDescEn(String str) {
+    this.descEn = str;
   }
 
   showMessage() {
@@ -79,8 +105,11 @@ class Coffee {
 
   Coffee(
       {this.name,
+      this.nameEn,
       this.country,
+      this.countryEn,
       this.city,
+      this.cityEn,
       this.aroma,
       this.body,
       this.sweet,
@@ -88,12 +117,16 @@ class Coffee {
       this.bitterness,
       this.balance,
       this.desc,
+      this.descEn,
       this.image});
 
   Coffee.initiate() {
     name = "";
+    nameEn = "";
     country = "";
+    countryEn = "";
     city = "";
+    cityEn = "";
     aroma = 3;
     body = 3;
     sweet = 3;
@@ -101,43 +134,48 @@ class Coffee {
     bitterness = 3;
     balance = 3;
     desc = "";
+    descEn = "";
     image = "";
   }
 
   Map<String, dynamic> toMap() {
     return {
       'coffeeId': coffeeId,
-      'name': name,
-      'country': country,
-      'city': city,
-      'aroma': aroma,
-      'body': body,
-      'sweet': sweet,
-      'acidity': acidity,
-      'bitterness': bitterness,
-      'balance': balance,
-      'desc': desc,
-      'image': image
+      fnName: name,
+      fnNameEn: nameEn,
+      fnCountry: country,
+      fnCountryEn: countryEn,
+      fnCity: city,
+      fnCityEn: cityEn,
+      fnAroma: aroma,
+      fnBody: body,
+      fnSweet: sweet,
+      fnAcidity: acidity,
+      fnBitterness: bitterness,
+      fnBalance: balance,
+      fnDesc: desc,
+      fnDescEn: descEn,
+      fnImage: image
     };
   }
 
   Coffee.setFromFirestore(Map<String, dynamic> firestore) {
-    name = firestore['name'];
-    country = firestore['country'];
-    city = firestore['city'];
-    aroma = firestore['aroma'];
-    // body = firestore['body'].toInt();
-    // sweet = firestore['sweet'].toInt();
-    // acidity = firestore['acidity'].toInt();
-    // bitterness = firestore['bitterness'].toInt();
-    // balance = firestore['balance'].toInt();
-    body = firestore['body'];
-    sweet = firestore['sweet'];
-    acidity = firestore['acidity'];
-    bitterness = firestore['bitterness'];
-    balance = firestore['balance'];
-    desc = firestore['desc'];
-    image = firestore['image'];
+    name = firestore[fnName];
+    nameEn = firestore[fnName];
+    country = firestore[fnCountry];
+    countryEn = firestore[fnCountryEn];
+    city = firestore[fnCity];
+    cityEn = firestore[fnCityEn];
+
+    aroma = firestore[fnAroma];
+    body = firestore[fnBody];
+    sweet = firestore[fnSweet];
+    acidity = firestore[fnAcidity];
+    bitterness = firestore[fnBitterness];
+    balance = firestore[fnBalance];
+    desc = firestore[fnDesc];
+    descEn = firestore[fnDescEn];
+    image = firestore[fnImage];
   }
 
   List<DropdownMenuItem<int>> loadLevelList() {
@@ -169,29 +207,37 @@ class Coffee {
   }
 
   Coffee.fromFirestore(Map<String, dynamic> firestore)
-      : name = firestore['name'],
-        country = firestore['country'],
-        city = firestore['city'],
-        aroma = firestore['aroma'],
-        body = firestore['body'],
-        sweet = firestore['sweet'],
-        acidity = firestore['acidity'],
-        bitterness = firestore['bitterness'],
-        balance = firestore['balance'],
-        desc = firestore['desc'],
-        image = firestore['image'];
+      : name = firestore[fnName],
+        nameEn = firestore[fnNameEn],
+        country = firestore[fnCountry],
+        countryEn = firestore[fnCountryEn],
+        city = firestore[fnCity],
+        cityEn = firestore[fnCityEn],
+        aroma = firestore[fnAroma],
+        body = firestore[fnBody],
+        sweet = firestore[fnSweet],
+        acidity = firestore[fnAcidity],
+        bitterness = firestore[fnBitterness],
+        balance = firestore[fnBalance],
+        desc = firestore[fnDesc],
+        descEn = firestore[fnDescEn],
+        image = firestore[fnImage];
 
   Coffee.fromFirestoreWithId(String documentId, Map<String, dynamic> firestore)
       : coffeeId = documentId,
-        name = firestore['name'],
-        country = firestore['country'],
-        city = firestore['city'],
-        aroma = firestore['aroma'],
-        body = firestore['body'],
-        sweet = firestore['sweet'],
-        acidity = firestore['acidity'],
-        bitterness = firestore['bitterness'],
-        balance = firestore['balance'],
-        desc = firestore['desc'],
-        image = firestore['image'];
+        name = firestore[fnName],
+        nameEn = firestore[fnNameEn],
+        country = firestore[fnCountry],
+        countryEn = firestore[fnCountryEn],
+        city = firestore[fnCity],
+        cityEn = firestore[fnCityEn],
+        aroma = firestore[fnAroma],
+        body = firestore[fnBody],
+        sweet = firestore[fnSweet],
+        acidity = firestore[fnAcidity],
+        bitterness = firestore[fnBitterness],
+        balance = firestore[fnBalance],
+        desc = firestore[fnDesc],
+        descEn = firestore[fnDescEn],
+        image = firestore[fnImage];
 }

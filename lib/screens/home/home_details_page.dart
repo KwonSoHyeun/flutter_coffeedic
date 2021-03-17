@@ -1,3 +1,4 @@
+import 'package:coffeedic/language/translations.dart';
 import 'package:coffeedic/provider/heartcheck_provider.dart';
 import 'package:coffeedic/util/alertdialogs.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _DetailsState extends State<Details> {
             IconButton(
               icon: Icon(Icons.help_outline_rounded),
               onPressed: () {
-                showAlertDialogHelp(context, "homedetail");
+                showAlertDialogHelp(context, "help_homedetail");
               },
               color: Colors.orange,
             ),
@@ -153,18 +154,21 @@ class _DetailsState extends State<Details> {
                       ),
                     ),
                     SizedBox(height: 20.0),
+                    buildRangeIcon(Translations.of(context).trans('item_aroma'),
+                        widget.coffeedata["aroma"].toDouble()),
+                    buildRangeIcon(Translations.of(context).trans('item_body'),
+                        widget.coffeedata["body"].toDouble()),
+                    buildRangeIcon(Translations.of(context).trans('item_sweet'),
+                        widget.coffeedata["sweet"].toDouble()),
                     buildRangeIcon(
-                        "Aroma", widget.coffeedata["aroma"].toDouble()),
+                        Translations.of(context).trans('item_acidity'),
+                        widget.coffeedata["acidity"].toDouble()),
                     buildRangeIcon(
-                        "Body", widget.coffeedata["body"].toDouble()),
-                    buildRangeIcon(
-                        "Sweet", widget.coffeedata["sweet"].toDouble()),
-                    buildRangeIcon(
-                        "Acidity", widget.coffeedata["acidity"].toDouble()),
-                    buildRangeIcon("Bitterness",
+                        Translations.of(context).trans('item_bitterness'),
                         widget.coffeedata["bitterness"].toDouble()),
                     buildRangeIcon(
-                        "Balance", widget.coffeedata["balance"].toDouble())
+                        Translations.of(context).trans('item_balance'),
+                        widget.coffeedata["balance"].toDouble())
                   ],
                 ),
               ],
